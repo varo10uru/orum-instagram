@@ -43,10 +43,11 @@ el tono, los formatos) están en [`CLAUDE.md`](CLAUDE.md).
   Lo que ya se publicó no se repite: queda anotado en `publicados.json`.
 - **Probar sin publicar:** lo mismo, marcando "Simular". Instagram revisa las
   imágenes, pero no publica nada.
-- **Token vencido** (el error habla de "token" o "OAuth"):
-  - El token se renueva solo cada lunes (Action "Renovar token").
-  - Si esa Action viene fallando, hay que generar uno nuevo en Meta y
-    cargarlo en el Secret `IG_TOKEN`.
+- **Token que dejó de andar** (el error habla de "token" o "OAuth"):
+  - El token de la página no vence, pero se invalida si cambiás la
+    contraseña de Facebook o le sacás permisos a la app.
+  - La Action "Renovar token" lo revisa cada lunes y te avisa.
+  - Para arreglarlo, se vuelve a correr `node scripts/conectar.mjs`.
 
 ## Puesta en marcha (una sola vez)
 
@@ -56,23 +57,33 @@ el tono, los formatos) están en [`CLAUDE.md`](CLAUDE.md).
      funcionan.
    - Foto de perfil: `prototipos/logo/perfil-whatsapp.png` del repo del
      sitio.
-2. **App de Meta:**
-   - En developers.facebook.com, creá una app con el caso de uso "Manage
-     messaging and content on Instagram" (Instagram API with Instagram
-     Login, sin página de Facebook).
-   - Conectá la cuenta de ORUM y generá el token, con los permisos
-     `instagram_business_basic` e `instagram_business_content_publish`.
-3. **Secrets del repo** (Settings → Secrets and variables → Actions):
-   - `IG_TOKEN`: el token de Instagram.
-   - `IG_USER_ID`: el id de la cuenta de Instagram.
-   - `GH_PAT_SECRETOS`: un token de GitHub de tipo "fine-grained", solo
-     para este repo, con permiso de escribir Secrets. Es para que el token
-     de Instagram se renueve solo.
+2. **Página de Facebook:**
+   - En la app de Instagram: Editar perfil → Página → crear (o conectar)
+     la página "ORUM".
+   - Puede quedar mínima, sin publicar nada.
+   - Hace falta porque, en octubre de 2026, Meta no mostraba la opción de
+     conectar Instagram sin Facebook.
+3. **App de Meta "ORUM Publicaciones"** (ya creada):
+   - Caso de uso "Administrar mensajes y contenido en Instagram", con los
+     permisos de contenido agregados.
+   - Está en modo desarrollo, que alcanza para publicar en tu propia cuenta.
+4. **Token y Secrets:**
+   1. En el Explorador de la API Graph
+      (developers.facebook.com/tools/explorer), elegí la app y "Obtener
+      token de acceso de usuario".
+   2. Agregá los permisos `instagram_basic`, `instagram_content_publish`,
+      `pages_show_list`, `pages_read_engagement` y `business_management`.
+   3. Tocá "Generate Access Token" y autorizá la página y el Instagram de
+      ORUM.
+   4. En la terminal, corré `node scripts/conectar.mjs`. Pide el App ID, la
+      clave secreta y ese token (los secretos no se ven al escribirlos).
+      Guarda en GitHub el token de la página (no vence) y el id de la
+      cuenta de Instagram.
    - **Los tokens nunca se pegan en un chat.**
-4. **Probar la conexión:** Actions → "Publicar" → "Run workflow" con
+5. **Probar la conexión:** Actions → "Publicar" → "Run workflow" con
    "Simular", o en la Mac:
    `IG_TOKEN=… IG_USER_ID=… node scripts/publicar.mjs --probar`.
-5. **Rutina de los jueves:** se crea con `/schedule` en Claude Code. El texto
+6. **Rutina de los jueves:** se crea con `/schedule` en Claude Code. El texto
    está abajo.
 
 ### Texto de la rutina
@@ -103,7 +114,7 @@ Para ver una plantilla sola, abrila en Chrome (por ejemplo,
 | `marca/` | Logo, fuentes (licencia OFL) y cuadros del render 3D del sitio |
 | `sitios.json` | Los sitios reales que se pueden mostrar, con lo que tienen de verdad |
 | `publicados.json` | Historial de lo publicado (fecha, tema y link) |
-| `scripts/` | Validar, renderizar, vista previa, Reels, publicar y renovar el token |
+| `scripts/` | Validar, renderizar, vista previa, Reels, publicar, conectar y revisar el token |
 | `.github/workflows/` | Vista previa en los PR, publicación diaria y renovación del token |
 | `ejemplo/`, `ejemplo-reel/` | Una semana de muestra y un Reel de muestra |
 

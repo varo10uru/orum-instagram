@@ -107,7 +107,7 @@ const { values: op } = parseArgs({
 if (op.probar){
   try {
     const c = await cuenta();
-    console.log(`Cuenta: @${c.username} (${c.account_type}), id ${c.user_id}`);
+    console.log(`Cuenta: @${c.username}, id ${c.id}`);
     console.log(`Publicaciones por API en las últimas 24 h: ${c.limite?.quota_usage ?? '?'} de ${c.limite?.config?.quota_total ?? 100}`);
     process.exit(0);
   } catch (e){

@@ -1,5 +1,5 @@
 // ===========================================================================
-// API DE INSTAGRAM (Instagram API with Instagram Login)
+// API DE INSTAGRAM
 //
 // Publicar es siempre en dos pasos: primero se crea un "contenedor" con la
 // imagen o el video (Instagram lo descarga y lo revisa) y después se publica
@@ -7,12 +7,21 @@
 // probar sin que nadie vea nada.
 //
 // Necesita las variables IG_TOKEN e IG_USER_ID (en GitHub, Secrets del repo).
+// Funciona con los dos tipos de token que da Meta, y se da cuenta solo de
+// cuál es:
+// - De la página de Facebook vinculada al Instagram (empieza con "EAA"):
+//   es el que se usa hoy. Va por graph.facebook.com y no vence.
+// - De Instagram Login, sin página (empieza con "IG"): va por
+//   graph.instagram.com y vence a los 60 días (renovar-token.mjs lo renueva).
 // ===========================================================================
 
 import { readFile, stat } from 'node:fs/promises';
 
 const VERSION = process.env.IG_API_VERSION || 'v25.0';
-const API = `https://graph.instagram.com/${VERSION}`;
+
+// ¿El token es de Instagram Login? Esos vencen y van por otro servidor
+export const esTokenDeInstagram = () => (process.env.IG_TOKEN || '').startsWith('IG');
+const api = () => `https://graph.${esTokenDeInstagram() ? 'instagram' : 'facebook'}.com/${VERSION}`;
 
 function credenciales(){
   const token = process.env.IG_TOKEN;
@@ -26,7 +35,7 @@ const esperar = (ms) => new Promise((listo) => setTimeout(listo, ms));
 // Pedido a la API. Los errores de Instagram vienen en { error: { message } }
 async function pedir(metodo, ruta, parametros = {}){
   const { token } = credenciales();
-  const url = new URL(`${API}/${ruta}`);
+  const url = new URL(`${api()}/${ruta}`);
   const cuerpo = new URLSearchParams({ ...parametros, access_token: token });
   const opciones = { method: metodo };
   if (metodo === 'GET') url.search = cuerpo.toString();
@@ -44,7 +53,7 @@ async function pedir(metodo, ruta, parametros = {}){
 // ----- Cuenta -----
 export async function cuenta(){
   const { usuario } = credenciales();
-  const yo = await pedir('GET', 'me', { fields: 'user_id,username,account_type' });
+  const yo = await pedir('GET', usuario, { fields: 'id,username' });
   const limite = await pedir('GET', `${usuario}/content_publishing_limit`, { fields: 'quota_usage,config' });
   return { ...yo, limite: limite.data?.[0] };
 }
@@ -136,7 +145,8 @@ export async function publicarContenedor(contenedor){
   return { id, link };
 }
 
-// Renueva el token largo (dura 60 días; se puede renovar si tiene más de 24 h)
+// Renueva el token de Instagram Login (dura 60 días; se puede renovar si
+// tiene más de 24 h). Los de página de Facebook no vencen y no se renuevan.
 export async function renovarToken(){
   const { token } = credenciales();
   const url = new URL('https://graph.instagram.com/refresh_access_token');
