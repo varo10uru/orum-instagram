@@ -41,6 +41,8 @@ el tono, los formatos) están en [`CLAUDE.md`](CLAUDE.md).
   la franja (historias o posts). O desde la terminal:
   `gh workflow run publicar.yml -f fecha=2026-10-12 -f franja=posts`.
   Lo que ya se publicó no se repite: queda anotado en `publicados.json`.
+  Lanzá las corridas de a una: si hay varias esperando, GitHub cancela las
+  anteriores.
 - **Probar sin publicar:** lo mismo, marcando "Simular". Instagram revisa las
   imágenes, pero no publica nada.
 - **Token que dejó de andar** (el error habla de "token" o "OAuth"):
