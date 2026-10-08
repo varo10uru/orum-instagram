@@ -56,7 +56,6 @@ export function validarPost({ carpeta, datos }, { listo = false, todos = [] } = 
   if (!TIPOS.includes(datos.tipo)) error(`"tipo" tiene que ser uno de: ${TIPOS.join(', ')}`);
   if (!PILARES.includes(datos.pilar)) error(`"pilar" tiene que ser uno de: ${PILARES.join(', ')}`);
   if (!datos.tema?.trim()) error('falta "tema" (una frase corta, sirve para no repetir)');
-  if (datos.hora && !/^([01]\d|2[0-3]):[0-5]\d$/.test(datos.hora)) error('"hora" tiene que ser HH:MM');
 
   // La carpeta se llama "N-dia" y el día tiene que coincidir con la fecha
   const dia = basename(carpeta).replace(/^\d+-/, '');

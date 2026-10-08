@@ -93,7 +93,6 @@ Cada semana, los 3 posts del muro son de 3 pilares distintos.
 - **`alt`:** obligatorio en posts y carruseles. Describe la imagen para quien
   no la ve.
 - **Historias:** no llevan `texto` ni `hashtags`.
-- **`hora`:** es opcional ("HH:MM") y solo se usa si hay un motivo.
 - Ejemplos completos: `ejemplo/` (una semana entera) y `ejemplo-reel/`.
 
 ### Plantillas

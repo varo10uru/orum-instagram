@@ -1,0 +1,28 @@
+name: Renovar token
+
+# El token de Instagram dura 60 días. Cada lunes se renueva y se guarda en el
+# Secret IG_TOKEN, así nunca vence. Para guardar el Secret hace falta un token
+# de GitHub con permiso de escribir Secrets en este repo: GH_PAT_SECRETOS.
+# Si esto falla varias semanas seguidas, el token vence y se deja de publicar:
+# GitHub manda un mail cuando falla.
+on:
+  schedule:
+    - cron: '23 12 * * 1'   # lunes 09:23 de Uruguay
+  workflow_dispatch:
+
+jobs:
+  renovar:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Renovar y guardar
+        env:
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          GH_TOKEN: ${{ secrets.GH_PAT_SECRETOS }}
+        run: node scripts/renovar-token.mjs

@@ -1,0 +1,88 @@
+name: Publicar
+
+# Publica en Instagram lo que toca hoy, desde lo aprobado en main:
+# - 10:07 de Uruguay (13:07 UTC): las historias.
+# - 12:37 de Uruguay (15:37 UTC): posts, carruseles y Reels.
+# Uruguay no tiene horario de verano, así que estas horas no cambian.
+# Los minutos "raros" evitan los atrasos de GitHub en las horas en punto.
+#
+# A mano (Actions → Publicar → Run workflow, o `gh workflow run publicar.yml`):
+# - fecha + franja: relanza un día que falló.
+# - carpeta: publica ese post ya (ej. semanas/2026-10-12/1-lunes).
+# - simular: hace todo menos publicar (Instagram revisa las imágenes).
+on:
+  schedule:
+    - cron: '7 13 * * *'
+    - cron: '37 15 * * *'
+  workflow_dispatch:
+    inputs:
+      franja:
+        description: 'Qué publicar'
+        type: choice
+        options: [posts, historias]
+        default: posts
+      fecha:
+        description: 'Fecha AAAA-MM-DD (vacío = hoy)'
+        required: false
+      carpeta:
+        description: 'O un post puntual (ej. semanas/2026-10-12/1-lunes)'
+        required: false
+      simular:
+        description: 'Simular (no publica)'
+        type: boolean
+        default: false
+
+# Nunca dos corridas a la vez: así no se publica nada dos veces
+concurrency:
+  group: publicar
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  publicar:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Publicar
+        env:
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          CRON: ${{ github.event.schedule }}
+          FRANJA: ${{ inputs.franja }}
+          FECHA: ${{ inputs.fecha }}
+          CARPETA: ${{ inputs.carpeta }}
+          SIMULAR: ${{ inputs.simular }}
+        run: |
+          args=()
+          if [ -n "$CARPETA" ]; then
+            args+=(--carpeta "$CARPETA")
+          else
+            # En las corridas automáticas, la franja sale de la hora
+            if [ "$CRON" = "7 13 * * *" ]; then FRANJA=historias; fi
+            args+=(--franja "${FRANJA:-posts}")
+            if [ -n "$FECHA" ]; then args+=(--fecha "$FECHA"); fi
+          fi
+          if [ "$SIMULAR" = "true" ]; then args+=(--simular); fi
+          node scripts/publicar.mjs "${args[@]}"
+
+      - name: Anotar en el historial
+        # Aunque algo haya fallado: lo que sí se publicó tiene que quedar anotado
+        if: always()
+        run: |
+          if git diff --quiet -- publicados.json; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add publicados.json
+          git commit -m "Historial: publicado el $(TZ=America/Montevideo date +%F)"
+          for intento in 1 2 3; do
+            git pull --rebase --quiet && git push && exit 0
+            sleep 5
+          done
+          exit 1
