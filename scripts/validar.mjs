@@ -11,7 +11,7 @@
 // ===========================================================================
 
 import { readFile } from 'node:fs/promises';
-import { basename, join } from 'node:path';
+import { basename, join, relative } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { PLANTILLAS, RAIZ, archivosDelPost, buscarPosts, diaDeLaSemana, existe } from './comun.mjs';
 
@@ -145,8 +145,10 @@ export function validarPost({ carpeta, datos }, { listo = false, todos = [] } = 
   const tema = normalizar(datos.tema || '');
   const desde = new Date(datos.fecha);
   desde.setUTCDate(desde.getUTCDate() - DIAS_SIN_REPETIR_TEMA);
+  const estaCarpeta = relative(RAIZ, carpeta);
   for (const viejo of PUBLICADOS){
-    if (normalizar(viejo.tema || '') === tema && new Date(viejo.fecha) >= desde && viejo.fecha !== datos.fecha){
+    if (viejo.carpeta === estaCarpeta) continue;   // es este mismo post, ya publicado
+    if (normalizar(viejo.tema || '') === tema && new Date(viejo.fecha) >= desde){
       error(`el tema "${datos.tema}" ya salió el ${viejo.fecha}`);
     }
   }
