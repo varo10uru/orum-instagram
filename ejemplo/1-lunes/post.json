@@ -1,0 +1,26 @@
+{
+  "fecha": "2026-10-12",
+  "tipo": "post",
+  "pilar": "trabajos",
+  "tema": "Barraca Centro Solymar: pedir presupuesto por WhatsApp",
+  "plantilla": "post-trabajo",
+  "piezas": [
+    {
+      "etiqueta": "Trabajo real",
+      "cliente": "Barraca Centro Solymar",
+      "titulo": "Armás la lista y *la mandás por WhatsApp*.",
+      "cuerpo": "Elegís los materiales en el catálogo y el pedido le llega armado a la barraca.",
+      "captura": {
+        "sitio": "barraca"
+      },
+      "alt": "Celular con el sitio de Barraca Centro Solymar abierto en la página de inicio."
+    }
+  ],
+  "texto": "Para Barraca Centro Solymar hice un sitio pensado para usar desde el celular.\n\nEl cliente recorre el catálogo, arma su lista de materiales y la manda por WhatsApp con un toque. A la barraca le llega el pedido completo, sin idas y vueltas para entender qué necesita.\n\nAdemás, los precios y el stock los cambian ellos mismos desde un panel, sin depender de mí.\n\nSi tenés un comercio y querés algo así, escribime al 091 541 848 y lo charlamos.",
+  "hashtags": [
+    "#Solymar",
+    "#CiudadDeLaCosta",
+    "#PaginasWeb",
+    "#PymesUruguay"
+  ]
+}

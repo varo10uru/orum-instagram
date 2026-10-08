@@ -1,0 +1,15 @@
+{
+  "barraca": {
+    "nombre": "Barraca Centro Solymar",
+    "url": "https://barracacentrosolymar.netlify.app/",
+    "tocar": "#splash-skip-btn",
+    "secciones": {
+      "inicio": null,
+      "simulador": "#simulador",
+      "ofertas": "#ofertas",
+      "catalogo": "#catalogo"
+    },
+    "notas": "Sitio publicado. Funciones reales: catálogo por categorías, lista de materiales que se manda por WhatsApp como pedido de presupuesto, simulador de materiales por m², ofertas de la semana, consulta de envíos por barrio, ubicación y horarios. Los precios y el stock los cambia la barraca desde un panel.",
+    "avisos": "La sección ofertas a veces está vacía (\"Por ahora no tenemos ofertas activas\"): no usarla en capturas ni recorridos sin mirarla antes."
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "fecha": "2026-10-14",
+  "tipo": "carrusel",
+  "pilar": "consejos",
+  "tema": "Tres cosas para que te escriban desde la web",
+  "plantilla": "carrusel",
+  "piezas": [
+    {
+      "variante": "portada",
+      "etiqueta": "Tu sitio web",
+      "titulo": "3 cosas para que *te escriban* desde tu web.",
+      "alt": "Portada del carrusel: 3 cosas para que te escriban desde tu web."
+    },
+    {
+      "variante": "paso",
+      "etiqueta": "Tu sitio web",
+      "numero": "01",
+      "titulo": "El WhatsApp, *a un toque*.",
+      "cuerpo": "Mucha gente entra desde el celular. Que pueda escribirte sin buscar ni copiar el número.",
+      "alt": "Paso 1: el WhatsApp, a un toque."
+    },
+    {
+      "variante": "paso",
+      "etiqueta": "Tu sitio web",
+      "numero": "02",
+      "titulo": "Horario y dirección, *a la vista*.",
+      "cuerpo": "Es lo primero que se busca antes de ir. Que no haya que adivinarlo.",
+      "alt": "Paso 2: horario y dirección, a la vista."
+    },
+    {
+      "variante": "paso",
+      "etiqueta": "Tu sitio web",
+      "numero": "03",
+      "titulo": "Fotos tuyas, *no de catálogo*.",
+      "cuerpo": "Tu local, tu equipo, tus trabajos. Dan más confianza que cualquier foto de stock.",
+      "alt": "Paso 3: fotos tuyas, no de catálogo."
+    },
+    {
+      "variante": "cierre",
+      "titulo": "¿Lo vemos en *tu sitio*?",
+      "cuerpo": "Escribime al **091 541 848** y lo charlamos.",
+      "alt": "Cierre: escribime al 091 541 848 y lo charlamos."
+    }
+  ],
+  "texto": "Tres cosas simples que hacen la diferencia entre que alguien entre a tu web y se vaya, o que te escriba.\n\nNo hace falta un sitio enorme: si estas tres están bien resueltas, ya vas por buen camino.\n\n¿Tu sitio las tiene? Si querés que lo miremos juntos, escribime al 091 541 848.",
+  "hashtags": [
+    "#PymesUruguay",
+    "#PaginasWeb",
+    "#Canelones",
+    "#Emprendedores"
+  ]
+}

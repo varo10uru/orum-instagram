@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es-UY">
+<head>
+<meta charset="UTF-8">
+<title>Post: consejo</title>
+<!-- Post del muro (1080×1350) con un consejo o una idea: etiqueta, titular
+     grande, un párrafo y la marca abajo. Opcional: un cuadro del render del
+     hero de fondo (campo "fondo", ej. "../marca/hero/072.webp"). -->
+<link rel="stylesheet" href="base.css">
+<style>
+  :root{ --ancho:1080px; --alto:1350px; }
+
+  /* Fondo opcional: render del hero con un velo para que se lea el texto */
+  .fondo{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:60% 50%; }
+  .velo{
+    position:absolute; inset:0; display:none;
+    background:linear-gradient(180deg, rgba(10,10,11,.92) 0%, rgba(10,10,11,.78) 45%, rgba(10,10,11,.55) 75%, rgba(10,10,11,.85) 100%);
+  }
+  /* Sin fondo, la plantilla borra el <img> y el velo no hace falta */
+  .fondo + .velo{ display:block; }
+
+  /* Sol de fondo: asoma por el borde de abajo, como sobre la orilla.
+     Con un render de fondo no se muestra. */
+  .sol-fondo{ width:760px; right:-160px; bottom:-400px; }
+  .fondo ~ .sol-fondo{ display:none; }
+
+  .contenido{ position:relative; flex:1; display:flex; flex-direction:column; gap:40px; padding-top:72px; }
+  .titulo{ font-size:108px; max-height:540px; }
+  .cuerpo{ max-width:860px; max-height:300px; }
+  .pie{ position:relative; margin-top:auto; }
+</style>
+</head>
+<body>
+  <!-- ===== CONTENIDO ===== -->
+  <div class="lienzo">
+    <div class="capa">
+      <img class="fondo" data-campo="fondo" alt="">
+      <div class="velo"></div>
+      <img class="sol-fondo" src="../marca/icono.svg" alt="">
+    </div>
+
+    <span class="etiqueta" data-campo="etiqueta"></span>
+    <div class="contenido">
+      <h1 class="titulo" data-campo="titulo" data-limite></h1>
+      <p class="cuerpo" data-campo="cuerpo" data-limite></p>
+    </div>
+    <div class="pie">
+      <img class="logo" src="../marca/logo.svg" alt="ORUM">
+      <span data-campo="pie"></span>
+    </div>
+  </div>
+
+  <!-- Datos de ejemplo para ver la plantilla abriéndola en el navegador -->
+  <script>
+    window.EJEMPLO = {
+      etiqueta: 'Consejo',
+      titulo: '¿Tu negocio aparece en *Google Maps*?',
+      cuerpo: 'El perfil de empresa de Google es gratis. Con el horario, la dirección y fotos reales, te encuentran los que buscan cerca.',
+      pie: 'Solymar · Canelones'
+    };
+  </script>
+  <script src="plantilla.js"></script>
+</body>
+</html>

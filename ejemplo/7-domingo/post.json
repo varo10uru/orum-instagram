@@ -1,0 +1,14 @@
+{
+  "fecha": "2026-10-18",
+  "tipo": "historia",
+  "pilar": "local",
+  "tema": "Invitación a escribir",
+  "plantilla": "historia",
+  "piezas": [
+    {
+      "variante": "cierre",
+      "titulo": "¿Tenés una idea para *tu negocio*?",
+      "cuerpo": "Escribime al **091 541 848**.\nLo charlamos sin apuro."
+    }
+  ]
+}

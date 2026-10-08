@@ -1,0 +1,26 @@
+{
+  "fecha": "2026-10-16",
+  "tipo": "post",
+  "pilar": "consejos",
+  "tema": "Perfil de empresa de Google",
+  "plantilla": "post-consejo",
+  "piezas": [
+    {
+      "etiqueta": "Consejo",
+      "titulo": "¿Tu negocio aparece en *Google Maps*?",
+      "cuerpo": "El perfil de empresa de Google es gratis. Con horario, dirección y fotos reales, es más fácil que te encuentren.",
+      "pie": "Solymar · Canelones",
+      "alt": "Placa con la pregunta: ¿tu negocio aparece en Google Maps?"
+    }
+  ],
+  "texto": "Cuando alguien busca \"barraca cerca\" o \"carpintería en Solymar\", Google le muestra los negocios que tienen su perfil en Maps, con horario, fotos y cómo llegar.\n\nCrear el perfil de empresa es gratis y se hace desde el celular. Lo importante es completarlo bien: horario al día, dirección exacta, teléfono y fotos reales del local. Google mismo dice que los perfiles completos aparecen en más búsquedas.\n\nSi no sabés por dónde arrancar, escribime al 091 541 848 y te doy una mano.",
+  "hashtags": [
+    "#Solymar",
+    "#Canelones",
+    "#GoogleMaps",
+    "#PymesUruguay"
+  ],
+  "fuentes": [
+    "https://support.google.com/business/answer/7091"
+  ]
+}

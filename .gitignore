@@ -1,0 +1,7 @@
+node_modules/
+.DS_Store
+# Capturas y cuadros intermedios de renderizar.mjs
+.tmp/
+vista-previa.html
+# Los videos de muestra se regeneran con renderizar.mjs (pesan varios MB)
+ejemplo-reel/**/*.mp4

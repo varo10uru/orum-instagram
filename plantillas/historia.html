@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es-UY">
+<head>
+<meta charset="UTF-8">
+<title>Historia</title>
+<!-- Historia (1080×1920). Instagram tapa unos 250px arriba y 340px abajo con
+     sus botones, así que todo el texto queda dentro de esa zona segura.
+     Variantes (campo "variante"):
+     - frase:   titular y párrafo; opcional un render del hero de fondo
+                (campo "fondo", ej. "../marca/hero/movil/072.webp").
+     - captura: un sitio real en un celular (campo "captura" del post.json).
+     - cierre:  invitación a escribir por WhatsApp. -->
+<link rel="stylesheet" href="base.css">
+<style>
+  :root{ --ancho:1080px; --alto:1920px; }
+  .lienzo{ padding:250px var(--margen) 340px; }
+
+  .fondo{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .velo{
+    position:absolute; inset:0; display:none;
+    background:linear-gradient(180deg, rgba(10,10,11,.88) 0%, rgba(10,10,11,.6) 40%, rgba(10,10,11,.35) 70%, rgba(10,10,11,.8) 100%);
+  }
+  .fondo + .velo{ display:block; }
+  /* Sol de fondo: asoma por abajo, detrás del logo. Con render de fondo no va. */
+  .sol-fondo{ width:1000px; left:50%; transform:translateX(-50%); bottom:-520px; }
+  .fondo ~ .sol-fondo{ display:none; }
+
+  .contenido{ flex:1; display:flex; flex-direction:column; justify-content:center; gap:44px; }
+  .titulo{ font-size:112px; max-height:700px; }
+  .cuerpo{ font-size:44px; max-height:420px; }
+  .pie{ justify-content:center; }
+
+  /* Captura: texto arriba y el celular abajo, cortado por el borde */
+  .celular{ display:none; position:absolute; left:50%; transform:translateX(-50%); top:var(--celular-top, 900px); width:640px; }
+  [data-variante="captura"] .celular{ display:block; }
+  [data-variante="captura"] .contenido{ flex:none; justify-content:flex-start; margin-top:40px; gap:28px; }
+  [data-variante="captura"] .titulo{ font-size:88px; max-height:300px; }
+  [data-variante="captura"] .cuerpo{ font-size:40px; max-height:180px; }
+  [data-variante="captura"] .pie, [data-variante="captura"] .sol-fondo{ display:none; }
+
+  /* Cierre: sol grande y todo centrado */
+  .sol-cierre{ display:none; width:240px; }
+  [data-variante="cierre"] .sol-cierre{ display:block; }
+  [data-variante="cierre"] .contenido{ align-items:center; text-align:center; }
+  [data-variante="cierre"] .sol-fondo{ display:none; }
+</style>
+</head>
+<body>
+  <!-- ===== CONTENIDO ===== -->
+  <div class="lienzo">
+    <div class="capa">
+      <img class="fondo" data-campo="fondo" alt="">
+      <div class="velo"></div>
+      <img class="sol-fondo" src="../marca/icono.svg" alt="">
+      <div class="celular">
+        <div class="pantalla"><img data-campo="captura_src" alt=""></div>
+      </div>
+    </div>
+
+    <span class="etiqueta" data-campo="etiqueta"></span>
+    <div class="contenido">
+      <img class="sol-cierre" src="../marca/icono.svg" alt="">
+      <h1 class="titulo" data-campo="titulo" data-limite></h1>
+      <p class="cuerpo" data-campo="cuerpo" data-limite></p>
+    </div>
+    <div class="pie">
+      <img class="logo" src="../marca/logo.svg" alt="ORUM">
+    </div>
+  </div>
+
+  <script>
+    window.EJEMPLO = {
+      variante: 'frase',
+      etiqueta: 'Detrás de escena',
+      titulo: 'El fondo de mi sitio es un *render 3D*.',
+      cuerpo: 'Lo armé en Blender: un barrio de la Costa de noche que se va dibujando.',
+      fondo: '../marca/hero/movil/072.webp'
+    };
+    // En la variante captura, el celular arranca debajo del texto
+    window.AJUSTAR = function(){
+      const abajo = document.querySelector('.contenido').getBoundingClientRect().bottom;
+      document.documentElement.style.setProperty('--celular-top', Math.max(760, abajo + 72) + 'px');
+    };
+  </script>
+  <script src="plantilla.js"></script>
+</body>
+</html>

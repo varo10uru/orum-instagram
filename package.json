@@ -1,0 +1,17 @@
+{
+  "name": "orum-instagram",
+  "private": true,
+  "type": "module",
+  "description": "Arma, revisa y publica el Instagram de ORUM",
+  "scripts": {
+    "renderizar": "node scripts/renderizar.mjs",
+    "validar": "node scripts/validar.mjs",
+    "publicar": "node scripts/publicar.mjs"
+  },
+  "dependencies": {
+    "playwright-core": "1.63.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

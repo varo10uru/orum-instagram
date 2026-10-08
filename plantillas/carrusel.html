@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es-UY">
+<head>
+<meta charset="UTF-8">
+<title>Post: carrusel</title>
+<!-- Una diapositiva de carrusel (1080×1350). Se usa una vez por diapositiva,
+     con el campo "variante":
+     - portada: titular grande y "Deslizá" para invitar a pasar.
+     - paso:    número grande, titular y párrafo.
+     - cierre:  invitación a escribir por WhatsApp.
+     "pagina" lo completa scripts/renderizar.mjs (ej. "2/5"). -->
+<link rel="stylesheet" href="base.css">
+<style>
+  :root{ --ancho:1080px; --alto:1350px; }
+
+  /* Sol de fondo, asomando por abajo: solo en la portada */
+  .sol-fondo{ display:none; width:760px; right:-160px; bottom:-400px; }
+  [data-variante="portada"] .sol-fondo{ display:block; }
+  .contenido{ flex:1; display:flex; flex-direction:column; justify-content:center; gap:40px; }
+  .numero{
+    font-family:'Bricolage Grotesque', sans-serif; font-weight:800;
+    font-size:200px; line-height:.9; letter-spacing:-.04em; color:var(--acento);
+  }
+  .titulo{ font-size:96px; max-height:500px; }
+  .cuerpo{ max-height:400px; max-width:880px; }
+  .pie .logo{ height:56px; }
+  .deslice{ display:none; color:var(--acento); font-weight:600; font-size:30px; }
+
+  /* Portada: titular más grande, sin número */
+  [data-variante="portada"] .titulo{ font-size:120px; max-height:620px; }
+  [data-variante="portada"] .numero{ display:none; }
+  [data-variante="portada"] .deslice{ display:inline; }
+  [data-variante="portada"] .pagina{ display:none; }
+
+  /* Cierre: el sol grande arriba */
+  .sol-cierre{ display:none; width:200px; }
+  [data-variante="cierre"] .sol-cierre{ display:block; }
+  [data-variante="cierre"] .numero{ display:none; }
+</style>
+</head>
+<body>
+  <!-- ===== CONTENIDO ===== -->
+  <div class="lienzo">
+    <div class="capa"><img class="sol-fondo" src="../marca/icono.svg" alt=""></div>
+
+    <span class="etiqueta" data-campo="etiqueta"></span>
+    <div class="contenido">
+      <img class="sol-cierre" src="../marca/icono.svg" alt="">
+      <span class="numero" data-campo="numero"></span>
+      <h1 class="titulo" data-campo="titulo" data-limite></h1>
+      <p class="cuerpo" data-campo="cuerpo" data-limite></p>
+    </div>
+    <div class="pie">
+      <img class="logo" src="../marca/logo.svg" alt="ORUM">
+      <span class="deslice">Deslizá →</span>
+      <span class="pagina" data-campo="pagina"></span>
+    </div>
+  </div>
+
+  <script>
+    window.EJEMPLO = {
+      variante: 'paso',
+      etiqueta: 'Tu sitio',
+      numero: '01',
+      titulo: 'El WhatsApp, *siempre a mano*.',
+      cuerpo: 'Que quien entra desde el celular pueda escribirte con un toque, sin buscar el número.',
+      pagina: '2/5'
+    };
+  </script>
+  <script src="plantilla.js"></script>
+</body>
+</html>

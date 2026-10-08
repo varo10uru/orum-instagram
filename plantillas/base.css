@@ -1,0 +1,100 @@
+/* =========================================================================
+   ESTILOS COMUNES DE LAS PLANTILLAS
+   Colores y tipografías de ORUM (los mismos del sitio). Cada plantilla
+   carga este archivo y agrega lo suyo.
+   ========================================================================= */
+
+/* ----- Tipografías (archivos en marca/fuentes, licencia OFL) ----- */
+@font-face{
+  font-family:'Bricolage Grotesque';
+  src:url('../marca/fuentes/BricolageGrotesque.ttf') format('truetype');
+  font-weight:200 800; font-stretch:75% 100%; font-display:block;
+}
+@font-face{
+  font-family:'Inter';
+  src:url('../marca/fuentes/Inter.ttf') format('truetype');
+  font-weight:100 900; font-display:block;
+}
+
+/* ----- Colores ----- */
+:root{
+  --bg:#0A0A0B;
+  --superficie:#141416;
+  --borde:#2A2A2E;
+  --texto:#F5F5F7;
+  --secundario:#A1A1A6;
+  --acento:#D4FF3F;
+  --margen:80px;
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+/* Un campo vacío se oculta aunque su clase tenga otro display */
+[hidden]{ display:none !important; }
+html, body{ background:var(--bg); overflow:hidden; }
+body{
+  font-family:'Inter', system-ui, sans-serif;
+  color:var(--texto);
+  -webkit-font-smoothing:antialiased;
+}
+
+/* Lienzo: el tamaño lo fija cada plantilla con --ancho y --alto */
+.lienzo{
+  position:relative; overflow:hidden;
+  width:var(--ancho); height:var(--alto);
+  padding:var(--margen);
+  display:flex; flex-direction:column;
+}
+
+/* Capa para fondos y adornos: ocupa todo el lienzo y recorta lo que se sale,
+   así la revisión de desbordes solo mira los textos */
+.capa{ position:absolute; inset:0; overflow:hidden; }
+.lienzo > :not(.capa){ position:relative; }
+
+/* ----- Piezas de texto ----- */
+.etiqueta{
+  display:inline-flex; align-items:center; gap:14px; align-self:flex-start;
+  font-size:26px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--secundario);
+}
+.etiqueta::before{
+  content:''; width:14px; height:14px; border-radius:50%; background:var(--acento);
+}
+.titulo{
+  font-family:'Bricolage Grotesque', sans-serif;
+  font-weight:800; line-height:1.0; letter-spacing:-.025em;
+  text-wrap:balance;
+}
+.cuerpo{
+  font-size:40px; line-height:1.42; color:var(--secundario);
+  text-wrap:pretty;
+}
+.cuerpo strong{ color:var(--texto); font-weight:600; }
+/* *palabra* en los textos se pinta con el acento */
+em{ font-style:normal; color:var(--acento); }
+
+/* ----- Marca ----- */
+.logo{ height:64px; width:auto; display:block; }
+.pie{
+  display:flex; align-items:center; justify-content:space-between;
+  font-size:26px; color:var(--secundario);
+}
+
+/* El círculo del logo, grande y apenas visible, de fondo */
+.sol-fondo{
+  position:absolute; pointer-events:none; opacity:.05;
+}
+
+/* ----- Marco de celular para las capturas de sitios ----- */
+.celular{
+  position:relative; flex:none;
+  padding:14px; border-radius:64px;
+  background:#1C1C1F;
+  box-shadow:0 0 0 2px #2E2E33, 0 40px 120px rgba(0,0,0,.6);
+}
+.celular .pantalla{
+  position:relative; overflow:hidden; border-radius:50px; background:#fff;
+}
+.celular .pantalla img{ display:block; width:100%; height:auto; }
+
+/* Avisos de la revisión automática (no salen en la imagen final) */
+[data-desborde]{ outline:6px solid #FF3B30; }

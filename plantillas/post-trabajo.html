@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es-UY">
+<head>
+<meta charset="UTF-8">
+<title>Post: trabajo real</title>
+<!-- Post del muro (1080×1350) que muestra un sitio real: arriba el texto y
+     abajo un celular con la captura, cortado por el borde. La captura la
+     saca scripts/renderizar.mjs (campo "captura" del post.json) y llega acá
+     como "captura_src". -->
+<link rel="stylesheet" href="base.css">
+<style>
+  :root{ --ancho:1080px; --alto:1350px; }
+  .lienzo{ padding-bottom:0; }
+
+  .arriba{ display:flex; align-items:flex-start; justify-content:space-between; }
+  .logo{ height:56px; }
+
+  .textos{ display:flex; flex-direction:column; gap:22px; margin-top:44px; }
+  .cliente{ font-size:30px; font-weight:600; color:var(--texto); }
+  .titulo{ font-size:80px; max-height:250px; }
+  .cuerpo{ font-size:36px; max-height:160px; max-width:900px; }
+
+  /* El celular sube desde abajo y queda cortado por el borde */
+  .celular{
+    position:absolute; left:50%; transform:translateX(-50%);
+    top:var(--celular-top, 640px); width:600px;
+  }
+  /* Halo de luz detrás del celular, con el acento */
+  .halo{
+    position:absolute; left:50%; bottom:-420px; transform:translateX(-50%);
+    width:1100px; height:900px; border-radius:50%;
+    background:radial-gradient(closest-side, rgba(212,255,63,.16), rgba(212,255,63,0));
+  }
+</style>
+</head>
+<body>
+  <!-- ===== CONTENIDO ===== -->
+  <div class="lienzo">
+    <div class="capa">
+      <div class="halo"></div>
+      <div class="celular">
+        <div class="pantalla"><img data-campo="captura_src" alt=""></div>
+      </div>
+    </div>
+    <div class="arriba">
+      <span class="etiqueta" data-campo="etiqueta"></span>
+      <img class="logo" src="../marca/logo.svg" alt="ORUM">
+    </div>
+    <div class="textos">
+      <span class="cliente" data-campo="cliente"></span>
+      <h1 class="titulo" data-campo="titulo" data-limite></h1>
+      <p class="cuerpo" data-campo="cuerpo" data-limite></p>
+    </div>
+  </div>
+
+  <script>
+    window.EJEMPLO = {
+      etiqueta: 'Trabajo real',
+      cliente: 'Barraca Centro Solymar',
+      titulo: 'El catálogo entero, *en el celular*.',
+      cuerpo: 'Elegís los materiales y mandás el pedido de presupuesto por WhatsApp.',
+      captura_src: ''
+    };
+  </script>
+  <script>
+    // Si el texto ocupa poco, el celular sube para aprovechar el espacio
+    window.AJUSTAR = function(){
+      const abajo = document.querySelector('.textos').getBoundingClientRect().bottom;
+      document.documentElement.style.setProperty('--celular-top', Math.max(480, abajo + 64) + 'px');
+    };
+  </script>
+  <script src="plantilla.js"></script>
+</body>
+</html>
