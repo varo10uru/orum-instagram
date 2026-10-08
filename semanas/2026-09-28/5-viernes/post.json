@@ -1,0 +1,35 @@
+{
+  "fecha": "2026-10-02",
+  "tipo": "reel",
+  "pilar": "trabajos",
+  "tema": "Barraca Centro Solymar: recorrido por el sitio",
+  "recorrido": {
+    "sitio": "barraca",
+    "paradas": [
+      "simulador",
+      "catalogo"
+    ]
+  },
+  "piezas": [
+    {
+      "plantilla": "historia",
+      "variante": "frase",
+      "etiqueta": "Trabajo real",
+      "titulo": "Un recorrido por el sitio de *Barraca Centro Solymar*.",
+      "cuerpo": "Así se ve desde el celular."
+    },
+    {
+      "plantilla": "historia",
+      "variante": "cierre",
+      "titulo": "¿Querés uno así para *tu negocio*?",
+      "cuerpo": "Escribime al **091 541 848**."
+    }
+  ],
+  "texto": "Así se ve desde el celular el sitio que hice para Barraca Centro Solymar: el simulador de materiales por m² y el catálogo, todo a mano para pedir presupuesto por WhatsApp.\n\nSi tenés un comercio en la Costa y querés algo así, escribime al 091 541 848.",
+  "hashtags": [
+    "#Solymar",
+    "#CiudadDeLaCosta",
+    "#PaginasWeb",
+    "#PymesUruguay"
+  ]
+}

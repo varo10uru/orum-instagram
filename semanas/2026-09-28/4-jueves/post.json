@@ -1,0 +1,19 @@
+{
+  "fecha": "2026-10-01",
+  "tipo": "historia",
+  "pilar": "trabajos",
+  "tema": "Barraca Centro Solymar: simulador de materiales",
+  "plantilla": "historia",
+  "piezas": [
+    {
+      "variante": "captura",
+      "etiqueta": "Trabajo real",
+      "titulo": "Calculás los materiales *por m²*.",
+      "cuerpo": "Elegís el trabajo, ponés las medidas y lo sumás al presupuesto. En el sitio de Barraca Centro Solymar.",
+      "captura": {
+        "sitio": "barraca",
+        "seccion": "simulador"
+      }
+    }
+  ]
+}

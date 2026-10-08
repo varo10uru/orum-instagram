@@ -1,0 +1,15 @@
+{
+  "fecha": "2026-10-03",
+  "tipo": "historia",
+  "pilar": "local",
+  "tema": "Quién soy: sitios web desde Solymar",
+  "plantilla": "historia",
+  "piezas": [
+    {
+      "variante": "frase",
+      "etiqueta": "Desde Solymar",
+      "titulo": "Hago sitios web para *comercios de la Costa*.",
+      "cuerpo": "Hablás directo conmigo, de principio a fin."
+    }
+  ]
+}

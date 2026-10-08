@@ -1,0 +1,16 @@
+{
+  "fecha": "2026-09-29",
+  "tipo": "historia",
+  "pilar": "proceso",
+  "tema": "El render 3D del sitio de ORUM",
+  "plantilla": "historia",
+  "piezas": [
+    {
+      "variante": "frase",
+      "etiqueta": "Detrás de escena",
+      "titulo": "El fondo de mi sitio es un *render 3D*.",
+      "cuerpo": "Lo armé en Blender. Es lo primero que ves al entrar, y se mueve a medida que bajás.",
+      "fondo": "072"
+    }
+  ]
+}
