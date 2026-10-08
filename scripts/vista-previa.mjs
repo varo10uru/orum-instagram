@@ -3,6 +3,8 @@
 //
 // Uso:  node scripts/vista-previa.mjs semanas/2026-10-12
 //       → crea semanas/2026-10-12/vista-previa.html (no se sube a git)
+//       node scripts/vista-previa.mjs --markdown <url base> semanas/2026-10-12
+//       → escribe el comentario del PR (lo usa la Action de vista previa)
 //
 // Muestra cada día con sus imágenes, el texto del post y los hashtags, tal
 // como van a salir. Primero hay que renderizar la semana.
@@ -11,7 +13,7 @@
 import { writeFile } from 'node:fs/promises';
 import { join, relative } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { HORA_POR_TIPO, archivosDelPost, buscarPosts, existe } from './comun.mjs';
+import { HORA_POR_TIPO, RAIZ, archivosDelPost, buscarPosts, existe } from './comun.mjs';
 
 const NOMBRE_DIA = { lunes: 'Lunes', martes: 'Martes', miercoles: 'Miércoles', jueves: 'Jueves', viernes: 'Viernes', sabado: 'Sábado', domingo: 'Domingo' };
 const NOMBRE_TIPO = { post: 'Post', carrusel: 'Carrusel', reel: 'Reel', historia: 'Historia' };
@@ -23,7 +25,7 @@ function escapar(texto = ''){
 function tarjeta(post, semana){
   const { datos, carpeta } = post;
   const dia = carpeta.split('/').pop().replace(/^\d+-/, '');
-  const hora = datos.hora || HORA_POR_TIPO[datos.tipo];
+  const hora = HORA_POR_TIPO[datos.tipo];
   const medios = archivosDelPost(datos).filter((a) => a !== 'portada.jpg').map((archivo) => {
     const ruta = relative(semana, join(carpeta, archivo));
     if (!existe(join(carpeta, archivo))) return `<div class="falta">Falta ${escapar(archivo)}: renderizá la semana</div>`;
@@ -86,12 +88,51 @@ export async function crearVistaPrevia(semana){
   return destino;
 }
 
+// ----- Comentario del PR, en Markdown -----
+// "base" es la dirección pública de los archivos en el commit del PR.
+// GitHub no muestra videos en los comentarios: del Reel va la tira de
+// cuadros y un link para bajarlo.
+export async function crearComentario(semanas, base){
+  const posts = await buscarPosts(semanas);
+  const lineas = [
+    '<!-- vista-previa -->',
+    '## Vista previa de la semana',
+    '',
+    '**Para aprobarla, hacé merge.** Para corregir un texto, editá el `post.json` de ese día: las imágenes se regeneran solas. Para sacar un día, borrá su carpeta.',
+  ];
+  for (const { datos, carpeta } of posts){
+    const dia = carpeta.split('/').pop().replace(/^\d+-/, '');
+    const [, mes, d] = datos.fecha.split('-');
+    const url = (archivo) => base + relative(RAIZ, join(carpeta, archivo));
+    lineas.push('', `### ${NOMBRE_DIA[dia] || dia} ${d}/${mes} · ${HORA_POR_TIPO[datos.tipo]} · ${NOMBRE_TIPO[datos.tipo]}`);
+    lineas.push(`_${datos.pilar} · ${datos.tema}_`, '');
+
+    if (datos.tipo === 'reel'){
+      lineas.push(`<img src="${url('tira.jpg')}" width="100%" alt="Cuadros del Reel">`, '');
+      lineas.push(`[Bajar el video](${url('reel.mp4')})`);
+    } else {
+      const ancho = datos.tipo === 'historia' ? 200 : 250;
+      lineas.push(archivosDelPost(datos).map((a, i) =>
+        `<img src="${url(a)}" width="${ancho}" alt="${escapar(datos.piezas?.[i]?.alt || '')}">`).join(' '));
+    }
+    if (datos.tipo !== 'historia'){
+      lineas.push('', ...String(datos.texto).split('\n').map((l) => `> ${l}`), '>', `> ${(datos.hashtags || []).join(' ')}`);
+      if (datos.fuentes?.length) lineas.push('', `Fuentes: ${datos.fuentes.join(' · ')}`);
+    }
+  }
+  return lineas.join('\n') + '\n';
+}
+
 // ----- Desde la terminal -----
 if (import.meta.url === pathToFileURL(process.argv[1]).href){
-  const semana = process.argv[2];
-  if (!semana){
-    console.error('Uso: node scripts/vista-previa.mjs <carpeta de la semana>');
+  const args = process.argv.slice(2);
+  if (args[0] === '--markdown'){
+    const [, base, ...semanas] = args;
+    process.stdout.write(await crearComentario(semanas, base.replace(/\/?$/, '/')));
+  } else if (args[0]){
+    console.log(await crearVistaPrevia(args[0]));
+  } else {
+    console.error('Uso: node scripts/vista-previa.mjs [--markdown <url base>] <carpeta de la semana>');
     process.exit(2);
   }
-  console.log(await crearVistaPrevia(semana));
 }

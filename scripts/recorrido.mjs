@@ -126,6 +126,14 @@ export async function grabarReel(navegador, { carpeta, datos }){
     join(carpeta, 'reel.mp4'),
   ], { maxBuffer: 10 * 1024 * 1024 });
 
+  // 4. Tira con 8 cuadros del video, para revisarlo en el PR (GitHub no
+  //    muestra videos en los comentarios)
+  await ejecutar('ffmpeg', [
+    '-y', '-loglevel', 'error', '-i', join(carpeta, 'reel.mp4'),
+    '-vf', `fps=8/${total.toFixed(3)},scale=270:-1,tile=8x1`, '-frames:v', '1', '-q:v', '4',
+    join(carpeta, 'tira.jpg'),
+  ]);
+
   await rm(tmp, { recursive: true, force: true });
   return problemas;
 }

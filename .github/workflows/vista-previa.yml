@@ -1,0 +1,106 @@
+name: Vista previa
+
+# En cada PR que toque semanas/: revisa los post.json, genera las imágenes
+# (y los Reels), las sube al mismo PR y deja un comentario con cómo va a
+# salir todo. Si el PR se edita (por ejemplo, corregís un texto desde el
+# celular), se vuelve a generar.
+on:
+  pull_request:
+    paths: ['semanas/**']
+
+# Si llegan dos cambios seguidos, vale el último
+concurrency:
+  group: vista-previa-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  vista-previa:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Semanas que cambiaron
+        id: semanas
+        run: |
+          semanas=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" -- semanas/ \
+            | cut -d/ -f1-2 | sort -u | while read -r s; do [ -d "$s" ] && echo "$s"; done | tr '\n' ' ')
+          echo "lista=$semanas" >> "$GITHUB_OUTPUT"
+          echo "Semanas: ${semanas:-ninguna}"
+
+      - name: ffmpeg (solo si hay un Reel)
+        if: steps.semanas.outputs.lista != ''
+        run: |
+          if grep -rqs '"tipo": "reel"' ${{ steps.semanas.outputs.lista }}; then
+            sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          fi
+
+      - name: Revisar y generar
+        id: generar
+        if: steps.semanas.outputs.lista != ''
+        run: |
+          # Se guarda lo que dice cada paso para ponerlo en el comentario
+          set +e
+          node scripts/validar.mjs ${{ steps.semanas.outputs.lista }} > revision.txt 2>&1
+          revision=$?
+          node scripts/renderizar.mjs ${{ steps.semanas.outputs.lista }} >> revision.txt 2>&1
+          render=$?
+          cat revision.txt
+          if [ $revision -ne 0 ] || [ $render -ne 0 ]; then echo "ok=false" >> "$GITHUB_OUTPUT"; else echo "ok=true" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Subir las imágenes al PR
+        if: steps.semanas.outputs.lista != ''
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A semanas/
+          if ! git diff --cached --quiet; then
+            git commit -m "Vista previa: imágenes generadas"
+            git push
+          fi
+
+      - name: Comentario con la vista previa
+        if: steps.semanas.outputs.lista != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+          OK: ${{ steps.generar.outputs.ok }}
+        run: |
+          base="https://raw.githubusercontent.com/${{ github.repository }}/$(git rev-parse HEAD)/"
+          node scripts/vista-previa.mjs --markdown "$base" ${{ steps.semanas.outputs.lista }} > comentario.md
+          if [ "$OK" != "true" ]; then
+            {
+              echo
+              echo "### ⚠️ Hay cosas para corregir antes de aprobar"
+              echo '```'
+              grep -E '✗|    ' revision.txt
+              echo '```'
+            } >> comentario.md
+          fi
+          # Un solo comentario por PR: si ya hay uno, se actualiza
+          id=$(gh api "repos/${{ github.repository }}/issues/$PR/comments" \
+            --jq '[.[] | select(.body | startswith("<!-- vista-previa -->"))][-1].id // empty')
+          if [ -n "$id" ]; then
+            gh api -X PATCH "repos/${{ github.repository }}/issues/comments/$id" -F body=@comentario.md > /dev/null
+          else
+            gh pr comment "$PR" --body-file comentario.md
+          fi
+
+      - name: Marcar el PR si hay errores
+        if: steps.generar.outputs.ok == 'false'
+        run: |
+          echo "La revisión encontró problemas: mirá el comentario del PR."
+          exit 1
