@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es-UY">
+<head>
+<meta charset="UTF-8">
+<title>Portada de Facebook</title>
+<!-- Portada de la página de Facebook (1640×624). En el celular, Facebook
+     muestra solo el centro (unos 1110 px de ancho), así que todo el texto va
+     centrado dentro de esa franja. Fondo: un cuadro del render del hero. -->
+<link rel="stylesheet" href="base.css">
+<style>
+  :root{ --ancho:1640px; --alto:624px; }
+  .lienzo{ align-items:center; justify-content:center; text-align:center; padding:0; }
+
+  .fondo{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 60%; }
+  .velo{
+    position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse 52% 80% at 50% 50%, rgba(10,10,11,.88) 0%, rgba(10,10,11,.72) 55%, rgba(10,10,11,.35) 100%),
+      linear-gradient(0deg, rgba(10,10,11,.55) 0%, rgba(10,10,11,0) 45%);
+  }
+
+  .bloque{ display:flex; flex-direction:column; align-items:center; gap:22px; max-width:1040px; }
+  .logo{ height:58px; }
+  .titulo{ font-size:96px; max-height:200px; }
+  .lema{ font-size:30px; font-weight:500; color:var(--secundario); }
+</style>
+</head>
+<body>
+  <!-- ===== CONTENIDO ===== -->
+  <div class="lienzo">
+    <div class="capa">
+      <img class="fondo" src="../marca/hero/072.webp" alt="">
+      <div class="velo"></div>
+    </div>
+    <div class="bloque">
+      <img class="logo" src="../marca/logo.svg" alt="ORUM">
+      <h1 class="titulo" data-campo="titulo" data-limite></h1>
+      <p class="lema" data-campo="lema"></p>
+    </div>
+  </div>
+
+  <script>
+    window.EJEMPLO = {
+      titulo: 'Creamos *sitios web* a medida.',
+      lema: 'Comercios y pymes · Ciudad de la Costa, Uruguay'
+    };
+  </script>
+  <script src="plantilla.js"></script>
+</body>
+</html>

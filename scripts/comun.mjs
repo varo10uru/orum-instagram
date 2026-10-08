@@ -44,6 +44,9 @@ export const PLANTILLAS = {
   'post-trabajo': { archivo: 'post-trabajo.html', ancho: 1080, alto: 1350 },
   'carrusel':     { archivo: 'carrusel.html',     ancho: 1080, alto: 1350 },
   'historia':     { archivo: 'historia.html',     ancho: 1080, alto: 1920 },
+  // Para armar el perfil (scripts/perfil.mjs), no para los posts
+  'portada-facebook': { archivo: 'portada-facebook.html', ancho: 1640, alto: 624 },
+  'destacada':        { archivo: 'destacada.html',        ancho: 1080, alto: 1920 },
 };
 
 // ----- Encontrar y leer los post.json debajo de una o más carpetas -----

@@ -5,3 +5,5 @@ node_modules/
 vista-previa.html
 # Los videos de muestra se regeneran con renderizar.mjs (pesan varios MB)
 ejemplo-reel/**/*.mp4
+# La del perfil está hecha a mano y sí va
+!perfil/vista-previa.html

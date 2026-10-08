@@ -84,7 +84,8 @@ export function validarPost({ carpeta, datos }, { listo = false, todos = [] } = 
   piezas.forEach((p, i) => {
     const n = `pieza ${i + 1}`;
     const plantilla = p.plantilla || datos.plantilla;
-    if (!PLANTILLAS[plantilla]) error(`${n}: la plantilla "${plantilla}" no existe (hay: ${Object.keys(PLANTILLAS).join(', ')})`);
+    const paraPosts = Object.keys(PLANTILLAS).filter((p) => !['portada-facebook', 'destacada'].includes(p));
+    if (!paraPosts.includes(plantilla)) error(`${n}: la plantilla "${plantilla}" no existe (hay: ${paraPosts.join(', ')})`);
     const vertical = datos.tipo === 'historia' || datos.tipo === 'reel';
     if (vertical && plantilla !== 'historia') error(`${n}: las historias y las placas de los Reels usan la plantilla "historia"`);
     if (!vertical && plantilla === 'historia') error(`${n}: la plantilla "historia" es solo para historias y Reels`);

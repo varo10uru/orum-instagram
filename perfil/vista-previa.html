@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es-UY">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Perfil de ORUM</title>
+<!-- Vista previa aproximada del perfil de Instagram y la página de
+     Facebook, para revisar todo junto antes de cargarlo. No es una copia
+     exacta de cómo lo dibuja cada app. -->
+<style>
+  :root{ --bg:#0A0A0B; --sup:#141416; --borde:#2A2A2E; --texto:#F5F5F7; --sec:#A1A1A6; --acento:#D4FF3F; }
+  *{ box-sizing:border-box; margin:0; }
+  body{ background:#000; color:var(--texto); font:15px/1.45 -apple-system, system-ui, sans-serif; padding:32px 16px 80px; }
+  h1{ font-size:13px; letter-spacing:.12em; text-transform:uppercase; color:var(--sec); margin:0 auto 14px; max-width:880px; }
+  section{ max-width:880px; margin:0 auto 48px; }
+
+  /* ----- Instagram ----- */
+  .ig{ background:var(--bg); border:1px solid var(--borde); border-radius:18px; padding:24px; max-width:430px; }
+  .ig-cabeza{ display:flex; align-items:center; gap:20px; }
+  .ig-foto{ width:86px; height:86px; border-radius:50%; object-fit:cover; flex:none; }
+  .ig-numeros{ display:flex; gap:22px; text-align:center; font-size:13px; color:var(--sec); }
+  .ig-numeros b{ display:block; color:var(--texto); font-size:16px; }
+  .ig-usuario{ font-weight:700; margin-top:14px; }
+  .ig-nombre{ font-weight:600; }
+  .ig-categoria{ color:var(--sec); font-size:13px; }
+  .ig-bio{ white-space:pre-line; margin-top:2px; }
+  .ig-link{ color:#E0F1FF; font-weight:600; margin-top:2px; }
+  .ig-botones{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-top:14px; }
+  .ig-botones span{ background:#262629; border-radius:8px; text-align:center; padding:7px 0; font-weight:600; font-size:13px; }
+  .ig-destacadas{ display:flex; gap:16px; margin-top:18px; }
+  .ig-destacada{ text-align:center; font-size:12px; width:66px; }
+  .ig-destacada div{ width:64px; height:64px; border-radius:50%; padding:3px; border:1px solid #3A3A3E; margin-bottom:4px; }
+  .ig-destacada img{ width:100%; height:100%; border-radius:50%; object-fit:cover; }
+  .ig-grilla{ display:grid; grid-template-columns:repeat(3, 1fr); gap:2px; margin:18px -24px -24px; }
+  .ig-grilla img{ width:100%; aspect-ratio:3/4; object-fit:cover; display:block; }
+
+  /* ----- Facebook ----- */
+  .fb{ background:#18191A; border-radius:18px; overflow:hidden; border:1px solid var(--borde); }
+  .fb-portada{ position:relative; }
+  .fb-portada img{ width:100%; display:block; }
+  /* Franja que se ve en el celular */
+  .fb-celular{ position:absolute; top:0; bottom:0; left:16.2%; right:16.2%; border-left:2px dashed rgba(255,255,255,.35); border-right:2px dashed rgba(255,255,255,.35); }
+  .fb-celular span{ position:absolute; bottom:6px; left:8px; font-size:11px; color:rgba(255,255,255,.6); }
+  .fb-pie{ display:flex; align-items:flex-end; gap:16px; padding:0 24px 20px; margin-top:-46px; position:relative; }
+  .fb-foto{ width:130px; height:130px; border-radius:50%; border:4px solid #18191A; }
+  .fb-nombre{ font-size:26px; font-weight:700; }
+  .fb-intro{ color:#B0B3B8; }
+  .fb-boton{ margin-left:auto; background:#25D366; color:#062; font-weight:700; padding:9px 14px; border-radius:8px; white-space:nowrap; }
+  .nota{ color:var(--sec); font-size:13px; margin-top:10px; }
+</style>
+</head>
+<body>
+  <section>
+    <h1>Instagram</h1>
+    <div class="ig">
+      <div class="ig-cabeza">
+        <img class="ig-foto" src="foto-perfil.png" alt="Foto de perfil">
+        <div class="ig-numeros"><span><b>3</b>publicaciones</span><span><b>0</b>seguidores</span><span><b>0</b>seguidos</span></div>
+      </div>
+      <p class="ig-usuario">orum.uy</p>
+      <p class="ig-nombre">ORUM · Sitios web a medida</p>
+      <p class="ig-categoria">Diseñador de sitios web</p>
+      <p class="ig-bio">Sitios web para comercios y pymes de la Costa.
+Hablás directo conmigo, de principio a fin.
+Escribime por WhatsApp 👇</p>
+      <p class="ig-link">🔗 wa.me/59891541848</p>
+      <div class="ig-botones"><span>Seguir</span><span>Mensaje</span><span>WhatsApp</span></div>
+      <div class="ig-destacadas">
+        <div class="ig-destacada"><div><img src="destacada-trabajos.jpg" alt=""></div>Trabajos</div>
+        <div class="ig-destacada"><div><img src="destacada-consejos.jpg" alt=""></div>Consejos</div>
+        <div class="ig-destacada"><div><img src="destacada-proceso.jpg" alt=""></div>Cómo trabajo</div>
+        <div class="ig-destacada"><div><img src="destacada-contacto.jpg" alt=""></div>Contacto</div>
+      </div>
+      <div class="ig-grilla">
+        <img src="../ejemplo/1-lunes/1.jpg" alt="">
+        <img src="../ejemplo/3-miercoles/1.jpg" alt="">
+        <img src="../ejemplo/5-viernes/1.jpg" alt="">
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h1>Página de Facebook</h1>
+    <div class="fb">
+      <div class="fb-portada">
+        <img src="portada-facebook.jpg" alt="Portada">
+        <div class="fb-celular"><span>lo que se ve en el celular</span></div>
+      </div>
+      <div class="fb-pie">
+        <img class="fb-foto" src="foto-perfil.png" alt="">
+        <div>
+          <p class="fb-nombre">ORUM</p>
+          <p class="fb-intro">Sitios web a medida para comercios y pymes de la Costa. Solymar, Canelones.</p>
+        </div>
+        <span class="fb-boton">WhatsApp</span>
+      </div>
+    </div>
+    <p class="nota">Aproximado: cada app acomoda la foto y la portada a su manera.</p>
+  </section>
+</body>
+</html>

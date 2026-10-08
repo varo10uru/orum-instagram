@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es-UY">
+<head>
+<meta charset="UTF-8">
+<title>Portada de destacada</title>
+<!-- Portada de una historia destacada de Instagram (1080×1920). Instagram la
+     recorta en un círculo del centro, así que el ícono va centrado.
+     Campo "icono": trabajos, consejos, proceso o contacto. -->
+<link rel="stylesheet" href="base.css">
+<style>
+  :root{ --ancho:1080px; --alto:1920px; }
+  .lienzo{ align-items:center; justify-content:center; padding:0; background:var(--superficie); }
+  /* Círculo del tamaño del que recorta Instagram (el aro lo pone Instagram) */
+  .aro{
+    width:1080px; height:1080px; border-radius:50%;
+    display:grid; place-items:center;
+    background:radial-gradient(circle, #1F1F23 0%, var(--superficie) 65%);
+  }
+  svg{ width:480px; height:480px; fill:none; stroke:var(--acento); stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; }
+  svg .relleno{ fill:var(--acento); stroke:none; }
+  svg:not([data-icono]){ display:none; }
+</style>
+</head>
+<body>
+  <!-- ===== CONTENIDO ===== -->
+  <div class="lienzo">
+    <div class="aro">
+      <!-- Trabajos: un celular -->
+      <svg viewBox="0 0 48 48" data-cual="trabajos"><rect x="13" y="4" width="22" height="40" rx="4"/><line x1="21" y1="38" x2="27" y2="38"/><line x1="18" y1="12" x2="30" y2="12"/><line x1="18" y1="17" x2="26" y2="17"/></svg>
+      <!-- Consejos: una lamparita -->
+      <svg viewBox="0 0 48 48" data-cual="consejos"><path d="M24 5a13 13 0 0 0-7.5 23.6c1.6 1.2 2.5 2.9 2.5 4.6V35h10v-1.8c0-1.7.9-3.4 2.5-4.6A13 13 0 0 0 24 5z"/><line x1="19" y1="40" x2="29" y2="40"/><line x1="21" y1="44" x2="27" y2="44"/></svg>
+      <!-- Proceso: un cubo, como el render 3D -->
+      <svg viewBox="0 0 48 48" data-cual="proceso"><path d="M24 4 41 13.5v21L24 44 7 34.5v-21z"/><path d="M7 13.5 24 23l17-9.5"/><line x1="24" y1="23" x2="24" y2="44"/></svg>
+      <!-- Contacto: un globito de chat -->
+      <svg viewBox="0 0 48 48" data-cual="contacto"><path d="M9 9h30a4 4 0 0 1 4 4v17a4 4 0 0 1-4 4H21l-9 7v-7H9a4 4 0 0 1-4-4V13a4 4 0 0 1 4-4z"/><circle class="relleno" cx="16" cy="21.5" r="2"/><circle class="relleno" cx="24" cy="21.5" r="2"/><circle class="relleno" cx="32" cy="21.5" r="2"/></svg>
+    </div>
+  </div>
+
+  <script>
+    window.EJEMPLO = { icono: 'consejos' };
+    // Muestra solo el ícono pedido
+    window.AJUSTAR = function(){
+      const datos = window.DATOS || window.EJEMPLO;
+      const svg = document.querySelector('svg[data-cual="' + datos.icono + '"]');
+      if (svg) svg.dataset.icono = '';
+      else console.error('No hay ícono "' + datos.icono + '"');
+    };
+  </script>
+  <script src="plantilla.js"></script>
+</body>
+</html>
