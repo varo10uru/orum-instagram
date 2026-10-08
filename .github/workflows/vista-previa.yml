@@ -1,12 +1,14 @@
 name: Vista previa
 
-# En cada PR que toque semanas/: revisa los post.json, genera las imágenes
+# En cada PR que cambie algún post.json de semanas/: revisa los post.json, genera las imágenes
 # (y los Reels), las sube al mismo PR y deja un comentario con cómo va a
 # salir todo. Si el PR se edita (por ejemplo, corregís un texto desde el
 # celular), se vuelve a generar.
+# Solo los post.json: el commit de imágenes que hace esta misma Action no la
+# vuelve a disparar.
 on:
   pull_request:
-    paths: ['semanas/**']
+    paths: ['semanas/**/post.json']
 
 # Si llegan dos cambios seguidos, vale el último
 concurrency:
