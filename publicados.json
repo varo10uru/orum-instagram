@@ -1,6 +1,7 @@
 [
   {
-    "fecha": "2026-10-16",
+    "fecha": "2026-10-08",
+    "planeada": "2026-10-16",
     "carpeta": "ejemplo/5-viernes",
     "tipo": "post",
     "pilar": "consejos",
@@ -10,7 +11,8 @@
     "publicado": "2026-10-08T16:50:44.810Z"
   },
   {
-    "fecha": "2026-10-14",
+    "fecha": "2026-10-08",
+    "planeada": "2026-10-14",
     "carpeta": "ejemplo/3-miercoles",
     "tipo": "carrusel",
     "pilar": "consejos",
@@ -20,7 +22,8 @@
     "publicado": "2026-10-08T16:51:40.481Z"
   },
   {
-    "fecha": "2026-10-12",
+    "fecha": "2026-10-08",
+    "planeada": "2026-10-12",
     "carpeta": "ejemplo/1-lunes",
     "tipo": "post",
     "pilar": "trabajos",

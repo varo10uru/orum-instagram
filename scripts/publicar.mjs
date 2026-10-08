@@ -141,8 +141,11 @@ for (const post of posts){
   try {
     const r = await publicarPost(post, { simular: op.simular });
     if (r){
-      const { fecha, tipo, pilar, tema } = post.datos;
-      publicados.push({ fecha, carpeta, tipo, pilar, tema, id: r.id, link: r.link, publicado: new Date().toISOString() });
+      // "fecha" es el día en que salió (en Uruguay), aunque el post.json
+      // dijera otro (por ejemplo, si se publicó a mano antes)
+      const { fecha: planeada, tipo, pilar, tema } = post.datos;
+      const fecha = hoyUY();
+      publicados.push({ fecha, ...(planeada !== fecha && { planeada }), carpeta, tipo, pilar, tema, id: r.id, link: r.link, publicado: new Date().toISOString() });
       // Se anota enseguida, para que nunca quede algo publicado sin anotar
       await writeFile(RUTA_PUBLICADOS, JSON.stringify(publicados, null, 2) + '\n');
     }
