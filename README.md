@@ -1,27 +1,86 @@
 # Instagram de ORUM
 
-Arma, revisa y publica el Instagram de ORUM.
+Arma, revisa y publica el Instagram de ORUM. Así es una semana:
 
-- **Cada jueves:** una rutina de Claude Code arma la semana siguiente y abre
-  un PR. Son 3 posts (lunes, miércoles y viernes) y 4 historias (los otros
-  días).
-- **Para aprobarla:** la revisás y hacés merge.
-- **Después:** se publica sola, un día a la vez.
+1. **Jueves 09:07:** una rutina de Claude Code arma la semana siguiente y
+   abre un PR. Son 3 posts (lunes, miércoles y viernes) y 4 historias (los
+   otros días).
+2. **En el PR:** una Action genera las imágenes y deja un comentario con cómo
+   va a salir cada día.
+3. **Vos lo revisás**, desde la app de GitHub en el celular o desde la compu.
+4. **Hacés merge**, y cada día se publica lo que toca:
+   - historias a las 10:07;
+   - posts, carruseles y Reels a las 12:37.
 
-Las reglas de contenido (qué se puede decir, el tono, los formatos) están en
-[`CLAUDE.md`](CLAUDE.md).
+**Sin merge no se publica nada.** Las reglas de contenido (qué se puede decir,
+el tono, los formatos) están en [`CLAUDE.md`](CLAUDE.md).
 
-## Qué hay acá
+## Revisar y aprobar la semana
 
-| Carpeta o archivo | Qué es |
-|---|---|
-| `semanas/` | Una carpeta por semana, con un `post.json` por día y sus imágenes |
-| `plantillas/` | Las placas en HTML: post con consejo, post con un trabajo, carrusel e historia |
-| `marca/` | Logo, fuentes (licencia OFL) y cuadros del render 3D del sitio |
-| `sitios.json` | Los sitios reales que se pueden mostrar, con lo que tienen de verdad |
-| `publicados.json` | Historial de lo publicado (fecha, tema y link) |
-| `scripts/` | Validar, renderizar, vista previa y Reels |
-| `ejemplo/`, `ejemplo-reel/` | Una semana de muestra y un Reel de muestra |
+- **Aprobar:** "Merge pull request".
+- **Corregir un texto:**
+  1. En el PR, entrá a "Files changed".
+  2. Buscá el `post.json` de ese día, tocá los tres puntos y elegí "Edit
+     file". Cambiá el texto y guardá (Commit).
+  3. En un par de minutos se regeneran las imágenes y se actualiza el
+     comentario.
+- **Sacar un día:** borrá su carpeta (el `post.json` y sus imágenes).
+- **Cambios grandes ("rehacé el miércoles"):**
+  1. Abrí la corrida de la rutina en la app de Claude
+     (claude.ai/code/routines → la corrida del jueves).
+  2. Pedíselo ahí: trabaja sobre el mismo PR.
+- **Si el PR está en rojo,** la revisión encontró algo (un texto que no entra,
+  un hashtag de más). El comentario dice qué es.
+
+## Si algo falla
+
+- **Te avisa GitHub:** cuando una publicación falla, te llega un mail de
+  GitHub Actions.
+- **Ver qué pasó:** pestaña Actions → "Publicar" → la corrida en rojo.
+- **Relanzar un día:** Actions → "Publicar" → "Run workflow", con la fecha y
+  la franja (historias o posts). O desde la terminal:
+  `gh workflow run publicar.yml -f fecha=2026-10-12 -f franja=posts`.
+  Lo que ya se publicó no se repite: queda anotado en `publicados.json`.
+- **Probar sin publicar:** lo mismo, marcando "Simular". Instagram revisa las
+  imágenes, pero no publica nada.
+- **Token vencido** (el error habla de "token" o "OAuth"):
+  - El token se renueva solo cada lunes (Action "Renovar token").
+  - Si esa Action viene fallando, hay que generar uno nuevo en Meta y
+    cargarlo en el Secret `IG_TOKEN`.
+
+## Puesta en marcha (una sola vez)
+
+1. **Cuenta de Instagram:**
+   - Creala y pasala a cuenta profesional de tipo **Empresa** (Configuración
+     → Tipo de cuenta). Con cuenta de Creador, los Reels por API no
+     funcionan.
+   - Foto de perfil: `prototipos/logo/perfil-whatsapp.png` del repo del
+     sitio.
+2. **App de Meta:**
+   - En developers.facebook.com, creá una app con el caso de uso "Manage
+     messaging and content on Instagram" (Instagram API with Instagram
+     Login, sin página de Facebook).
+   - Conectá la cuenta de ORUM y generá el token, con los permisos
+     `instagram_business_basic` e `instagram_business_content_publish`.
+3. **Secrets del repo** (Settings → Secrets and variables → Actions):
+   - `IG_TOKEN`: el token de Instagram.
+   - `IG_USER_ID`: el id de la cuenta de Instagram.
+   - `GH_PAT_SECRETOS`: un token de GitHub de tipo "fine-grained", solo
+     para este repo, con permiso de escribir Secrets. Es para que el token
+     de Instagram se renueve solo.
+   - **Los tokens nunca se pegan en un chat.**
+4. **Probar la conexión:** Actions → "Publicar" → "Run workflow" con
+   "Simular", o en la Mac:
+   `IG_TOKEN=… IG_USER_ID=… node scripts/publicar.mjs --probar`.
+5. **Rutina de los jueves:** se crea con `/schedule` en Claude Code. El texto
+   está abajo.
+
+### Texto de la rutina
+
+> Armá la semana que viene del Instagram de ORUM en este repo, siguiendo la
+> sección "Armar la semana" de CLAUDE.md al pie de la letra. Respetá todas las
+> reglas de contenido: no inventes nada que no esté en sitios.json o en
+> CLAUDE.md. Al terminar, abrí el PR a main y no hagas merge.
 
 ## Ver una semana en la Mac
 
@@ -35,9 +94,23 @@ open semanas/2026-10-12/vista-previa.html
 Para ver una plantilla sola, abrila en Chrome (por ejemplo,
 `plantillas/carrusel.html`): trae textos de ejemplo.
 
+## Qué hay acá
+
+| Carpeta o archivo | Qué es |
+|---|---|
+| `semanas/` | Una carpeta por semana, con un `post.json` por día y sus imágenes |
+| `plantillas/` | Las placas en HTML: post con consejo, post con un trabajo, carrusel e historia |
+| `marca/` | Logo, fuentes (licencia OFL) y cuadros del render 3D del sitio |
+| `sitios.json` | Los sitios reales que se pueden mostrar, con lo que tienen de verdad |
+| `publicados.json` | Historial de lo publicado (fecha, tema y link) |
+| `scripts/` | Validar, renderizar, vista previa, Reels, publicar y renovar el token |
+| `.github/workflows/` | Vista previa en los PR, publicación diaria y renovación del token |
+| `ejemplo/`, `ejemplo-reel/` | Una semana de muestra y un Reel de muestra |
+
 ## Cambiar algo
 
-- **Un texto de un post:** se edita su `post.json` y se vuelve a renderizar.
+- **Horarios:** los `cron` de `.github/workflows/publicar.yml` (en UTC:
+  Uruguay es UTC-3) y `HORA_POR_TIPO` en `scripts/comun.mjs`.
 - **Colores, tamaños o diseño:** `plantillas/base.css` y cada plantilla.
   Están comentadas por sección.
 - **Agregar un sitio para mostrar:** se suma a `sitios.json`, con lo que

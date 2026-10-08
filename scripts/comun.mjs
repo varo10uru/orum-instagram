@@ -60,7 +60,7 @@ export async function buscarPosts(rutas){
       }
     }
   }
-  for (const ruta of rutas) await recorrer(resolve(ruta));
+  for (const ruta of rutas) if (existsSync(resolve(ruta))) await recorrer(resolve(ruta));
 
   return Promise.all(encontrados.map(async (archivo) => ({
     archivo,

@@ -14,6 +14,12 @@
 import { spawn } from 'node:child_process';
 import { renovarToken } from './instagram.mjs';
 
+// Antes de la puesta en marcha no hay token: no es un error
+if (!process.env.IG_TOKEN){
+  console.log('Todavía no hay token de Instagram cargado: no hay nada que renovar.');
+  process.exit(0);
+}
+
 const { token, dias } = await renovarToken();
 // En GitHub Actions, que el token quede tapado en los registros
 if (process.env.GITHUB_ACTIONS) console.log(`::add-mask::${token}`);
