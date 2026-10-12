@@ -1,0 +1,54 @@
+name: Métricas
+
+# Los miércoles pide a Instagram los números de la cuenta y de cada
+# publicación y los guarda en metricas.json. La rutina de los jueves los
+# usa para armar la semana (node scripts/metricas.mjs --resumen).
+# - Miércoles a las 19:23 de Uruguay: aunque GitHub la atrase varias horas,
+#   termina antes de la rutina del jueves, y la semana anterior ya tiene
+#   los números completos (Meta tarda hasta 48 horas).
+# - Necesita el permiso instagram_manage_insights en el token (README,
+#   "Métricas"). Sin token, termina en verde sin hacer nada.
+# - A mano: Actions → Métricas → Run workflow, o `gh workflow run metricas.yml`.
+on:
+  schedule:
+    - cron: '23 22 * * 3'
+  workflow_dispatch:
+
+concurrency:
+  group: metricas
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  medir:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Medir
+        env:
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+        run: node scripts/metricas.mjs --medir
+
+      - name: Guardar en metricas.json
+        run: |
+          if [ ! -f metricas.json ] || { git ls-files --error-unmatch metricas.json >/dev/null 2>&1 && git diff --quiet -- metricas.json; }; then
+            echo "Nada nuevo para guardar."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add metricas.json
+          git commit -m "Métricas: medido el $(TZ=America/Montevideo date +%F)"
+          for intento in 1 2 3; do
+            git pull --rebase --quiet && git push && exit 0
+            sleep 5
+          done
+          exit 1

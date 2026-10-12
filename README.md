@@ -16,6 +16,9 @@ Arma, revisa y publica el Instagram de ORUM. Así es una semana:
    que cada cosa sale dentro de la hora siguiente a su horario. GitHub
    atrasa sus tareas programadas, a veces varias horas, y revisando cada
    hora el atraso no se nota.
+5. **Miércoles a la noche:** una Action anota los números de la cuenta y de
+   cada publicación en `metricas.json`, y el jueves la rutina los usa para
+   armar la semana siguiente.
 
 **Sin merge no se publica nada.** Las reglas de contenido (qué se puede decir,
 el tono, los formatos) están en [`CLAUDE.md`](CLAUDE.md).
@@ -79,7 +82,8 @@ el tono, los formatos) están en [`CLAUDE.md`](CLAUDE.md).
       (developers.facebook.com/tools/explorer), elegí la app y "Obtener
       token de acceso de usuario".
    2. Agregá los permisos `instagram_basic`, `instagram_content_publish`,
-      `pages_show_list`, `pages_read_engagement` y `business_management`.
+      `instagram_manage_insights`, `pages_show_list`,
+      `pages_read_engagement` y `business_management`.
    3. Tocá "Generate Access Token" y autorizá la página y el Instagram de
       ORUM.
    4. En la terminal, corré `node scripts/conectar.mjs`. Pide el App ID, la
@@ -99,6 +103,36 @@ el tono, los formatos) están en [`CLAUDE.md`](CLAUDE.md).
 > sección "Armar la semana" de CLAUDE.md al pie de la letra. Respetá todas las
 > reglas de contenido: no inventes nada que no esté en sitios.json o en
 > CLAUDE.md. Al terminar, abrí el PR a main y no hagas merge.
+
+## Métricas
+
+Los miércoles a las 19:23, la Action "Métricas" le pide a Instagram:
+- los seguidores del día;
+- los totales de la cuenta de las dos últimas semanas cerradas: alcance,
+  cuentas que interactuaron y toques en los botones de contacto;
+- los números de cada post, carrusel y Reel de las últimas 4 semanas:
+  alcance, guardados, compartidos, me gusta, comentarios y seguidores que
+  trajo.
+
+Lo guarda en `metricas.json`, que es público como todo el repo: son solo
+cantidades, sin nombres ni datos de nadie. Para verlo resumido:
+`node scripts/metricas.mjs --resumen`.
+
+- **Historias:** no se miden, porque Meta guarda sus números solo 24 horas.
+- **Con menos de 100 seguidores,** Meta no da algunos datos (por ejemplo,
+  cuántos dejaron de seguir). Quedan en `null` y aparecen solos cuando se
+  llega.
+- **Los números tardan** hasta 48 horas en estar completos.
+
+**Para que ande hace falta el permiso `instagram_manage_insights`** (una
+sola vez):
+1. En developers.facebook.com, abrí la app "ORUM Publicaciones" → Casos de
+   uso → "Administrar mensajes y contenido en Instagram" → Personalizar, y
+   agregá `instagram_manage_insights`.
+2. Generá un token nuevo en el Explorador con todos los permisos de la
+   puesta en marcha (paso 4) y corré `node scripts/conectar.mjs`. Si al
+   token le falta algún permiso, el script avisa.
+3. Probalo: `gh workflow run metricas.yml`.
 
 ## Ver una semana en la Mac
 
@@ -121,8 +155,9 @@ Para ver una plantilla sola, abrila en Chrome (por ejemplo,
 | `marca/` | Logo, fuentes (licencia OFL) y cuadros del render 3D del sitio |
 | `sitios.json` | Los sitios reales que se pueden mostrar, con lo que tienen de verdad |
 | `publicados.json` | Historial de lo publicado (fecha, tema y link) |
-| `scripts/` | Validar, renderizar, vista previa, Reels, publicar, conectar y revisar el token |
-| `.github/workflows/` | Vista previa en los PR, publicación diaria y renovación del token |
+| `metricas.json` | Los números de la cuenta y de cada publicación (los anota la Action "Métricas") |
+| `scripts/` | Validar, renderizar, vista previa, Reels, publicar, métricas, conectar y revisar el token |
+| `.github/workflows/` | Vista previa en los PR, publicación diaria, métricas de los miércoles y renovación del token |
 | `ejemplo/`, `ejemplo-reel/` | Una semana de muestra y un Reel de muestra |
 
 ## Cambiar algo

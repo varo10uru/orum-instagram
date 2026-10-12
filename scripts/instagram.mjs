@@ -65,6 +65,88 @@ export async function ultimasPublicaciones(){
   return r.data || [];
 }
 
+// ----- Métricas -----
+// Necesitan el permiso instagram_manage_insights en el token. Meta tarda
+// hasta 48 horas en tener los números al día. Cuando un dato no existe
+// (por ejemplo, con menos de 100 seguidores) se devuelve null: nunca un 0.
+
+// Seguidores y cantidad de publicaciones, tal como se ven en el perfil
+export async function datosDeLaCuenta(){
+  const { usuario } = credenciales();
+  const r = await pedir('GET', usuario, { fields: 'followers_count,media_count' });
+  return { seguidores: r.followers_count ?? null, publicaciones: r.media_count ?? null };
+}
+
+// Nombre de cada métrica en la API → nombre en metricas.json
+const METRICAS_DE_LA_CUENTA = {
+  reach: 'alcance',
+  views: 'vistas',
+  accounts_engaged: 'cuentas_que_interactuaron',
+  total_interactions: 'interacciones',
+  profile_links_taps: 'toques_en_contacto',
+};
+const METRICAS_POR_TIPO = {
+  post:     ['reach', 'views', 'saved', 'shares', 'likes', 'comments', 'follows', 'profile_visits'],
+  carrusel: ['reach', 'views', 'saved', 'shares', 'likes', 'comments', 'follows', 'profile_visits'],
+  reel:     ['reach', 'views', 'saved', 'shares', 'likes', 'comments', 'ig_reels_avg_watch_time'],
+};
+const NOMBRES_DE_PUBLICACION = {
+  reach: 'alcance', views: 'vistas', saved: 'guardados', shares: 'compartidos',
+  likes: 'me_gusta', comments: 'comentarios', follows: 'seguidores',
+  profile_visits: 'visitas_al_perfil', ig_reels_avg_watch_time: 'segundos_promedio',
+};
+
+// El valor viene en "total_value" (cuenta) o en "values" (publicaciones)
+const valorDe = (m) => m.total_value?.value ?? m.values?.[0]?.value ?? null;
+
+// Pide varias métricas juntas. Si Meta rechaza el pedido (una métrica que
+// no existe para ese caso alcanza para que falle todo), las pide de a una.
+// Lo que no se pudo queda en null y se cuenta en "faltan".
+async function pedirMetricas(ruta, metricas, parametros){
+  const valores = Object.fromEntries(metricas.map((m) => [m, null]));
+  const faltan = [];
+  try {
+    const { data = [] } = await pedir('GET', ruta, { ...parametros, metric: metricas.join(',') });
+    for (const m of data) if (m.name in valores) valores[m.name] = valorDe(m);
+  } catch (e){
+    // Sin permiso no tiene sentido seguir probando de a una
+    if (/permission|permiso|#10\b|#200\b/i.test(e.message) && !/Not enough viewers/i.test(e.message)) throw e;
+    for (const metrica of metricas){
+      try {
+        const { data = [] } = await pedir('GET', ruta, { ...parametros, metric: metrica });
+        valores[metrica] = data[0] ? valorDe(data[0]) : null;
+      } catch (e){
+        faltan.push(`${metrica}: ${e.message}`);
+      }
+    }
+  }
+  return { valores, faltan };
+}
+
+// Totales de la cuenta entre dos momentos (objetos Date)
+export async function metricasDeLaCuenta(desde, hasta){
+  const { usuario } = credenciales();
+  const { valores, faltan } = await pedirMetricas(`${usuario}/insights`, Object.keys(METRICAS_DE_LA_CUENTA), {
+    period: 'day', metric_type: 'total_value',
+    since: String(Math.floor(desde / 1000)), until: String(Math.floor(hasta / 1000)),
+  });
+  const metricas = Object.fromEntries(Object.entries(valores).map(([m, v]) => [METRICAS_DE_LA_CUENTA[m], v]));
+  return { metricas, faltan };
+}
+
+// Métricas de una publicación (post, carrusel o Reel) desde que salió
+export async function metricasDePublicacion(id, tipo){
+  const pedidas = METRICAS_POR_TIPO[tipo];
+  if (!pedidas) throw new Error(`no hay métricas para el tipo "${tipo}"`);
+  const { valores, faltan } = await pedirMetricas(`${id}/insights`, pedidas, {});
+  const metricas = {};
+  for (const [m, v] of Object.entries(valores)){
+    // El tiempo promedio de los Reels viene en milisegundos
+    metricas[NOMBRES_DE_PUBLICACION[m]] = m === 'ig_reels_avg_watch_time' && v !== null ? Math.round(v / 100) / 10 : v;
+  }
+  return { metricas, faltan };
+}
+
 // ----- Contenedores -----
 async function crearContenedor(parametros){
   const { usuario } = credenciales();

@@ -84,10 +84,19 @@ try {
   const { data: info } = await pedir('debug_token', { input_token: pagina.access_token, access_token: `${appId}|${secreto}` });
   const vence = info?.expires_at ? new Date(info.expires_at * 1000).toLocaleDateString('es-UY') : 'nunca';
 
+  // Permisos que usan los scripts: publicar y medir
+  const NECESARIOS = ['instagram_basic', 'instagram_content_publish', 'instagram_manage_insights', 'pages_show_list', 'pages_read_engagement'];
+  const faltan = NECESARIOS.filter((permiso) => !(info?.scopes || []).includes(permiso));
+
   await guardarSecret('IG_TOKEN', pagina.access_token);
   await guardarSecret('IG_USER_ID', instagram.id);
   console.log(`\n✓ Listo: página "${pagina.name}" → Instagram @${instagram.username}.`);
   console.log(`  El token vence: ${vence}. Quedó guardado en los Secrets IG_TOKEN e IG_USER_ID.`);
+  if (faltan.length){
+    console.log(`\n⚠ Al token le faltan estos permisos: ${faltan.join(', ')}.`);
+    console.log('  Sin instagram_manage_insights no hay métricas. Generá otro token en el Explorador');
+    console.log('  con todos los permisos del README y volvé a correr este script.');
+  }
 } catch (e){
   console.error(`\n✗ No se pudo conectar: ${e.message}`);
   process.exit(1);
