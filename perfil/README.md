@@ -3,6 +3,10 @@
 Las imágenes se generan con `node scripts/perfil.mjs`. Para ver cómo queda
 todo junto, abrí `perfil/vista-previa.html` en Chrome.
 
+Lo que se configura una sola vez para crecer (respuestas automáticas, dónde
+poner @orum.uy, el mensaje para los clientes) está en
+[`crecimiento.md`](crecimiento.md).
+
 ## Instagram (@orum.uy)
 
 Se carga desde la app: tu perfil → **Editar perfil**.
@@ -38,7 +42,8 @@ la destacada y la portada (`destacada-<tema>.jpg`).
 
 ### Publicaciones fijadas
 
-Fijá arriba del perfil (en el post → ⋯ → Fijar en el perfil):
+Fijá arriba del perfil (en el post → ⋯ → Fijar en el perfil; como mucho 3):
+- el de presentación, "Hago sitios web desde Solymar" (12/10);
 - el de la barraca;
 - el carrusel "3 cosas para que te escriban".
 

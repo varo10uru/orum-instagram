@@ -192,6 +192,7 @@ Para ver una plantilla sola, abrila en Chrome (por ejemplo,
 | `sitios.json` | Los sitios reales que se pueden mostrar, con lo que tienen de verdad |
 | `publicados.json` | Historial de lo publicado (fecha, tema y link) |
 | `informes/` | Un informe por mes, con los números y los cambios propuestos (lo arma la rutina) |
+| `perfil/` | Foto, portadas y textos del perfil, y lo que va a mano para crecer (`crecimiento.md`) |
 | `ubicaciones.json` | Los lugares que se pueden poner en los posts, con su id de Facebook |
 | `metricas.json` | Los números de la cuenta y de cada publicación (los anota la Action "Métricas") |
 | `scripts/` | Validar, renderizar, vista previa, Reels, publicar, métricas, conectar y revisar el token |
