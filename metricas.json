@@ -1,0 +1,93 @@
+{
+  "seguidores": [
+    {
+      "fecha": "2026-10-12",
+      "seguidores": 4,
+      "publicaciones": 4
+    }
+  ],
+  "semanas": {
+    "2026-09-28": {
+      "alcance": 0,
+      "vistas": 0,
+      "cuentas_que_interactuaron": 0,
+      "interacciones": 0,
+      "toques_en_contacto": 0,
+      "medido": "2026-10-12T22:07:15.766Z"
+    },
+    "2026-10-05": {
+      "alcance": 14,
+      "vistas": 30,
+      "cuentas_que_interactuaron": 2,
+      "interacciones": 4,
+      "toques_en_contacto": 0,
+      "medido": "2026-10-12T22:07:15.766Z"
+    }
+  },
+  "publicaciones": {
+    "18112373555126651": {
+      "fecha": "2026-10-08",
+      "tipo": "post",
+      "pilar": "consejos",
+      "tema": "Perfil de empresa de Google",
+      "link": "https://www.instagram.com/p/DePZzrLkjJ0/",
+      "alcance": 4,
+      "vistas": 7,
+      "guardados": 0,
+      "compartidos": 0,
+      "me_gusta": 0,
+      "comentarios": 0,
+      "seguidores": 0,
+      "visitas_al_perfil": 0,
+      "medido": "2026-10-12T22:07:15.766Z"
+    },
+    "18137599090727992": {
+      "fecha": "2026-10-08",
+      "tipo": "carrusel",
+      "pilar": "consejos",
+      "tema": "Tres cosas para que te escriban desde la web",
+      "link": "https://www.instagram.com/p/DePZ5xhl-gM/",
+      "alcance": 16,
+      "vistas": 25,
+      "guardados": 0,
+      "compartidos": 0,
+      "me_gusta": 2,
+      "comentarios": 0,
+      "seguidores": 0,
+      "visitas_al_perfil": 0,
+      "medido": "2026-10-12T22:07:15.766Z"
+    },
+    "17880002601629854": {
+      "fecha": "2026-10-08",
+      "tipo": "post",
+      "pilar": "trabajos",
+      "tema": "Barraca Centro Solymar: pedir presupuesto por WhatsApp",
+      "link": "https://www.instagram.com/p/DePZ_PajLrY/",
+      "alcance": 5,
+      "vistas": 6,
+      "guardados": 0,
+      "compartidos": 0,
+      "me_gusta": 0,
+      "comentarios": 0,
+      "seguidores": 0,
+      "visitas_al_perfil": 0,
+      "medido": "2026-10-12T22:07:15.766Z"
+    },
+    "18112332062612941": {
+      "fecha": "2026-10-12",
+      "tipo": "post",
+      "pilar": "local",
+      "tema": "Quién soy: sitios web desde Solymar",
+      "link": "https://www.instagram.com/p/DeZ75xbmIBb/",
+      "alcance": 1,
+      "vistas": 4,
+      "guardados": 0,
+      "compartidos": 0,
+      "me_gusta": 0,
+      "comentarios": 0,
+      "seguidores": 0,
+      "visitas_al_perfil": 0,
+      "medido": "2026-10-12T22:07:15.766Z"
+    }
+  }
+}
