@@ -1,0 +1,52 @@
+{
+  "fecha": "2026-10-14",
+  "tipo": "carrusel",
+  "pilar": "consejos",
+  "tema": "Las preguntas de siempre, respondidas en la web",
+  "plantilla": "carrusel",
+  "piezas": [
+    {
+      "variante": "portada",
+      "etiqueta": "Tu sitio web",
+      "titulo": "¿Te preguntan siempre *lo mismo*?",
+      "alt": "Portada del carrusel: ¿te preguntan siempre lo mismo?"
+    },
+    {
+      "variante": "paso",
+      "etiqueta": "Tu sitio web",
+      "numero": "01",
+      "titulo": "Horario y *dónde* estás.",
+      "cuerpo": "Con el horario al día y la dirección a la vista, no hace falta preguntar antes de ir.",
+      "alt": "Paso 1: horario y dónde estás."
+    },
+    {
+      "variante": "paso",
+      "etiqueta": "Tu sitio web",
+      "numero": "02",
+      "titulo": "Si hacés *envíos*, y a dónde.",
+      "cuerpo": "Que se pueda ver desde el celular si llegás a su barrio.",
+      "alt": "Paso 2: si hacés envíos, y a dónde."
+    },
+    {
+      "variante": "paso",
+      "etiqueta": "Tu sitio web",
+      "numero": "03",
+      "titulo": "Cómo *pedirte* un presupuesto.",
+      "cuerpo": "Qué datos necesitás y por dónde mandarlos, en dos líneas.",
+      "alt": "Paso 3: cómo pedirte un presupuesto."
+    },
+    {
+      "variante": "cierre",
+      "titulo": "Menos mensajes repetidos, *más tiempo* para atender.",
+      "cuerpo": "Si querés armar las tuyas, escribime al **091 541 848**.",
+      "alt": "Cierre: menos mensajes repetidos, más tiempo para atender. Escribime al 091 541 848."
+    }
+  ],
+  "texto": "Si todos los días contestás por WhatsApp las mismas preguntas, tu sitio puede responderlas por vos.\n\nEn el de Barraca Centro Solymar, por ejemplo, hay una sección de preguntas frecuentes y una consulta para saber si hacen envíos a tu barrio. Así, cuando alguien escribe, ya viene con lo básico resuelto.\n\nSi querés que veamos cuáles son las preguntas de tu negocio, escribime al 091 541 848.",
+  "hashtags": [
+    "#PymesUruguay",
+    "#PaginasWeb",
+    "#ComerciosUruguay",
+    "#Canelones"
+  ]
+}

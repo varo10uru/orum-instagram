@@ -1,0 +1,15 @@
+{
+  "fecha": "2026-10-17",
+  "tipo": "historia",
+  "pilar": "local",
+  "tema": "Hablás directo conmigo",
+  "plantilla": "historia",
+  "piezas": [
+    {
+      "variante": "frase",
+      "etiqueta": "Desde Solymar",
+      "titulo": "Hablás directo *conmigo*.",
+      "cuerpo": "El que te atiende es el que hace tu sitio, de principio a fin."
+    }
+  ]
+}

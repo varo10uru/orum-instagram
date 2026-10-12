@@ -1,0 +1,15 @@
+{
+  "fecha": "2026-10-15",
+  "tipo": "historia",
+  "pilar": "consejos",
+  "tema": "Actualizar el horario para la temporada",
+  "plantilla": "historia",
+  "piezas": [
+    {
+      "variante": "frase",
+      "etiqueta": "Consejo",
+      "titulo": "¿Cambia tu horario *en temporada*?",
+      "cuerpo": "Actualizalo en Google Maps, en tu sitio y en WhatsApp antes de que empiece. Así nadie encuentra la puerta cerrada."
+    }
+  ]
+}
