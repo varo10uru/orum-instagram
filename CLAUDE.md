@@ -129,6 +129,26 @@ acorta el texto: nunca se toca la plantilla para hacerlo entrar.
   #GoogleMaps.
 - **Nada genérico:** #reels, #explore, #love, #instagood.
 
+### Ubicación, colaboradores y etiquetas
+
+Son tres campos opcionales que ayudan a que el post llegue a gente de la zona:
+
+| Campo | Qué hace | Va en |
+|---|---|---|
+| `"ubicacion": "solymar"` | Muestra el lugar arriba del post. Sale de `ubicaciones.json` | post, carrusel, reel |
+| `"colaboradores": ["barraca"]` | Publicación compartida: cuando el cliente la acepta, sale también en su perfil. Hasta 3 | post, carrusel, reel |
+| `"etiquetas": ["barraca"]` | Etiqueta al cliente. En una historia le llega el aviso y la puede compartir | post, historia, reel |
+
+- **Ubicación:** va en todos los posts, carruseles y Reels, con el lugar del
+  tema. Si no hay uno en particular, `solymar`. Solo se usan los lugares de
+  `ubicaciones.json` que ya tienen `id`. Si ninguno lo tiene, no se pone.
+- **Colaboradores y etiquetas:** solo en publicaciones de trabajos reales, y
+  solo con sitios que tengan `"instagram"` en `sitios.json`. Si está en
+  `null`, no se usa: hace falta mi OK y el del cliente.
+  - En el post o el Reel del trabajo, el cliente va como colaborador.
+  - En la historia del trabajo, va como etiqueta.
+- `validar.mjs` rechaza lo que no se puede usar.
+
 ## Armar la semana (lo que hace la rutina de los jueves)
 
 1. Calcular el lunes de la semana que viene, en hora de Uruguay.
@@ -209,5 +229,6 @@ Los cambios los decido yo: el informe no cambia nada por sí solo.
 | `node scripts/vista-previa.mjs <carpeta>` | Arma `vista-previa.html` para revisar la semana en el navegador |
 | `node scripts/metricas.mjs --resumen` | Cómo viene la cuenta y qué pilares y formatos funcionan (lee `metricas.json`, no necesita token) |
 | `node scripts/metricas.mjs --mes AAAA-MM` | Lo mismo para un mes entero, para el informe |
+| `node scripts/ubicaciones.mjs --buscar "lugar"` / `--probar` | Busca el id de un lugar, o prueba los lugares y las cuentas cargados (necesita token: corre en la Action "Ubicaciones y cuentas") |
 
 Se necesita Node 22 o más nuevo, Chrome y, para los Reels, ffmpeg.

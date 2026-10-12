@@ -141,6 +141,35 @@ sola vez):
    token le falta algún permiso, el script avisa.
 3. Probalo: `gh workflow run metricas.yml`.
 
+## Ubicaciones y cuentas
+
+Los posts pueden llevar el lugar, y los de trabajos reales pueden salir
+compartidos con el cliente o etiquetarlo. Cómo se usa cada campo está en
+`CLAUDE.md`. Mientras no haya nada cargado, no se usa nada.
+
+**Lugares (`ubicaciones.json`):** cada uno necesita el id de la página de
+Facebook del lugar. Hoy están Solymar, Ciudad de la Costa y Canelones, sin
+id.
+1. **Buscar el id:** Meta no deja buscarlo por la API sin un acceso
+   especial (se probó el 12/10/2026), así que va a mano:
+   1. En Facebook, buscá el lugar (por ejemplo, "Solymar, Canelones") y
+      abrí la página que es el lugar, no un comercio.
+   2. El id es el número largo. Aparece en la dirección de la página
+      (`facebook.com/…/123456789…`) o en Información → Transparencia de la
+      página.
+2. **Cargarlo:** en `ubicaciones.json`, en el `id` de ese lugar, entre
+   comillas.
+3. **Probarlo:** Actions → "Ubicaciones y cuentas" → Run workflow, con
+   "buscar" vacío. Crea contenedores de prueba y no publica nada. Si el id
+   no sirve, Instagram lo rechaza y la corrida sale en rojo.
+
+**Cuentas de clientes:** van en el campo `"instagram"` de cada sitio en
+`sitios.json`, sin @. Cargala solo cuando el cliente esté de acuerdo, y
+probala con la misma Action.
+- Cuando el post sale como colaboración, al cliente le llega una
+  invitación. Si la acepta desde su Instagram, el post sale también en su
+  perfil.
+
 ## Ver una semana en la Mac
 
 ```bash
@@ -163,9 +192,10 @@ Para ver una plantilla sola, abrila en Chrome (por ejemplo,
 | `sitios.json` | Los sitios reales que se pueden mostrar, con lo que tienen de verdad |
 | `publicados.json` | Historial de lo publicado (fecha, tema y link) |
 | `informes/` | Un informe por mes, con los números y los cambios propuestos (lo arma la rutina) |
+| `ubicaciones.json` | Los lugares que se pueden poner en los posts, con su id de Facebook |
 | `metricas.json` | Los números de la cuenta y de cada publicación (los anota la Action "Métricas") |
 | `scripts/` | Validar, renderizar, vista previa, Reels, publicar, métricas, conectar y revisar el token |
-| `.github/workflows/` | Vista previa en los PR, publicación diaria, métricas de los miércoles y renovación del token |
+| `.github/workflows/` | Vista previa en los PR, publicación diaria, métricas de los miércoles, ubicaciones y cuentas (a mano) y renovación del token |
 | `ejemplo/`, `ejemplo-reel/` | Una semana de muestra y un Reel de muestra |
 
 ## Cambiar algo
