@@ -1,0 +1,39 @@
+name: Ubicaciones y cuentas
+
+# Solo a mano (Actions → Ubicaciones y cuentas → Run workflow):
+# - Con "buscar": busca lugares con ese nombre y muestra su id, para
+#   copiarlo en ubicaciones.json.
+# - Vacío: prueba los ids de ubicaciones.json y las cuentas de Instagram de
+#   sitios.json. No publica nada: crea contenedores de prueba, que Instagram
+#   descarta solo.
+on:
+  workflow_dispatch:
+    inputs:
+      buscar:
+        description: 'Lugar a buscar (ej. Solymar). Vacío = probar lo cargado'
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  ubicaciones:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Buscar o probar
+        env:
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          BUSCAR: ${{ inputs.buscar }}
+        run: |
+          if [ -n "$BUSCAR" ]; then
+            node scripts/ubicaciones.mjs --buscar "$BUSCAR"
+          else
+            node scripts/ubicaciones.mjs --probar
+          fi

@@ -65,6 +65,14 @@ export async function ultimasPublicaciones(){
   return r.data || [];
 }
 
+// Busca lugares (páginas de Facebook con dirección) para "ubicacion".
+// Meta puede negarlo si la app no tiene el acceso "Page Public Metadata
+// Access"; en ese caso, el id se saca a mano (ver README).
+export async function buscarLugares(texto){
+  const r = await pedir('GET', 'pages/search', { q: texto, fields: 'id,name,location,link' });
+  return (r.data || []).filter((p) => p.location);
+}
+
 // ----- Métricas -----
 // Necesitan el permiso instagram_manage_insights en el token. Meta tarda
 // hasta 48 horas en tener los números al día. Cuando un dato no existe
@@ -180,16 +188,34 @@ async function subirVideo(contenedor, archivo){
   }
 }
 
+// Ubicación, colaboradores y cuentas etiquetadas, según lo que acepta
+// cada tipo (documentación de Meta, octubre de 2026):
+// - ubicación y colaboradores (hasta 3): posts, carruseles y Reels;
+// - etiquetas: posts (con posición en la imagen), historias y Reels.
+// Los colaboradores reciben una invitación cuando se publica; si la
+// aceptan, el post sale también en su perfil.
+function extras(tipo, { ubicacion, colaboradores = [], etiquetas = [] }){
+  const p = {};
+  if (ubicacion && tipo !== 'historia') p.location_id = ubicacion;
+  if (colaboradores.length && tipo !== 'historia') p.collaborators = JSON.stringify(colaboradores);
+  if (etiquetas.length && tipo !== 'carrusel'){
+    // En un post, la etiqueta va abajo al centro; historias y Reels no llevan posición
+    p.user_tags = JSON.stringify(etiquetas.map((username) => (tipo === 'post' ? { username, x: 0.5, y: 0.9 } : { username })));
+  }
+  return p;
+}
+
 // Arma el contenedor según el tipo de post y espera a que esté listo.
 // "medios" trae las URLs públicas de las imágenes y la ruta local del video.
-export async function prepararContenedor({ tipo, texto, alts = [], imagenes = [], video, portada }){
+export async function prepararContenedor({ tipo, texto, alts = [], imagenes = [], video, portada, ...resto }){
+  const extra = extras(tipo, resto);
   if (tipo === 'post'){
-    const { id } = await crearContenedor({ image_url: imagenes[0], caption: texto, ...(alts[0] && { alt_text: alts[0] }) });
+    const { id } = await crearContenedor({ image_url: imagenes[0], caption: texto, ...(alts[0] && { alt_text: alts[0] }), ...extra });
     await esperarContenedor(id);
     return id;
   }
   if (tipo === 'historia'){
-    const { id } = await crearContenedor({ media_type: 'STORIES', image_url: imagenes[0] });
+    const { id } = await crearContenedor({ media_type: 'STORIES', image_url: imagenes[0], ...extra });
     await esperarContenedor(id);
     return id;
   }
@@ -200,14 +226,14 @@ export async function prepararContenedor({ tipo, texto, alts = [], imagenes = []
       hijos.push(id);
     }
     for (const id of hijos) await esperarContenedor(id);
-    const { id } = await crearContenedor({ media_type: 'CAROUSEL', children: hijos.join(','), caption: texto });
+    const { id } = await crearContenedor({ media_type: 'CAROUSEL', children: hijos.join(','), caption: texto, ...extra });
     await esperarContenedor(id);
     return id;
   }
   if (tipo === 'reel'){
     const { id } = await crearContenedor({
       media_type: 'REELS', upload_type: 'resumable', caption: texto,
-      share_to_feed: 'true', ...(portada && { cover_url: portada }),
+      share_to_feed: 'true', ...(portada && { cover_url: portada }), ...extra,
     });
     await subirVideo(id, video);
     await esperarContenedor(id, { minutos: 15 });

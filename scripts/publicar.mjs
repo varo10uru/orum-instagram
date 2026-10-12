@@ -27,7 +27,7 @@ import { join, relative } from 'node:path';
 import { parseArgs } from 'node:util';
 import { HORA_POR_TIPO, RAIZ, archivosDelPost, buscarPosts, horaUY, hoyUY } from './comun.mjs';
 import { cuenta, prepararContenedor, publicarContenedor, ultimasPublicaciones } from './instagram.mjs';
-import { validarPost } from './validar.mjs';
+import { cuentasYUbicacion, validarPost } from './validar.mjs';
 
 const RUTA_PUBLICADOS = join(RAIZ, 'publicados.json');
 const FRANJAS = { historias: ['historia'], posts: ['post', 'carrusel', 'reel'] };
@@ -86,6 +86,7 @@ async function publicarPost(post, { simular }){
     imagenes,
     video: datos.tipo === 'reel' ? join(carpeta, 'reel.mp4') : undefined,
     portada,
+    ...cuentasYUbicacion(datos),
   });
 
   if (simular){

@@ -29,6 +29,26 @@ const PALABRAS_PROHIBIDAS = [
 
 const SITIOS = JSON.parse(await readFile(join(RAIZ, 'sitios.json'), 'utf8'));
 const PUBLICADOS = JSON.parse(await readFile(join(RAIZ, 'publicados.json'), 'utf8'));
+const UBICACIONES = existe(join(RAIZ, 'ubicaciones.json')) ? JSON.parse(await readFile(join(RAIZ, 'ubicaciones.json'), 'utf8')) : {};
+const MAX_COLABORADORES = 3;     // límite de Instagram
+
+// Qué tipos aceptan cada campo (lo que permite la API de Meta)
+const ACEPTAN = {
+  ubicacion: ['post', 'carrusel', 'reel'],
+  colaboradores: ['post', 'carrusel', 'reel'],
+  etiquetas: ['post', 'historia', 'reel'],
+};
+
+// El id del lugar y los usuarios de Instagram de un post ya revisado
+// (los usa publicar.mjs)
+export function cuentasYUbicacion(datos){
+  const usuarios = (claves = []) => claves.map((clave) => SITIOS[clave].instagram);
+  return {
+    ubicacion: datos.ubicacion ? UBICACIONES[datos.ubicacion].id : undefined,
+    colaboradores: usuarios(datos.colaboradores),
+    etiquetas: usuarios(datos.etiquetas),
+  };
+}
 
 // Saca lo que no cuenta como "dato": teléfonos y fechas
 function sinNumerosPermitidos(texto){
@@ -126,6 +146,35 @@ export function validarPost({ carpeta, datos }, { listo = false, todos = [] } = 
     const largo = (datos.texto || '').length + 2 + hashtags.join(' ').length;
     if (largo > MAX_TEXTO) error(`el texto con los hashtags ocupa ${largo} caracteres (máximo ${MAX_TEXTO})`);
   }
+
+  // ----- Ubicación, colaboradores y etiquetas -----
+  for (const campo of Object.keys(ACEPTAN)){
+    if (datos[campo] !== undefined && !ACEPTAN[campo].includes(datos.tipo)){
+      const nombre = { post: 'un post', carrusel: 'un carrusel', reel: 'un Reel', historia: 'una historia' }[datos.tipo];
+      error(`"${campo}" no va en ${nombre} (Instagram lo acepta en: ${ACEPTAN[campo].join(', ')})`);
+    }
+  }
+  if (datos.ubicacion !== undefined){
+    const lugar = UBICACIONES[datos.ubicacion];
+    if (!lugar) error(`la ubicación "${datos.ubicacion}" no está en ubicaciones.json`);
+    else if (!lugar.id) error(`la ubicación "${datos.ubicacion}" todavía no tiene id en ubicaciones.json`);
+  }
+  for (const campo of ['colaboradores', 'etiquetas']){
+    if (datos[campo] === undefined) continue;
+    if (!Array.isArray(datos[campo]) || !datos[campo].length){
+      error(`"${campo}" es una lista de sitios de sitios.json (ej. ["barraca"])`);
+      continue;
+    }
+    for (const clave of datos[campo]){
+      const sitio = SITIOS[clave];
+      if (!sitio) error(`${campo}: "${clave}" no está en sitios.json`);
+      else if (!/^[a-z0-9._]+$/i.test(sitio.instagram || '')){
+        error(`${campo}: "${clave}" no tiene "instagram" en sitios.json (se carga solo con el OK del cliente)`);
+      }
+    }
+    if (new Set(datos[campo]).size !== datos[campo].length) error(`"${campo}" tiene cuentas repetidas`);
+  }
+  if ((datos.colaboradores || []).length > MAX_COLABORADORES) error(`como máximo ${MAX_COLABORADORES} colaboradores`);
 
   // ----- Tono: jerga y frases de venta -----
   const todoElTexto = textosDelPost(datos);

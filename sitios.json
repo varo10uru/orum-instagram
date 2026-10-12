@@ -2,6 +2,7 @@
   "barraca": {
     "nombre": "Barraca Centro Solymar",
     "url": "https://barracacentrosolymar.netlify.app/",
+    "instagram": null,
     "tocar": "#splash-skip-btn",
     "secciones": {
       "inicio": null,
