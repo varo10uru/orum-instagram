@@ -15,6 +15,9 @@
 //        Lee metricas.json (no necesita token) e imprime en Markdown cómo
 //        viene la cuenta y qué pilares y formatos funcionan mejor. Lo usa
 //        la rutina de los jueves para el PR.
+//   node scripts/metricas.mjs --mes 2026-10
+//        Lo mismo para un mes entero, con las publicaciones que mejor
+//        anduvieron. Lo usa la rutina para informes/AAAA-MM.md.
 //
 // Las historias no se miden: Meta guarda sus números solo 24 horas.
 // Cuando un dato no existe (por ejemplo, con menos de 100 seguidores),
@@ -105,6 +108,9 @@ const numero = (v) => v.toLocaleString('es-UY', { maximumFractionDigits: 1 });
 const mostrar = (v) => (typeof v === 'number' ? numero(v) : '—');
 const cambio = (a, b) => (typeof a === 'number' && typeof b === 'number' ? (a > b ? '+' : '') + numero(a - b) : '—');
 
+// Primero lo que trae seguidores, después guardados y compartidos
+const ordenar = (a, b) => (b.seguidores ?? -1) - (a.seguidores ?? -1) || (b.guardados ?? -1) - (a.guardados ?? -1) || (b.compartidos ?? -1) - (a.compartidos ?? -1);
+
 function tablaPor(campo, publicaciones){
   const grupos = {};
   for (const p of publicaciones) (grupos[p[campo]] ||= []).push(p);
@@ -116,8 +122,7 @@ function tablaPor(campo, publicaciones){
       compartidos: promedio(ps.map((p) => p.compartidos)),
       alcance: promedio(ps.map((p) => p.alcance)),
     }))
-    // Primero lo que trae seguidores, después guardados y compartidos
-    .sort((a, b) => (b.seguidores ?? -1) - (a.seguidores ?? -1) || (b.guardados ?? -1) - (a.guardados ?? -1) || (b.compartidos ?? -1) - (a.compartidos ?? -1));
+    .sort(ordenar);
   const titulo = campo === 'pilar' ? 'Pilar' : 'Formato';
   return [
     `| ${titulo} | Publicaciones | Seguidores que trajo | Guardados | Compartidos | Alcance |`,
@@ -174,8 +179,59 @@ async function resumen(){
   console.log(salida.join('\n'));
 }
 
+// ----- Resumen de un mes, para informes/AAAA-MM.md -----
+const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+
+async function resumenDelMes(mes){
+  const nombre = `${MESES[Number(mes.slice(5, 7)) - 1]} de ${mes.slice(0, 4)}`;
+  const salida = [`### ${nombre[0].toUpperCase()}${nombre.slice(1)}`, ''];
+  const metricas = await leerJson(RUTA_METRICAS, { seguidores: [], semanas: {}, publicaciones: {} });
+
+  // Seguidores: la última medición del mes contra la última de antes
+  const delMes = metricas.seguidores.filter((s) => s.fecha.startsWith(mes));
+  const fin = delMes.at(-1);
+  const inicio = metricas.seguidores.filter((s) => s.fecha < `${mes}-01`).at(-1) || delMes[0];
+  if (fin){
+    salida.push(`**Seguidores:** ${mostrar(fin.seguidores)} el ${corta(fin.fecha)}` +
+      (inicio !== fin ? ` (${mostrar(inicio.seguidores)} el ${corta(inicio.fecha)}, ${cambio(fin.seguidores, inicio.seguidores)})` : '') + '.', '');
+  }
+
+  // Las semanas que empiezan en el mes
+  const semanas = Object.keys(metricas.semanas).sort().filter((lunes) => lunes.startsWith(mes));
+  if (semanas.length){
+    const de = (campo) => semanas.map((lunes) => metricas.semanas[lunes][campo]);
+    salida.push(
+      '| Semana | Alcance | Cuentas que interactuaron | Toques en los botones de contacto |',
+      '|---|---|---|---|',
+      ...semanas.map((lunes) => {
+        const s = metricas.semanas[lunes];
+        return `| ${semanaTexto(lunes)} | ${mostrar(s.alcance)} | ${mostrar(s.cuentas_que_interactuaron)} | ${mostrar(s.toques_en_contacto)} |`;
+      }),
+      `| **Promedio por semana** | ${mostrar(promedio(de('alcance')))} | ${mostrar(promedio(de('cuentas_que_interactuaron')))} | ${mostrar(promedio(de('toques_en_contacto')))} |`,
+      '',
+    );
+  }
+
+  // Las publicaciones del mes
+  const publicaciones = Object.values(metricas.publicaciones).filter((p) => p.fecha.startsWith(mes));
+  if (publicaciones.length){
+    salida.push(
+      '**Las que mejor anduvieron** (primero seguidores, después guardados y compartidos):', '',
+      ...[...publicaciones].sort(ordenar).slice(0, 3).map((p) =>
+        `- ${corta(p.fecha)}, ${p.tipo} de ${p.pilar}: "${p.tema}". Seguidores ${mostrar(p.seguidores)}, guardados ${mostrar(p.guardados)}, ` +
+        `compartidos ${mostrar(p.compartidos)}, alcance ${mostrar(p.alcance)}.${p.link ? ` ${p.link}` : ''}`),
+      '',
+      tablaPor('pilar', publicaciones), '',
+      tablaPor('tipo', publicaciones),
+    );
+  } else {
+    salida.push('No hay publicaciones medidas de ese mes.');
+  }
+  console.log(salida.join('\n').trimEnd());
+}
+
 // ----- Desde la terminal -----
-const { values: op } = parseArgs({ options: { medir: { type: 'boolean' }, resumen: { type: 'boolean' } } });
+const { values: op } = parseArgs({ options: { medir: { type: 'boolean' }, resumen: { type: 'boolean' }, mes: { type: 'string' } } });
 
 if (op.medir){
   if (!process.env.IG_TOKEN){
@@ -193,7 +249,9 @@ if (op.medir){
   }
 } else if (op.resumen){
   await resumen();
+} else if (/^\d{4}-\d{2}$/.test(op.mes || '')){
+  await resumenDelMes(op.mes);
 } else {
-  console.error('Uso: node scripts/metricas.mjs --medir | --resumen');
+  console.error('Uso: node scripts/metricas.mjs --medir | --resumen | --mes AAAA-MM');
   process.exit(2);
 }

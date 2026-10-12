@@ -25,6 +25,13 @@ el tono, los formatos) están en [`CLAUDE.md`](CLAUDE.md).
 
 ## Revisar y aprobar la semana
 
+- **En la descripción del PR** vienen, además de la semana:
+  - "Cómo viene": seguidores, alcance y qué pilares y formatos funcionan,
+    sacado de `metricas.json`;
+  - "Para hacer a mano esta semana": lo que no se puede automatizar, unos
+    15 minutos por día.
+  - El primer jueves de cada mes, el PR trae también `informes/AAAA-MM.md`,
+    con el mes en números y hasta 3 cambios propuestos. Los decidís vos.
 - **Aprobar:** "Merge pull request".
 - **Corregir un texto:**
   1. En el PR, entrá a "Files changed".
@@ -155,6 +162,7 @@ Para ver una plantilla sola, abrila en Chrome (por ejemplo,
 | `marca/` | Logo, fuentes (licencia OFL) y cuadros del render 3D del sitio |
 | `sitios.json` | Los sitios reales que se pueden mostrar, con lo que tienen de verdad |
 | `publicados.json` | Historial de lo publicado (fecha, tema y link) |
+| `informes/` | Un informe por mes, con los números y los cambios propuestos (lo arma la rutina) |
 | `metricas.json` | Los números de la cuenta y de cada publicación (los anota la Action "Métricas") |
 | `scripts/` | Validar, renderizar, vista previa, Reels, publicar, métricas, conectar y revisar el token |
 | `.github/workflows/` | Vista previa en los PR, publicación diaria, métricas de los miércoles y renovación del token |

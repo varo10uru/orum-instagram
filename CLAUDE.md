@@ -133,18 +133,72 @@ acorta el texto: nunca se toca la plantilla para hacerlo entrar.
 
 1. Calcular el lunes de la semana que viene, en hora de Uruguay.
 2. Leer `publicados.json`, las últimas semanas de `semanas/` y `sitios.json`.
-3. Crear `semanas/<lunes>/` con los 7 `post.json`, siguiendo todo lo de
+3. Ver cómo viene la cuenta: `node scripts/metricas.mjs --resumen` (ver
+   "Usar las métricas", abajo).
+4. Crear `semanas/<lunes>/` con los 7 `post.json`, siguiendo todo lo de
    arriba.
-4. Correr `node scripts/validar.mjs semanas/<lunes>` y corregir hasta que
+5. Correr `node scripts/validar.mjs semanas/<lunes>` y corregir hasta que
    pase. No hace falta `npm install`.
-5. Si hay Chrome (por ejemplo, en la Mac), además:
+6. Si hay Chrome (por ejemplo, en la Mac), además:
    - `npm ci` y `node scripts/renderizar.mjs semanas/<lunes>`.
    - Mirar las imágenes.
    - Si no hay Chrome, las genera la Action del PR.
-6. Commit en una rama nueva y un PR a `main`:
+7. Si es el primer jueves del mes (día 1 a 7), crear también
+   `informes/AAAA-MM.md` del mes anterior (ver "Informe del mes").
+8. Commit en una rama nueva y un PR a `main`:
    - Título: "Semana del 12 al 18 de octubre".
-   - En la descripción, una tabla con día, tipo, pilar y tema.
-7. No hacer merge.
+   - Descripción, en este orden:
+     1. Una tabla con día, tipo, pilar y tema.
+     2. **Cómo viene:** la salida de `--resumen` tal cual, más una línea
+        con lo que se ajustó y por qué. Si no se ajustó nada, decirlo.
+     3. **Para hacer a mano esta semana:** ver la lista de abajo.
+9. No hacer merge.
+
+### Usar las métricas
+
+- **Los números salen solo del script.** No se calculan, no se redondean
+  ni se completan a mano. Si el resumen dice "—", ese dato no existe.
+- **Con menos de 4 semanas con datos** (el resumen lo dice), el reparto no
+  se cambia.
+- **Con 4 o más:**
+  - Los pilares y formatos del muro se eligen según lo que trae
+    seguidores, guardados y compartidos, en ese orden. Los me gusta casi no
+    cuentan.
+  - Siguen valiendo todas las reglas de "La semana": 3 pilares distintos en
+    el muro, como máximo un Reel cada dos semanas y ningún tema repetido.
+  - Ningún pilar queda afuera del muro dos semanas seguidas, aunque vaya
+    peor: con tan pocos datos, un mal número puede ser casualidad.
+- **La frecuencia y los horarios no se tocan.** Si los números sugieren
+  cambiarlos (por ejemplo, más Reels), se propone en el informe del mes.
+
+### Para hacer a mano esta semana
+
+Lo que no se puede automatizar sin romper las reglas de Instagram. Va en
+el PR, con como mucho 6 tareas, unos 15 minutos por día. Se arma con los
+posts de esa semana, con el día y el post concretos, a partir de esta
+lista:
+- Compartir en tus historias el post del día (lunes, miércoles o viernes).
+- Contestar los comentarios y los mensajes en el día.
+- Comentar 2 o 3 publicaciones de comercios de la zona que sigas, con una
+  frase propia (no un emoji suelto).
+- Seguir algunos comercios de la Costa que te interesen de verdad. Pocos
+  por día, y sin seguir para después dejar de seguir.
+- Si sale un trabajo real, avisarle al cliente para que lo comparta.
+- Si cambió cuál es el post que mejor anduvo, fijarlo en el perfil.
+
+Nunca se proponen cosas automáticas: seguir, dar me gusta, comentar o
+mandar mensajes con programas, comprar seguidores o sumarse a grupos de
+interacción.
+
+### Informe del mes
+
+`informes/AAAA-MM.md`, con:
+1. La salida de `node scripts/metricas.mjs --mes AAAA-MM`, tal cual.
+2. **Hasta 3 cambios propuestos**, cada uno con el número que lo
+   justifica. Por ejemplo: pasar a un Reel por semana, o sumar un tema que
+   anduvo bien. Si no hay datos suficientes, se dice y no se propone nada.
+
+Los cambios los decido yo: el informe no cambia nada por sí solo.
 
 ## Scripts
 
@@ -153,5 +207,7 @@ acorta el texto: nunca se toca la plantilla para hacerlo entrar.
 | `node scripts/validar.mjs <carpeta>` | Revisa los `post.json` (formato, límites, tono, números, repetidos) |
 | `node scripts/renderizar.mjs <carpeta>` | Genera los JPG (y el MP4 de los Reels) al lado de cada `post.json` |
 | `node scripts/vista-previa.mjs <carpeta>` | Arma `vista-previa.html` para revisar la semana en el navegador |
+| `node scripts/metricas.mjs --resumen` | Cómo viene la cuenta y qué pilares y formatos funcionan (lee `metricas.json`, no necesita token) |
+| `node scripts/metricas.mjs --mes AAAA-MM` | Lo mismo para un mes entero, para el informe |
 
 Se necesita Node 22 o más nuevo, Chrome y, para los Reels, ffmpeg.
