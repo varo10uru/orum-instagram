@@ -31,6 +31,8 @@
     const seguro = String(texto)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     return seguro
+      // Los teléfonos (ej. 091 541 848) no se parten entre dos líneas
+      .replace(/\b(0\d{2}) (\d{3}) (\d{3})\b/g, '$1&nbsp;$2&nbsp;$3')
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
       .replace(/\*(.+?)\*/g, '<em>$1</em>')
       .replace(/\n/g, '<br>');
