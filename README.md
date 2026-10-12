@@ -90,7 +90,8 @@ el tono, los formatos) están en [`CLAUDE.md`](CLAUDE.md).
       token de acceso de usuario".
    2. Agregá los permisos `instagram_basic`, `instagram_content_publish`,
       `instagram_manage_insights`, `pages_show_list`,
-      `pages_read_engagement` y `business_management`.
+      `pages_read_engagement`, `business_management` y, para publicar
+      también en Facebook, `pages_manage_posts`.
    3. Tocá "Generate Access Token" y autorizá la página y el Instagram de
       ORUM.
    4. En la terminal, corré `node scripts/conectar.mjs`. Pide el App ID, la
@@ -140,6 +141,36 @@ sola vez):
    puesta en marcha (paso 4) y corré `node scripts/conectar.mjs`. Si al
    token le falta algún permiso, el script avisa.
 3. Probalo: `gh workflow run metricas.yml`.
+
+## Página de Facebook
+
+Todo lo que sale en Instagram puede salir también en la página de Facebook
+de ORUM, a la misma hora y con el mismo texto:
+- un post, como una foto;
+- un carrusel, como una publicación con todas las fotos;
+- una historia, como una historia de la página;
+- un Reel, como un Reel de la página.
+
+Primero sale Instagram. Si Facebook falla, Instagram no se repite: se
+reintenta solo Facebook en las corridas siguientes de ese día, y te llega
+el mail de GitHub. El link de Facebook queda en `publicados.json`.
+
+**Para prenderla (una sola vez):**
+1. **Permiso:** en la app de Meta, sumá `pages_manage_posts`. Si no aparece
+   en el caso de uso de Instagram, agregá el caso de uso "Administrar todo
+   en tu página". Generá el token con todos los permisos de la puesta en
+   marcha (paso 4) y corré `node scripts/conectar.mjs`. Conviene hacerlo
+   junto con el permiso de métricas, así el token se genera una sola vez.
+2. **Probar sin publicar:** Actions → Publicar → Run workflow, con la
+   carpeta de un día que todavía no salió y "Simular" e "Incluir la página
+   de Facebook" marcados. Facebook recibe las imágenes, pero no publica
+   nada.
+3. **Prender:** `gh variable set PUBLICAR_EN_FACEBOOK --body si --repo
+   varo10uru/orum-instagram`. También se puede desde GitHub: Settings →
+   Secrets and variables → Actions → Variables.
+
+Para apagarla, se borra la variable (`gh variable delete
+PUBLICAR_EN_FACEBOOK --repo varo10uru/orum-instagram`).
 
 ## Ubicaciones y cuentas
 
@@ -195,7 +226,7 @@ Para ver una plantilla sola, abrila en Chrome (por ejemplo,
 | `perfil/` | Foto, portadas y textos del perfil, y lo que va a mano para crecer (`crecimiento.md`) |
 | `ubicaciones.json` | Los lugares que se pueden poner en los posts, con su id de Facebook |
 | `metricas.json` | Los números de la cuenta y de cada publicación (los anota la Action "Métricas") |
-| `scripts/` | Validar, renderizar, vista previa, Reels, publicar, métricas, conectar y revisar el token |
+| `scripts/` | Validar, renderizar, vista previa, Reels, publicar (en Instagram y Facebook), métricas, ubicaciones, conectar y revisar el token |
 | `.github/workflows/` | Vista previa en los PR, publicación diaria, métricas de los miércoles, ubicaciones y cuentas (a mano) y renovación del token |
 | `ejemplo/`, `ejemplo-reel/` | Una semana de muestra y un Reel de muestra |
 

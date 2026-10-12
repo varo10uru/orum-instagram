@@ -18,6 +18,10 @@
 //   Con --simular hace todo menos el último paso: Instagram descarga y
 //   revisa las imágenes, pero no se publica nada.
 //
+// Con FACEBOOK=si, cada cosa que sale en Instagram sale también en la
+// página de Facebook (ver facebook.mjs). Primero va Instagram y se anota;
+// si Facebook falla, se reintenta en las corridas siguientes de ese día.
+//
 // Lo publicado se anota en publicados.json. Lo que ya está anotado no se
 // vuelve a publicar.
 // ===========================================================================
@@ -28,6 +32,7 @@ import { parseArgs } from 'node:util';
 import { HORA_POR_TIPO, RAIZ, archivosDelPost, buscarPosts, horaUY, hoyUY } from './comun.mjs';
 import { cuenta, prepararContenedor, publicarContenedor, ultimasPublicaciones } from './instagram.mjs';
 import { cuentasYUbicacion, validarPost } from './validar.mjs';
+import { facebookPrendido, publicarEnFacebook } from './facebook.mjs';
 
 const RUTA_PUBLICADOS = join(RAIZ, 'publicados.json');
 const FRANJAS = { historias: ['historia'], posts: ['post', 'carrusel', 'reel'] };
@@ -55,6 +60,33 @@ function textoCompleto(datos){
 
 const normalizar = (t = '') => t.replace(/\s+/g, ' ').trim().slice(0, 150);
 
+// Lo que se sube: el texto, las URLs públicas de las imágenes y el video
+async function mediosDelPost({ carpeta, datos }){
+  const base = baseDeMedios();
+  const archivos = archivosDelPost(datos);
+  const imagenes = archivos.filter((a) => a.endsWith('.jpg') && a !== 'portada.jpg').map((a) => base + relative(RAIZ, join(carpeta, a)));
+  for (const url of imagenes) await comprobarUrl(url);
+  const portada = datos.tipo === 'reel' ? base + relative(RAIZ, join(carpeta, 'portada.jpg')) : undefined;
+  if (portada) await comprobarUrl(portada);
+  return {
+    tipo: datos.tipo,
+    texto: datos.tipo === 'historia' ? undefined : textoCompleto(datos),
+    alts: (datos.piezas || []).map((p) => p.alt),
+    imagenes,
+    video: datos.tipo === 'reel' ? join(carpeta, 'reel.mp4') : undefined,
+    portada,
+  };
+}
+
+// Lo mismo en la página de Facebook, después de Instagram. Si falla, queda
+// sin "facebook" en publicados.json y se reintenta en la próxima corrida.
+async function aFacebook(post, anotado, publicados){
+  const fb = await publicarEnFacebook(await mediosDelPost(post));
+  anotado.facebook = fb.link || fb.id;
+  await writeFile(RUTA_PUBLICADOS, JSON.stringify(publicados, null, 2) + '\n');
+  console.log(`  ${anotado.carpeta}: en Facebook ${anotado.facebook}`);
+}
+
 async function publicarPost(post, { simular }){
   const { carpeta, datos } = post;
   const nombre = relative(RAIZ, carpeta);
@@ -72,25 +104,15 @@ async function publicarPost(post, { simular }){
     }
   }
 
-  const base = baseDeMedios();
-  const archivos = archivosDelPost(datos);
-  const imagenes = archivos.filter((a) => a.endsWith('.jpg') && a !== 'portada.jpg').map((a) => base + relative(RAIZ, join(carpeta, a)));
-  for (const url of imagenes) await comprobarUrl(url);
-  const portada = datos.tipo === 'reel' ? base + relative(RAIZ, join(carpeta, 'portada.jpg')) : undefined;
-  if (portada) await comprobarUrl(portada);
-
-  const contenedor = await prepararContenedor({
-    tipo: datos.tipo,
-    texto: datos.tipo === 'historia' ? undefined : textoCompleto(datos),
-    alts: (datos.piezas || []).map((p) => p.alt),
-    imagenes,
-    video: datos.tipo === 'reel' ? join(carpeta, 'reel.mp4') : undefined,
-    portada,
-    ...cuentasYUbicacion(datos),
-  });
+  const medios = await mediosDelPost(post);
+  const contenedor = await prepararContenedor({ ...medios, ...cuentasYUbicacion(datos) });
 
   if (simular){
     console.log(`  ${nombre}: Instagram lo aceptó (contenedor ${contenedor}). No se publicó: es una simulación.`);
+    if (facebookPrendido()){
+      await publicarEnFacebook({ ...medios, simular: true });
+      console.log(`  ${nombre}: Facebook lo aceptó. No se publicó: es una simulación.`);
+    }
     return null;
   }
   const publicado = await publicarContenedor(contenedor);
@@ -145,10 +167,17 @@ const publicados = JSON.parse(await readFile(RUTA_PUBLICADOS, 'utf8'));
 let fallas = 0;
 for (const post of posts){
   const carpeta = relative(RAIZ, post.carpeta);
-  if (publicados.some((p) => p.carpeta === carpeta)){
-    console.log(`  ${carpeta}: ya publicado, lo salteo`);
+  const anotado = publicados.find((p) => p.carpeta === carpeta);
+  if (anotado){
+    // Ya salió en Instagram. Si hoy no llegó a salir en Facebook, se reintenta
+    if (facebookPrendido() && !op.simular && !anotado.facebook && anotado.fecha === hoyUY()){
+      try { await aFacebook(post, anotado, publicados); } catch (e){ fallas++; console.error(`✗ ${carpeta} en Facebook: ${e.message}`); }
+    } else {
+      console.log(`  ${carpeta}: ya publicado, lo salteo`);
+    }
     continue;
   }
+  let nuevo = null;
   try {
     const r = await publicarPost(post, { simular: op.simular });
     if (r){
@@ -156,13 +185,17 @@ for (const post of posts){
       // dijera otro (por ejemplo, si se publicó a mano antes)
       const { fecha: planeada, tipo, pilar, tema } = post.datos;
       const fecha = hoyUY();
-      publicados.push({ fecha, ...(planeada !== fecha && { planeada }), carpeta, tipo, pilar, tema, id: r.id, link: r.link, publicado: new Date().toISOString() });
+      nuevo = { fecha, ...(planeada !== fecha && { planeada }), carpeta, tipo, pilar, tema, id: r.id, link: r.link, publicado: new Date().toISOString() };
+      publicados.push(nuevo);
       // Se anota enseguida, para que nunca quede algo publicado sin anotar
       await writeFile(RUTA_PUBLICADOS, JSON.stringify(publicados, null, 2) + '\n');
     }
   } catch (e){
     fallas++;
     console.error(`✗ ${carpeta}: ${e.message}`);
+  }
+  if (nuevo && facebookPrendido()){
+    try { await aFacebook(post, nuevo, publicados); } catch (e){ fallas++; console.error(`✗ ${carpeta} en Facebook: ${e.message}`); }
   }
 }
 if (fallas) process.exit(1);

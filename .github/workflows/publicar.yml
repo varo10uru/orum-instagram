@@ -12,6 +12,10 @@ name: Publicar
 # - fecha + franja: relanza un día que falló.
 # - carpeta: publica ese post ya (ej. semanas/2026-10-12/1-lunes).
 # - simular: hace todo menos publicar (Instagram revisa las imágenes).
+# - facebook: incluye la página de Facebook en esta corrida, aunque no esté
+#   prendida (sirve para probarla junto con "simular").
+# La página de Facebook se prende con la variable del repo
+# PUBLICAR_EN_FACEBOOK = si (README, "Página de Facebook").
 on:
   schedule:
     - cron: '23 * * * *'
@@ -30,6 +34,10 @@ on:
         required: false
       simular:
         description: 'Simular (no publica)'
+        type: boolean
+        default: false
+      facebook:
+        description: 'Incluir la página de Facebook'
         type: boolean
         default: false
 
@@ -60,6 +68,7 @@ jobs:
           FECHA: ${{ inputs.fecha }}
           CARPETA: ${{ inputs.carpeta }}
           SIMULAR: ${{ inputs.simular }}
+          FACEBOOK: ${{ inputs.facebook && 'si' || vars.PUBLICAR_EN_FACEBOOK }}
         run: |
           args=()
           if [ -n "$CARPETA" ]; then

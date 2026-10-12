@@ -97,6 +97,9 @@ try {
     console.log('  Sin instagram_manage_insights no hay métricas. Generá otro token en el Explorador');
     console.log('  con todos los permisos del README y volvé a correr este script.');
   }
+  if (!(info?.scopes || []).includes('pages_manage_posts')){
+    console.log('\n· Sin pages_manage_posts no se puede publicar en la página de Facebook (es opcional).');
+  }
 } catch (e){
   console.error(`\n✗ No se pudo conectar: ${e.message}`);
   process.exit(1);
