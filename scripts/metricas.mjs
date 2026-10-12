@@ -165,7 +165,10 @@ async function resumen(){
   // Qué funciona: posts, carruseles y Reels de las últimas 8 semanas
   const desde = aFecha(aMs(hoyUY()) - SEMANAS_DEL_RESUMEN * 7 * DIA);
   const recientes = Object.values(metricas.publicaciones).filter((p) => p.fecha >= desde);
-  const conDatos = semanas.filter((s) => typeof metricas.semanas[s].alcance === 'number').length;
+  // Cuentan las semanas con números desde la primera publicación (antes,
+  // la cuenta existía pero no había nada que medir)
+  const primera = Object.values(metricas.publicaciones).map((p) => p.fecha).sort()[0];
+  const conDatos = semanas.filter((s) => typeof metricas.semanas[s].alcance === 'number' && (!primera || aFecha(aMs(s) + 6 * DIA) >= primera)).length;
   if (recientes.length){
     salida.push(
       `**Qué funciona** (promedio por publicación, últimas ${SEMANAS_DEL_RESUMEN} semanas; "—" es que Meta no da ese dato):`, '',
