@@ -9,8 +9,13 @@ Arma, revisa y publica el Instagram de ORUM. Así es una semana:
    va a salir cada día.
 3. **Vos lo revisás**, desde la app de GitHub en el celular o desde la compu.
 4. **Hacés merge**, y cada día se publica lo que toca:
-   - historias a las 10:07;
-   - posts, carruseles y Reels a las 12:37.
+   - historias desde las 10:07;
+   - posts, carruseles y Reels desde las 12:37.
+
+   GitHub revisa cada hora y publica lo que ya tiene la hora cumplida, así
+   que cada cosa sale dentro de la hora siguiente a su horario. GitHub
+   atrasa sus tareas programadas, a veces varias horas, y revisando cada
+   hora el atraso no se nota.
 
 **Sin merge no se publica nada.** Las reglas de contenido (qué se puede decir,
 el tono, los formatos) están en [`CLAUDE.md`](CLAUDE.md).
@@ -122,8 +127,9 @@ Para ver una plantilla sola, abrila en Chrome (por ejemplo,
 
 ## Cambiar algo
 
-- **Horarios:** los `cron` de `.github/workflows/publicar.yml` (en UTC:
-  Uruguay es UTC-3) y `HORA_POR_TIPO` en `scripts/comun.mjs`.
+- **Horarios:** `HORA_POR_TIPO` en `scripts/comun.mjs` (hora de Uruguay).
+  El workflow `publicar.yml` corre cada hora y publica lo que ya tiene la
+  hora cumplida.
 - **Colores, tamaños o diseño:** `plantillas/base.css` y cada plantilla.
   Están comentadas por sección.
 - **Agregar un sitio para mostrar:** se suma a `sitios.json`, con lo que

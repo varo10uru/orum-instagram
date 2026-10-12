@@ -54,8 +54,8 @@ Cada semana, los 3 posts del muro son de 3 pilares distintos.
 - Adentro, una carpeta por día con su `post.json`: `1-lunes`, `2-martes`,
   `3-miercoles`, `4-jueves`, `5-viernes`, `6-sabado`, `7-domingo`.
 - **Lunes, miércoles y viernes:** `post`, `carrusel` o `reel`. Se publican a
-  las 12:37.
-- **Martes, jueves, sábado y domingo:** `historia`. Se publican a las 10:07.
+  partir de las 12:37.
+- **Martes, jueves, sábado y domingo:** `historia`. Se publican a partir de las 10:07.
 - **Reels:** como máximo uno cada dos semanas. Hay que mirar las semanas
   anteriores en `semanas/` y en `publicados.json`.
 - **Temas:** no se repiten temas de las últimas 6 semanas (`publicados.json`).

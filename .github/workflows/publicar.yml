@@ -1,10 +1,12 @@
 name: Publicar
 
 # Publica en Instagram lo que toca hoy, desde lo aprobado en main:
-# - 10:07 de Uruguay (13:07 UTC): las historias.
-# - 12:37 de Uruguay (15:37 UTC): posts, carruseles y Reels.
-# Uruguay no tiene horario de verano, así que estas horas no cambian.
-# Los minutos "raros" evitan los atrasos de GitHub en las horas en punto.
+# - historias desde las 10:07 de Uruguay;
+# - posts, carruseles y Reels desde las 12:37.
+# Corre cada hora y publica lo que ya tiene la hora cumplida. Es así porque
+# GitHub atrasa las corridas programadas (en octubre de 2026, de 4 a 5
+# horas): con una por hora, siempre hay alguna cerca del horario. Lo ya
+# publicado queda anotado y no se repite.
 #
 # A mano (Actions → Publicar → Run workflow, o `gh workflow run publicar.yml`):
 # - fecha + franja: relanza un día que falló.
@@ -12,8 +14,7 @@ name: Publicar
 # - simular: hace todo menos publicar (Instagram revisa las imágenes).
 on:
   schedule:
-    - cron: '7 13 * * *'
-    - cron: '37 15 * * *'
+    - cron: '23 * * * *'
   workflow_dispatch:
     inputs:
       franja:
@@ -54,7 +55,7 @@ jobs:
         env:
           IG_TOKEN: ${{ secrets.IG_TOKEN }}
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
-          CRON: ${{ github.event.schedule }}
+          EVENTO: ${{ github.event_name }}
           FRANJA: ${{ inputs.franja }}
           FECHA: ${{ inputs.fecha }}
           CARPETA: ${{ inputs.carpeta }}
@@ -63,9 +64,9 @@ jobs:
           args=()
           if [ -n "$CARPETA" ]; then
             args+=(--carpeta "$CARPETA")
+          elif [ "$EVENTO" = "schedule" ]; then
+            args+=(--pendientes)
           else
-            # En las corridas automáticas, la franja sale de la hora
-            if [ "$CRON" = "7 13 * * *" ]; then FRANJA=historias; fi
             args+=(--franja "${FRANJA:-posts}")
             if [ -n "$FECHA" ]; then args+=(--fecha "$FECHA"); fi
           fi

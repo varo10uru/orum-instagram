@@ -4,9 +4,13 @@
 // Uso:
 //   node scripts/publicar.mjs --probar
 //        Muestra la cuenta conectada y cuántas publicaciones van hoy.
+//   node scripts/publicar.mjs --pendientes
+//        Publica lo de hoy cuya hora ya llegó: historias desde las 10:07 y
+//        posts, carruseles y Reels desde las 12:37. Es lo que corre GitHub
+//        Actions cada hora (GitHub atrasa las corridas programadas, a veces
+//        horas: revisando cada hora, lo de cada día sale cerca de su hora).
 //   node scripts/publicar.mjs --franja historias      (o --franja posts)
-//        Publica lo de hoy de esa franja. Es lo que corre GitHub Actions:
-//        historias a las 10:07 y posts, carruseles y Reels a las 12:37.
+//        Publica lo de hoy de esa franja, sin mirar la hora.
 //   node scripts/publicar.mjs --franja posts --fecha 2026-10-12
 //        Lo mismo, para otra fecha (para relanzar un día que falló).
 //   node scripts/publicar.mjs --carpeta semanas/2026-10-12/1-lunes
@@ -21,7 +25,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { join, relative } from 'node:path';
 import { parseArgs } from 'node:util';
-import { RAIZ, archivosDelPost, buscarPosts, hoyUY } from './comun.mjs';
+import { HORA_POR_TIPO, RAIZ, archivosDelPost, buscarPosts, horaUY, hoyUY } from './comun.mjs';
 import { cuenta, prepararContenedor, publicarContenedor, ultimasPublicaciones } from './instagram.mjs';
 import { validarPost } from './validar.mjs';
 
@@ -97,6 +101,7 @@ async function publicarPost(post, { simular }){
 const { values: op } = parseArgs({
   options: {
     probar: { type: 'boolean' },
+    pendientes: { type: 'boolean' },
     franja: { type: 'string' },
     fecha: { type: 'string' },
     carpeta: { type: 'string' },
@@ -119,9 +124,14 @@ if (op.probar){
 let posts;
 if (op.carpeta){
   posts = await buscarPosts([op.carpeta]);
+} else if (op.pendientes){
+  const [fecha, ahora] = [hoyUY(), horaUY()];
+  posts = (await buscarPosts([join(RAIZ, 'semanas')]))
+    .filter((p) => p.datos.fecha === fecha && HORA_POR_TIPO[p.datos.tipo] <= ahora);
+  console.log(`${fecha} ${ahora}: ${posts.length ? posts.length + ' con la hora cumplida' : 'nada para esta hora'}`);
 } else {
   if (!FRANJAS[op.franja]){
-    console.error('Uso: node scripts/publicar.mjs --franja historias|posts [--fecha AAAA-MM-DD] [--simular]');
+    console.error('Uso: node scripts/publicar.mjs --pendientes | --franja historias|posts [--fecha AAAA-MM-DD] | --carpeta <ruta> [--simular]');
     process.exit(2);
   }
   const fecha = op.fecha || hoyUY();
