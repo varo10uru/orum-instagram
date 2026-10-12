@@ -9,6 +9,9 @@ name: Publicar
 # publicado queda anotado y no se repite.
 #
 # A mano (Actions → Publicar → Run workflow, o `gh workflow run publicar.yml`):
+# - franja "pendientes": lo mismo que la corrida de cada hora. Es lo que
+#   lanza el disparador externo (cron-job.org, ver README), porque GitHub
+#   a veces atrasa o se saltea las corridas programadas.
 # - fecha + franja: relanza un día que falló.
 # - carpeta: publica ese post ya (ej. semanas/2026-10-12/1-lunes).
 # - simular: hace todo menos publicar (Instagram revisa las imágenes).
@@ -24,7 +27,7 @@ on:
       franja:
         description: 'Qué publicar'
         type: choice
-        options: [posts, historias]
+        options: [posts, historias, pendientes]
         default: posts
       fecha:
         description: 'Fecha AAAA-MM-DD (vacío = hoy)'
@@ -73,7 +76,7 @@ jobs:
           args=()
           if [ -n "$CARPETA" ]; then
             args+=(--carpeta "$CARPETA")
-          elif [ "$EVENTO" = "schedule" ]; then
+          elif [ "$EVENTO" = "schedule" ] || [ "$FRANJA" = "pendientes" ]; then
             args+=(--pendientes)
           else
             args+=(--franja "${FRANJA:-posts}")

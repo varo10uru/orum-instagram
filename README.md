@@ -112,6 +112,38 @@ el tono, los formatos) están en [`CLAUDE.md`](CLAUDE.md).
 > reglas de contenido: no inventes nada que no esté en sitios.json o en
 > CLAUDE.md. Al terminar, abrí el PR a main y no hagas merge.
 
+## Disparador externo (por si GitHub no cumple la hora)
+
+GitHub atrasa las corridas programadas, y a veces las saltea: el
+12/10/2026 no corrió ninguna en toda la tarde. Por eso, un servicio
+gratuito (cron-job.org) lanza "Publicar" en modo `pendientes` dos veces
+por hora, de 10 a 22. Hace lo mismo que la corrida de cada hora: publica lo
+de hoy que ya tiene la hora cumplida, y lo ya publicado no se repite.
+
+Se arma una sola vez:
+1. **Token de GitHub:** github.com/settings/personal-access-tokens/new
+   - Nombre: "Disparador Instagram ORUM". Vencimiento: 1 año.
+   - Repository access: Only select repositories → `orum-instagram`.
+   - Permissions → Repository permissions → **Actions: Read and write**.
+     Nada más.
+   - Generate token y copialo. Solo sirve para lanzar Actions de este
+     repo: lo peor que se puede hacer con él es publicar antes de hora algo
+     que ya aprobaste.
+2. **cron-job.org:** creá la cuenta y después "Create cronjob":
+   - URL: `https://api.github.com/repos/varo10uru/orum-instagram/actions/workflows/publicar.yml/dispatches`
+   - Horario: personalizado. Minutos 9 y 39, horas 10 a 22, todos los
+     días, zona horaria America/Montevideo.
+   - Advanced → Request method: **POST**.
+   - Headers:
+     - `Authorization`: `Bearer ` y el token
+     - `Accept`: `application/vnd.github+json`
+     - `X-GitHub-Api-Version`: `2022-11-28`
+   - Request body: `{"ref":"main","inputs":{"franja":"pendientes"}}`
+   - Guardá y tocá "Test run": tiene que responder **204**. En Actions
+     aparece una corrida de "Publicar".
+3. **Cuando venza el token** (cron-job.org empieza a dar 401), generá otro
+   y reemplazalo en el header.
+
 ## Métricas
 
 Los miércoles a las 19:23, la Action "Métricas" le pide a Instagram:
