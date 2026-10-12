@@ -4,8 +4,8 @@ name: Vista previa
 # (y los Reels), las sube al mismo PR y deja un comentario con cómo va a
 # salir todo. Si el PR se edita (por ejemplo, corregís un texto desde el
 # celular), se vuelve a generar.
-# Solo los post.json: el commit de imágenes que hace esta misma Action no la
-# vuelve a disparar.
+# El commit de imágenes que hace esta Action lleva [skip ci] en el mensaje,
+# así no la vuelve a disparar ni deja corridas esperando aprobación.
 on:
   pull_request:
     paths: ['semanas/**/post.json']
@@ -70,7 +70,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A semanas/
           if ! git diff --cached --quiet; then
-            git commit -m "Vista previa: imágenes generadas"
+            git commit -m "Vista previa: imágenes generadas [skip ci]"
             git push
           fi
 
