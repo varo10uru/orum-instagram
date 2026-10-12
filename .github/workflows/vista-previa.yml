@@ -35,18 +35,25 @@ jobs:
 
       - run: npm ci
 
-      - name: Semanas que cambiaron
+      # Se revisan las semanas enteras (para ver fechas y temas repetidos),
+      # pero se generan solo los días cuyo post.json cambió: lo ya aprobado
+      # no se vuelve a generar (los Reels filman el sitio en vivo y
+      # cambiarían).
+      - name: Semanas y días que cambiaron
         id: semanas
         run: |
-          semanas=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" -- semanas/ \
-            | cut -d/ -f1-2 | sort -u | while read -r s; do [ -d "$s" ] && echo "$s"; done | tr '\n' ' ')
+          cambios=$(git diff --name-only "origin/${{ github.base_ref }}...HEAD" -- semanas/ | grep '/post\.json$' || true)
+          semanas=$(echo "$cambios" | cut -d/ -f1-2 | sort -u | while read -r s; do [ -n "$s" ] && [ -d "$s" ] && echo "$s"; done | tr '\n' ' ')
+          dias=$(echo "$cambios" | sed 's|/post\.json$||' | sort -u | while read -r d; do [ -n "$d" ] && [ -d "$d" ] && echo "$d"; done | tr '\n' ' ')
           echo "lista=$semanas" >> "$GITHUB_OUTPUT"
+          echo "dias=$dias" >> "$GITHUB_OUTPUT"
           echo "Semanas: ${semanas:-ninguna}"
+          echo "Días para generar: ${dias:-ninguno}"
 
       - name: ffmpeg (solo si hay un Reel)
         if: steps.semanas.outputs.lista != ''
         run: |
-          if grep -rqs '"tipo": "reel"' ${{ steps.semanas.outputs.lista }}; then
+          if grep -rqs '"tipo": "reel"' ${{ steps.semanas.outputs.dias }}; then
             sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
           fi
 
@@ -58,8 +65,11 @@ jobs:
           set +e
           node scripts/validar.mjs ${{ steps.semanas.outputs.lista }} > revision.txt 2>&1
           revision=$?
-          node scripts/renderizar.mjs ${{ steps.semanas.outputs.lista }} >> revision.txt 2>&1
-          render=$?
+          render=0
+          if [ -n "${{ steps.semanas.outputs.dias }}" ]; then
+            node scripts/renderizar.mjs ${{ steps.semanas.outputs.dias }} >> revision.txt 2>&1
+            render=$?
+          fi
           cat revision.txt
           if [ $revision -ne 0 ] || [ $render -ne 0 ]; then echo "ok=false" >> "$GITHUB_OUTPUT"; else echo "ok=true" >> "$GITHUB_OUTPUT"; fi
 
