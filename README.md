@@ -112,15 +112,27 @@ el tono, los formatos) están en [`CLAUDE.md`](CLAUDE.md).
 > reglas de contenido: no inventes nada que no esté en sitios.json o en
 > CLAUDE.md. Al terminar, abrí el PR a main y no hagas merge.
 
-## Disparador externo (por si GitHub no cumple la hora)
+## Disparadores (por si GitHub no cumple la hora)
 
 GitHub atrasa las corridas programadas, y a veces las saltea: el
-12/10/2026 no corrió ninguna en toda la tarde. Por eso, un servicio
-gratuito (cron-job.org) lanza "Publicar" en modo `pendientes` dos veces
-por hora, de 10 a 22. Hace lo mismo que la corrida de cada hora: publica lo
-de hoy que ya tiene la hora cumplida, y lo ya publicado no se repite.
+12/10/2026 no corrió ninguna en toda la tarde. Por eso hay quien lance
+"Publicar" en modo `pendientes` desde afuera. Hace lo mismo que la corrida
+de cada hora: publica lo de hoy que ya tiene la hora cumplida, y lo ya
+publicado no se repite.
 
-Se arma una sola vez:
+### Desde la Mac (instalado el 12/10/2026)
+
+Una tarea de macOS (`uy.orum.publicar`) lo lanza a los minutos 9 y 39 de
+cada hora, de 10 a 22, con el `gh` que ya está conectado. Solo corre con
+la Mac prendida; si está dormida, corre apenas se despierta.
+- Instalar: `zsh scripts/disparar-desde-la-mac.sh --instalar`
+- Sacar: `zsh scripts/disparar-desde-la-mac.sh --sacar`
+- Registro: `~/Library/Logs/orum-publicar.log`
+
+### Desde cron-job.org (para no depender de la Mac)
+
+Un servicio gratuito que lo lanza aunque la Mac esté apagada. Se arma una
+sola vez:
 1. **Token de GitHub:** github.com/settings/personal-access-tokens/new
    - Nombre: "Disparador Instagram ORUM". Vencimiento: 1 año.
    - Repository access: Only select repositories → `orum-instagram`.
