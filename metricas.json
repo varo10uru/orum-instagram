@@ -4,6 +4,11 @@
       "fecha": "2026-10-12",
       "seguidores": 4,
       "publicaciones": 4
+    },
+    {
+      "fecha": "2026-10-14",
+      "seguidores": 7,
+      "publicaciones": 5
     }
   ],
   "semanas": {
@@ -13,7 +18,7 @@
       "cuentas_que_interactuaron": 0,
       "interacciones": 0,
       "toques_en_contacto": 0,
-      "medido": "2026-10-12T22:07:15.766Z"
+      "medido": "2026-10-15T00:36:43.027Z"
     },
     "2026-10-05": {
       "alcance": 14,
@@ -21,7 +26,7 @@
       "cuentas_que_interactuaron": 2,
       "interacciones": 4,
       "toques_en_contacto": 0,
-      "medido": "2026-10-12T22:07:15.766Z"
+      "medido": "2026-10-15T00:36:43.027Z"
     }
   },
   "publicaciones": {
@@ -31,15 +36,15 @@
       "pilar": "consejos",
       "tema": "Perfil de empresa de Google",
       "link": "https://www.instagram.com/p/DePZzrLkjJ0/",
-      "alcance": 4,
-      "vistas": 7,
+      "alcance": 9,
+      "vistas": 12,
       "guardados": 0,
       "compartidos": 0,
       "me_gusta": 0,
       "comentarios": 0,
       "seguidores": 0,
       "visitas_al_perfil": 0,
-      "medido": "2026-10-12T22:07:15.766Z"
+      "medido": "2026-10-15T00:36:43.027Z"
     },
     "18137599090727992": {
       "fecha": "2026-10-08",
@@ -47,15 +52,15 @@
       "pilar": "consejos",
       "tema": "Tres cosas para que te escriban desde la web",
       "link": "https://www.instagram.com/p/DePZ5xhl-gM/",
-      "alcance": 16,
-      "vistas": 25,
+      "alcance": 21,
+      "vistas": 39,
       "guardados": 0,
       "compartidos": 0,
       "me_gusta": 2,
       "comentarios": 0,
       "seguidores": 0,
       "visitas_al_perfil": 0,
-      "medido": "2026-10-12T22:07:15.766Z"
+      "medido": "2026-10-15T00:36:43.027Z"
     },
     "17880002601629854": {
       "fecha": "2026-10-08",
@@ -63,15 +68,15 @@
       "pilar": "trabajos",
       "tema": "Barraca Centro Solymar: pedir presupuesto por WhatsApp",
       "link": "https://www.instagram.com/p/DePZ_PajLrY/",
-      "alcance": 5,
-      "vistas": 6,
+      "alcance": 12,
+      "vistas": 19,
       "guardados": 0,
       "compartidos": 0,
       "me_gusta": 0,
       "comentarios": 0,
       "seguidores": 0,
       "visitas_al_perfil": 0,
-      "medido": "2026-10-12T22:07:15.766Z"
+      "medido": "2026-10-15T00:36:43.027Z"
     },
     "18112332062612941": {
       "fecha": "2026-10-12",
@@ -79,15 +84,31 @@
       "pilar": "local",
       "tema": "Quién soy: sitios web desde Solymar",
       "link": "https://www.instagram.com/p/DeZ75xbmIBb/",
-      "alcance": 1,
-      "vistas": 4,
+      "alcance": 77,
+      "vistas": 167,
+      "guardados": 0,
+      "compartidos": 1,
+      "me_gusta": 1,
+      "comentarios": 0,
+      "seguidores": 3,
+      "visitas_al_perfil": 9,
+      "medido": "2026-10-15T00:36:43.027Z"
+    },
+    "18111063713177596": {
+      "fecha": "2026-10-14",
+      "tipo": "carrusel",
+      "pilar": "consejos",
+      "tema": "Las preguntas de siempre, respondidas en la web",
+      "link": "https://www.instagram.com/p/DeevKHIlJ85/",
+      "alcance": 11,
+      "vistas": 25,
       "guardados": 0,
       "compartidos": 0,
       "me_gusta": 0,
       "comentarios": 0,
       "seguidores": 0,
       "visitas_al_perfil": 0,
-      "medido": "2026-10-12T22:07:15.766Z"
+      "medido": "2026-10-15T00:36:43.027Z"
     }
   }
 }
