@@ -1,0 +1,16 @@
+{
+  "fecha": "2026-10-20",
+  "tipo": "historia",
+  "pilar": "consejos",
+  "tema": "Mensaje de ausencia en WhatsApp",
+  "plantilla": "historia",
+  "piezas": [
+    {
+      "variante": "frase",
+      "etiqueta": "Consejo",
+      "titulo": "¿Hoy no atendés? *Avisalo* en WhatsApp.",
+      "cuerpo": "Con WhatsApp Business podés dejar un mensaje de ausencia. Así quien te escribe sabe cuándo le vas a responder.",
+      "fondo": "048"
+    }
+  ]
+}

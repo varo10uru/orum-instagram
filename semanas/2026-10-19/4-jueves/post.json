@@ -1,0 +1,15 @@
+{
+  "fecha": "2026-10-22",
+  "tipo": "historia",
+  "pilar": "trabajos",
+  "tema": "Barraca Centro Solymar: consulta de envíos por barrio",
+  "plantilla": "historia",
+  "piezas": [
+    {
+      "variante": "frase",
+      "etiqueta": "Trabajo real",
+      "titulo": "¿Llegan *a tu barrio*?",
+      "cuerpo": "En el sitio de Barraca Centro Solymar lo consultás antes de escribir."
+    }
+  ]
+}
