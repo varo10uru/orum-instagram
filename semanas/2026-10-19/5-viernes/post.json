@@ -1,0 +1,26 @@
+{
+  "fecha": "2026-10-23",
+  "tipo": "post",
+  "pilar": "trabajos",
+  "tema": "Barraca Centro Solymar: precios y stock desde un panel",
+  "plantilla": "post-trabajo",
+  "piezas": [
+    {
+      "etiqueta": "Trabajo real",
+      "cliente": "Barraca Centro Solymar",
+      "titulo": "Los precios los cambia *la barraca*.",
+      "cuerpo": "Precios y stock se actualizan desde un panel, sin depender de mí.",
+      "captura": {
+        "sitio": "barraca"
+      },
+      "alt": "Celular con el sitio de Barraca Centro Solymar abierto en la página de inicio."
+    }
+  ],
+  "texto": "En el sitio de Barraca Centro Solymar, los precios y el stock no pasan por mí: la barraca los cambia desde un panel cuando lo necesita.\n\nAsí el catálogo queda al día, y quien entra desde el celular lo encuentra ordenado por categorías.\n\nSi tenés un comercio y querés un sitio que puedas mantener vos, escribime al 091 541 848.",
+  "hashtags": [
+    "#Solymar",
+    "#PaginasWeb",
+    "#ComerciosUruguay"
+  ],
+  "ubicacion": "solymar"
+}

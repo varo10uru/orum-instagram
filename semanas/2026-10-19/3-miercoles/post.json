@@ -1,0 +1,48 @@
+{
+  "fecha": "2026-10-21",
+  "tipo": "carrusel",
+  "pilar": "consejos",
+  "tema": "Fotos propias en tu sitio",
+  "plantilla": "carrusel",
+  "piezas": [
+    {
+      "variante": "portada",
+      "etiqueta": "Tu sitio web",
+      "titulo": "¿Qué fotos van en *tu sitio*?",
+      "alt": "Portada del carrusel: ¿qué fotos van en tu sitio?"
+    },
+    {
+      "variante": "paso",
+      "etiqueta": "Tu sitio web",
+      "numero": "01",
+      "titulo": "Tu local, *por fuera*.",
+      "cuerpo": "Que quien va por primera vez reconozca la puerta.",
+      "alt": "Paso 1: tu local, por fuera."
+    },
+    {
+      "variante": "paso",
+      "etiqueta": "Tu sitio web",
+      "numero": "02",
+      "titulo": "Vos y *tu equipo*.",
+      "cuerpo": "A la gente le gusta saber con quién va a hablar.",
+      "alt": "Paso 2: vos y tu equipo."
+    },
+    {
+      "variante": "paso",
+      "etiqueta": "Tu sitio web",
+      "numero": "03",
+      "titulo": "Tu trabajo, *de verdad*.",
+      "cuerpo": "Productos, obras o pedidos reales. Dicen más que cualquier foto de catálogo.",
+      "alt": "Paso 3: tu trabajo, de verdad."
+    },
+    {
+      "variante": "cierre",
+      "titulo": "Con buena luz, el celular *alcanza*.",
+      "cuerpo": "Si querés que veamos cuáles usar, escribime al **091 541 848**.",
+      "alt": "Cierre: con buena luz, el celular alcanza. Escribime al 091 541 848."
+    }
+  ],
+  "texto": "Las fotos de stock quedan lindas, pero no son tu negocio. Quien entra a tu sitio quiere ver dónde estás, con quién va a hablar y qué hacés.\n\nNo hace falta un fotógrafo para empezar: con luz de día y el celular ya tenés fotos propias.\n\nSi querés que veamos juntos qué fotos poner en tu sitio, escribime al 091 541 848.",
+  "hashtags": ["#Solymar", "#CiudadDeLaCosta", "#ComerciosUruguay", "#PaginasWeb"],
+  "ubicacion": "solymar"
+}

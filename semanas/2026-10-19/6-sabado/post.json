@@ -1,0 +1,16 @@
+{
+  "fecha": "2026-10-24",
+  "tipo": "historia",
+  "pilar": "local",
+  "tema": "Para comercios de toda la Costa",
+  "plantilla": "historia",
+  "piezas": [
+    {
+      "variante": "frase",
+      "etiqueta": "Desde Solymar",
+      "titulo": "Trabajo con comercios de *toda la Costa*.",
+      "cuerpo": "Solymar, Ciudad de la Costa y la Costa de Oro. Escribime al **091 541 848**.",
+      "fondo": "072"
+    }
+  ]
+}

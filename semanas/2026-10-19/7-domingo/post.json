@@ -1,0 +1,14 @@
+{
+  "fecha": "2026-10-25",
+  "tipo": "historia",
+  "pilar": "local",
+  "tema": "Invitación: ¿tu comercio ya tiene sitio?",
+  "plantilla": "historia",
+  "piezas": [
+    {
+      "variante": "cierre",
+      "titulo": "¿Tu comercio *ya tiene* sitio?",
+      "cuerpo": "Si no, o si querés mejorarlo, escribime al **091 541 848**.\nLo charlamos sin apuro."
+    }
+  ]
+}
