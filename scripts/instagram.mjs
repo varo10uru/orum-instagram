@@ -45,7 +45,9 @@ async function pedir(metodo, ruta, parametros = {}){
   const datos = await respuesta.json().catch(() => ({}));
   if (!respuesta.ok || datos.error){
     const e = datos.error || {};
-    throw new Error(`Instagram respondió ${respuesta.status}: ${e.error_user_msg || e.message || 'sin detalle'}`);
+    const error = new Error(`Instagram respondió ${respuesta.status}: ${e.error_user_msg || e.message || 'sin detalle'}`);
+    error.codigo = e.code;
+    throw error;
   }
   return datos;
 }
@@ -243,9 +245,22 @@ export async function prepararContenedor({ tipo, texto, alts = [], imagenes = []
 }
 
 // Publica un contenedor listo y devuelve el id y el link de la publicación
+// A veces Meta da el contenedor por listo pero no lo deja publicar enseguida
+// ("El archivo multimedia no está listo", código 9007): se espera y se
+// reintenta. No hay riesgo de publicar dos veces, porque ese error quiere
+// decir que no se publicó.
 export async function publicarContenedor(contenedor){
   const { usuario } = credenciales();
-  const { id } = await pedir('POST', `${usuario}/media_publish`, { creation_id: contenedor });
+  let id;
+  for (let intento = 1; !id; intento++){
+    try {
+      ({ id } = await pedir('POST', `${usuario}/media_publish`, { creation_id: contenedor }));
+    } catch (e){
+      const noEstaListo = e.codigo === 9007 || /no está listo|not ready/i.test(e.message);
+      if (!noEstaListo || intento === 8) throw e;
+      await esperar(10_000);
+    }
+  }
   let link = null;
   try {
     ({ permalink: link } = await pedir('GET', id, { fields: 'permalink' }));
