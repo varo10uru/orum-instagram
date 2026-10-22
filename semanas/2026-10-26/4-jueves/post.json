@@ -1,0 +1,16 @@
+{
+  "fecha": "2026-10-29",
+  "tipo": "historia",
+  "pilar": "trabajos",
+  "tema": "Barraca Centro Solymar: preguntas frecuentes",
+  "plantilla": "historia",
+  "piezas": [
+    {
+      "variante": "frase",
+      "etiqueta": "Trabajo real",
+      "titulo": "Las dudas de siempre, *ya respondidas*.",
+      "cuerpo": "El sitio de Barraca Centro Solymar tiene preguntas frecuentes, ubicación y horarios a mano.",
+      "fondo": "048"
+    }
+  ]
+}

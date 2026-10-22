@@ -1,0 +1,48 @@
+{
+  "fecha": "2026-10-28",
+  "tipo": "carrusel",
+  "pilar": "consejos",
+  "tema": "Responder las reseñas de Google",
+  "plantilla": "carrusel",
+  "piezas": [
+    {
+      "variante": "portada",
+      "etiqueta": "Google Maps",
+      "titulo": "¿Contestás *tus reseñas*?",
+      "alt": "Portada del carrusel: ¿contestás tus reseñas?"
+    },
+    {
+      "variante": "paso",
+      "etiqueta": "Google Maps",
+      "numero": "01",
+      "titulo": "Agradecé, *con nombre*.",
+      "cuerpo": "Un gracias con el nombre de quien escribió vale más que uno copiado.",
+      "alt": "Paso 1: agradecé, con nombre."
+    },
+    {
+      "variante": "paso",
+      "etiqueta": "Google Maps",
+      "numero": "02",
+      "titulo": "Si es una queja, *con calma*.",
+      "cuerpo": "Respondé tranquilo y ofrecé hablarlo por WhatsApp. Los que leen después también lo ven.",
+      "alt": "Paso 2: si es una queja, con calma."
+    },
+    {
+      "variante": "paso",
+      "etiqueta": "Google Maps",
+      "numero": "03",
+      "titulo": "Sin dejarlas *esperando*.",
+      "cuerpo": "Mirá las reseñas nuevas una vez por semana y contestalas.",
+      "alt": "Paso 3: sin dejarlas esperando."
+    },
+    {
+      "variante": "cierre",
+      "titulo": "Del otro lado hay *alguien que te eligió*.",
+      "cuerpo": "Si querés que veamos tu perfil juntos, escribime al **091 541 848**.",
+      "alt": "Cierre: del otro lado hay alguien que te eligió. Escribime al 091 541 848."
+    }
+  ],
+  "texto": "Las reseñas de Google Maps no son solo para leerlas: también se pueden contestar desde tu perfil de empresa.\n\nAgradecer a quien se tomó el tiempo de escribir, responder con calma una queja y no dejarlas sin respuesta muestra que detrás del comercio hay alguien que atiende.\n\nSi querés que veamos juntos tu perfil de Google, escribime al 091 541 848.",
+  "hashtags": ["#Solymar", "#Canelones", "#GoogleMaps", "#ComerciosUruguay"],
+  "ubicacion": "solymar"
+}

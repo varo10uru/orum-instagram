@@ -1,0 +1,23 @@
+{
+  "fecha": "2026-10-30",
+  "tipo": "post",
+  "pilar": "trabajos",
+  "tema": "Barraca Centro Solymar: catálogo por categorías",
+  "plantilla": "post-trabajo",
+  "piezas": [
+    {
+      "etiqueta": "Trabajo real",
+      "cliente": "Barraca Centro Solymar",
+      "titulo": "Todo el catálogo, *ordenado*.",
+      "cuerpo": "Por categorías, para encontrar lo que buscás desde el celular.",
+      "captura": {
+        "sitio": "barraca",
+        "seccion": "catalogo"
+      },
+      "alt": "Celular con el sitio de Barraca Centro Solymar abierto en el catálogo de productos."
+    }
+  ],
+  "texto": "En el sitio de Barraca Centro Solymar, el catálogo está ordenado por categorías. Así, quien entra desde el celular va directo a lo que necesita.\n\nDesde ahí arma su lista de materiales y la manda por WhatsApp para pedir presupuesto.\n\nSi tenés un comercio en la Costa y querés que tus productos se encuentren fácil, escribime al 091 541 848.",
+  "hashtags": ["#Solymar", "#PaginasWeb", "#ComerciosUruguay"],
+  "ubicacion": "solymar"
+}
