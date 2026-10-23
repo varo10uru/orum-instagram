@@ -1,0 +1,16 @@
+{
+  "fecha": "2026-10-31",
+  "tipo": "historia",
+  "pilar": "proceso",
+  "tema": "Cada sitio, hecho a medida",
+  "plantilla": "historia",
+  "piezas": [
+    {
+      "variante": "frase",
+      "etiqueta": "Cómo trabajo",
+      "titulo": "Cada sitio, *a medida*.",
+      "cuerpo": "Lo armo según lo que tu negocio necesita, no al revés.",
+      "fondo": "072"
+    }
+  ]
+}
