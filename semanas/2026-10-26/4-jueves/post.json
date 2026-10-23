@@ -2,15 +2,19 @@
   "fecha": "2026-10-29",
   "tipo": "historia",
   "pilar": "trabajos",
-  "tema": "Barraca Centro Solymar: preguntas frecuentes",
+  "tema": "ALMILU: la consulta arma el mensaje de WhatsApp",
   "plantilla": "historia",
   "piezas": [
     {
-      "variante": "frase",
+      "variante": "captura",
       "etiqueta": "Trabajo real",
-      "titulo": "Las dudas de siempre, *ya respondidas*.",
-      "cuerpo": "El sitio de Barraca Centro Solymar tiene preguntas frecuentes, ubicación y horarios a mano.",
-      "fondo": "048"
+      "titulo": "La página *te arma* el mensaje.",
+      "cuerpo": "Elegís fechas y cuántos son, y lo mandás por WhatsApp. En la página de ALMILU, en Punta del Diablo.",
+      "captura": {
+        "sitio": "almilu",
+        "seccion": "reserva",
+        "desplazar": 420
+      }
     }
   ]
 }
