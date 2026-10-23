@@ -50,10 +50,17 @@ jobs:
           echo "Semanas: ${semanas:-ninguna}"
           echo "Días para generar: ${dias:-ninguno}"
 
-      # Para los Reels y para el kit de TikTok
+      # Para los Reels y para el kit de TikTok. A veces el servidor de
+      # paquetes de Ubuntu se traba: cada intento tiene 4 minutos y hay 3.
       - name: ffmpeg
         if: steps.semanas.outputs.lista != ''
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+        timeout-minutes: 13
+        run: |
+          for intento in 1 2 3; do
+            if timeout 240 sh -c 'sudo apt-get update -qq -o Acquire::Retries=3 && sudo apt-get install -y -qq -o Acquire::Retries=3 ffmpeg'; then exit 0; fi
+            echo "El intento $intento de instalar ffmpeg falló o se trabó; reintento."
+          done
+          exit 1
 
       - name: Revisar y generar
         id: generar
