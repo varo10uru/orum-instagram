@@ -1,0 +1,27 @@
+{
+  "fecha": "2026-10-24",
+  "tipo": "post",
+  "pilar": "trabajos",
+  "tema": "ALMILU: nuevo trabajo en Punta del Diablo",
+  "plantilla": "post-trabajo",
+  "piezas": [
+    {
+      "etiqueta": "Nuevo trabajo",
+      "cliente": "ALMILU · Punta del Diablo",
+      "titulo": "Dos casas con piscina, *en una sola página*.",
+      "cuerpo": "Fotos, comodidades y la consulta por WhatsApp, pensada para el celular.",
+      "captura": {
+        "sitio": "almilu"
+      },
+      "alt": "Celular con la página de ALMILU abierta: el logo tallado sobre una toma aérea de Punta del Diablo."
+    }
+  ],
+  "texto": "Nuevo trabajo: ALMILU.\n\nEs una familia que alquila dos casas con piscina en Punta del Diablo, a 5 cuadras de la playa La Viuda. Les hice una página pensada para el celular: se ven las casas con sus fotos, lo que tiene cada una, lo que hay que saber antes de reservar y dónde quedan.\n\nPara consultar, completás las fechas y cuántos son, y la página te arma el mensaje de WhatsApp. También está en portugués.\n\nSi tenés un alquiler para esta temporada y querés algo así, escribime al 091 541 848.\n\nVideo aéreo del inicio: Marcelo Campi (CC BY 3.0).",
+  "hashtags": [
+    "#PuntaDelDiablo",
+    "#Rocha",
+    "#AlquilerDeTemporada",
+    "#PaginasWeb",
+    "#Uruguay"
+  ]
+}
