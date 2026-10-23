@@ -24,7 +24,7 @@ function escapar(texto = ''){
 
 function tarjeta(post, semana){
   const { datos, carpeta } = post;
-  const dia = carpeta.split('/').pop().replace(/^\d+-/, '');
+  const dia = carpeta.split('/').pop().replace(/^\d+-/, '').split('-')[0];
   const hora = HORA_POR_TIPO[datos.tipo];
   const medios = archivosDelPost(datos).filter((a) => a !== 'portada.jpg').map((archivo) => {
     const ruta = relative(semana, join(carpeta, archivo));
@@ -101,7 +101,7 @@ export async function crearComentario(semanas, base){
     '**Para aprobarla, hacé merge.** Para corregir un texto, editá el `post.json` de ese día: las imágenes se regeneran solas. Para sacar un día, borrá su carpeta.',
   ];
   for (const { datos, carpeta } of posts){
-    const dia = carpeta.split('/').pop().replace(/^\d+-/, '');
+    const dia = carpeta.split('/').pop().replace(/^\d+-/, '').split('-')[0];
     const [, mes, d] = datos.fecha.split('-');
     const url = (archivo) => base + relative(RAIZ, join(carpeta, archivo));
     lineas.push('', `### ${NOMBRE_DIA[dia] || dia} ${d}/${mes} · ${HORA_POR_TIPO[datos.tipo]} · ${NOMBRE_TIPO[datos.tipo]}`);
