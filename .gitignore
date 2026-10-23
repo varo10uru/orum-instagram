@@ -7,3 +7,6 @@ vista-previa.html
 ejemplo-reel/**/*.mp4
 # La del perfil está hecha a mano y sí va
 !perfil/vista-previa.html
+
+# Kit de TikTok que arma la vista previa
+kit-tiktok/

@@ -216,6 +216,39 @@ el mail de GitHub. El link de Facebook queda en `publicados.json`.
 Para apagarla, se borra la variable (`gh variable delete
 PUBLICAR_EN_FACEBOOK --repo varo10uru/orum-instagram`).
 
+## TikTok
+
+TikTok no deja publicar solo con una app propia hasta que la audita (sin
+auditar, todo sale en privado). Por eso TikTok va con un **kit semanal** que
+subís vos.
+
+### Crear la cuenta (una sola vez)
+
+1. Instalá TikTok y creá la cuenta con el mail de ORUM. Usuario: **orum.uy**
+   (si está tomado, algo parecido, como orum.uy.web).
+2. Pasala a **cuenta de empresa**: Perfil → ☰ → Configuración y privacidad →
+   Cuenta → Cambiar a cuenta de empresa. Categoría: algo como "Servicios
+   profesionales" o "Software".
+3. Cargá la misma foto (`perfil/foto-perfil.png`), el nombre
+   `ORUM · Sitios web a medida` y la bio de Instagram (`perfil/README.md`).
+   Si TikTok te deja agregar un link, poné el de WhatsApp.
+
+### Cada semana (unos 10 minutos)
+
+1. En el PR de la semana, al final del comentario de la vista previa, tocá
+   **"Bajar el kit de TikTok"**. Baja un .zip con un video por post del muro
+   y el archivo `LEEME.md` con el texto de cada uno.
+2. En la compu, entrá a **TikTok Studio** (tiktok.com/tiktokstudio/upload)
+   y subí el primer video.
+3. Pegá el texto que dice `LEEME.md` para ese video y elegí un **sonido** de
+   TikTok. Los videos van sin música a propósito: el sonido ayuda mucho al
+   alcance.
+4. En "Cuándo publicar", elegí **Programar** con el día y la hora del
+   `LEEME.md`. Repetí con los otros videos.
+
+El kit queda para bajar 3 semanas. Si se venció, se arma en la Mac con
+`node scripts/tiktok.mjs semanas/AAAA-MM-DD` y queda en `.tmp/tiktok/`.
+
 ## Ubicaciones y cuentas
 
 Los posts pueden llevar el lugar, y los de trabajos reales pueden salir

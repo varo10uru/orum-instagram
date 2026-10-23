@@ -50,12 +50,10 @@ jobs:
           echo "Semanas: ${semanas:-ninguna}"
           echo "Días para generar: ${dias:-ninguno}"
 
-      - name: ffmpeg (solo si hay un Reel)
+      # Para los Reels y para el kit de TikTok
+      - name: ffmpeg
         if: steps.semanas.outputs.lista != ''
-        run: |
-          if grep -rqs '"tipo": "reel"' ${{ steps.semanas.outputs.dias }}; then
-            sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
-          fi
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
 
       - name: Revisar y generar
         id: generar
@@ -72,6 +70,22 @@ jobs:
           fi
           cat revision.txt
           if [ $revision -ne 0 ] || [ $render -ne 0 ]; then echo "ok=false" >> "$GITHUB_OUTPUT"; else echo "ok=true" >> "$GITHUB_OUTPUT"; fi
+
+      # El kit de TikTok (videos verticales + textos) no va al repo: queda
+      # para bajar desde el comentario durante 3 semanas
+      - name: Kit de TikTok
+        if: steps.semanas.outputs.lista != ''
+        continue-on-error: true
+        run: node scripts/tiktok.mjs --salida kit-tiktok ${{ steps.semanas.outputs.lista }}
+
+      - name: Guardar el kit de TikTok
+        id: kit
+        if: steps.semanas.outputs.lista != '' && hashFiles('kit-tiktok/LEEME.md') != ''
+        uses: actions/upload-artifact@v7
+        with:
+          name: kit-tiktok
+          path: kit-tiktok/
+          retention-days: 21
 
       - name: Subir las imágenes al PR
         if: steps.semanas.outputs.lista != ''
@@ -90,9 +104,17 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           PR: ${{ github.event.pull_request.number }}
           OK: ${{ steps.generar.outputs.ok }}
+          KIT: ${{ steps.kit.outputs.artifact-url }}
         run: |
           base="https://raw.githubusercontent.com/${{ github.repository }}/$(git rev-parse HEAD)/"
           node scripts/vista-previa.mjs --markdown "$base" ${{ steps.semanas.outputs.lista }} > comentario.md
+          if [ -n "$KIT" ]; then
+            {
+              echo
+              echo "### TikTok"
+              echo "[Bajar el kit de TikTok]($KIT): un video por post del muro y el texto para pegar (LEEME.md). Se sube en TikTok Studio y se programa para el día y la hora de cada uno."
+            } >> comentario.md
+          fi
           if [ "$OK" != "true" ]; then
             {
               echo
