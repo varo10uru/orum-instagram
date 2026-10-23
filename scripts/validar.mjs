@@ -77,8 +77,9 @@ export function validarPost({ carpeta, datos }, { listo = false, todos = [] } = 
   if (!PILARES.includes(datos.pilar)) error(`"pilar" tiene que ser uno de: ${PILARES.join(', ')}`);
   if (!datos.tema?.trim()) error('falta "tema" (una frase corta, sirve para no repetir)');
 
-  // La carpeta se llama "N-dia" y el día tiene que coincidir con la fecha
-  const dia = basename(carpeta).replace(/^\d+-/, '');
+  // La carpeta se llama "N-dia" (o "N-dia-algo", si ese día sale una
+  // segunda cosa) y el día tiene que coincidir con la fecha
+  const dia = basename(carpeta).replace(/^\d+-/, '').split('-')[0];
   if (datos.fecha && /^\d{4}-\d{2}-\d{2}$/.test(datos.fecha) && diaDeLaSemana(datos.fecha) !== dia){
     error(`la carpeta dice "${dia}" pero ${datos.fecha} es ${diaDeLaSemana(datos.fecha)}`);
   }
@@ -132,6 +133,32 @@ export function validarPost({ carpeta, datos }, { listo = false, todos = [] } = 
       }
     }
   });
+
+  // ----- Crédito de material de terceros -----
+  // Si un sitio usa material con licencia (ej. el video del inicio de
+  // ALMILU, CC BY), mostrar esa parte obliga a nombrar al autor.
+  const conCredito = [];
+  if (datos.tipo === 'reel' && SITIOS[datos.recorrido?.sitio]?.credito) conCredito.push(SITIOS[datos.recorrido.sitio].credito);
+  for (const p of piezas){
+    const c = p.captura;
+    if (c?.sitio && SITIOS[c.sitio]?.credito && (!c.seccion || c.seccion === 'inicio')) conCredito.push(SITIOS[c.sitio].credito);
+  }
+  for (const credito of conCredito){
+    const donde = datos.tipo === 'historia' ? piezas.map((p) => p.cuerpo || '').join(' ') : (datos.texto || '');
+    if (!donde.includes(credito.autor)){
+      error(`muestra material de ${credito.autor}: el ${datos.tipo === 'historia' ? 'cuerpo' : 'texto'} tiene que decir "${credito.texto}"`);
+    }
+    if (datos.tiktok?.texto && !datos.tiktok.texto.includes(credito.autor)){
+      error(`el texto para TikTok también tiene que decir "${credito.texto}"`);
+    }
+  }
+
+  // ----- Texto para TikTok (opcional; si no está, se arma del texto) -----
+  if (datos.tiktok !== undefined){
+    if (datos.tipo === 'historia') error('las historias no van a TikTok: sacá "tiktok"');
+    else if (typeof datos.tiktok?.texto !== 'string' || !datos.tiktok.texto.trim()) error('"tiktok" lleva { "texto": "..." }');
+    else if (datos.tiktok.texto.length > MAX_TEXTO) error(`el texto para TikTok ocupa ${datos.tiktok.texto.length} caracteres (máximo ${MAX_TEXTO})`);
+  }
 
   // ----- Texto y hashtags (las historias no llevan) -----
   if (datos.tipo === 'historia'){
@@ -203,7 +230,11 @@ export function validarPost({ carpeta, datos }, { listo = false, todos = [] } = 
   }
   for (const otro of todos){
     if (otro.carpeta !== carpeta && normalizar(otro.datos.tema || '') === tema) error(`el tema se repite en ${basename(otro.carpeta)}`);
-    if (otro.carpeta !== carpeta && otro.datos.fecha === datos.fecha) error(`${basename(otro.carpeta)} tiene la misma fecha: un post por día`);
+    // Por día: como mucho una historia y una cosa en el muro
+    const muro = (d) => d.tipo !== 'historia';
+    if (otro.carpeta !== carpeta && otro.datos.fecha === datos.fecha && muro(otro.datos) === muro(datos)){
+      error(`${basename(otro.carpeta)} tiene la misma fecha: por día va una historia y una cosa en el muro`);
+    }
   }
 
   // ----- Imágenes listas para publicar -----

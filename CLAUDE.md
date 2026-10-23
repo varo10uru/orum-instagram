@@ -5,7 +5,11 @@ Solymar, Canelones. Cada semana se arma una tanda de posts e historias; yo la
 reviso en un PR y, cuando hago merge, se publica sola, día por día.
 
 Cliente al que le hablamos: dueño de pyme o comercio de la Costa, de 35 a
-60 años, no técnico, que decide por WhatsApp.
+60 años, no técnico, que decide por WhatsApp. También dueños de alquileres de
+temporada de la Costa y de Rocha (desde que ALMILU es cliente).
+
+Cada post del muro también sale en TikTok: va en el kit de la semana (ver
+"TikTok", más abajo).
 
 ## Reglas que no se negocian
 
@@ -17,6 +21,12 @@ Cliente al que le hablamos: dueño de pyme o comercio de la Costa, de 35 a
 - **Decorartesano no se muestra** hasta que su sitio esté publicado con obras
   reales. Hoy es una demo privada con renders de ejemplo (decisión del
   2026-10-08).
+- **ALMILU** (alquiler en Punta del Diablo) es cliente desde octubre de 2026.
+  Se muestra solo lo que dice `sitios.json`: el panel de reservas está en
+  desarrollo y no se nombra, y los monoambientes son "próximamente".
+- **Crédito obligatorio:** el video del inicio de ALMILU es de Marcelo Campi
+  (CC BY 3.0). Si una captura o un Reel muestra el inicio, el texto lleva
+  "Video aéreo del inicio: Marcelo Campi (CC BY 3.0)." `validar.mjs` lo exige.
 - **Imágenes:** solo las plantillas de este repo, capturas de sitios reales y
   los renders de `marca/hero/`. Nada de fotos de stock ni imágenes generadas
   con IA.
@@ -41,12 +51,13 @@ Cliente al que le hablamos: dueño de pyme o comercio de la Costa, de 35 a
 
 | Pilar | Qué es | Ejemplos |
 |---|---|---|
-| `trabajos` | Sitios reales que hice (hoy solo la barraca) | Una función contada en simple, una captura, un Reel con el recorrido |
+| `trabajos` | Sitios reales que hice (hoy la barraca y ALMILU) | Una función contada en simple, una captura, un Reel con el recorrido |
 | `consejos` | Ideas útiles para un comercio, sin tecnicismos | Aparecer en Google Maps, el WhatsApp a mano en la web, fotos propias, horario al día |
 | `proceso` | Cómo trabajo, detrás de escena | El render 3D del sitio de ORUM, del boceto al sitio, hablar directo conmigo |
 | `local` | La Costa: Solymar, Ciudad de la Costa, Costa de Oro | Quién soy, desde dónde trabajo, invitación a escribir |
 
-Cada semana, los 3 posts del muro son de 3 pilares distintos.
+Cada semana, los 3 posts del muro son de 3 pilares distintos. Los trabajos se
+reparten: como mucho 2 piezas del mismo cliente por semana.
 
 ## La semana
 
@@ -220,12 +231,26 @@ interacción.
 
 Los cambios los decido yo: el informe no cambia nada por sí solo.
 
+## TikTok
+
+- **Qué va:** cada post del muro (post, carrusel o Reel) va también a
+  TikTok. Las historias no van.
+- **El kit:** lo arma la vista previa del PR con `scripts/tiktok.mjs`: un
+  video vertical por post y un LEEME.md con el texto para pegar. Lo sube y
+  lo programa el dueño, a mano, desde TikTok Studio: TikTok no deja
+  publicar solo hasta auditar la app.
+- **El texto:** por defecto es el mismo del post. Si conviene uno distinto
+  (en TikTok funcionan más cortos, con una primera línea que enganche), va
+  en `"tiktok": { "texto": "..." }`. Si el post muestra material con
+  crédito, el texto de TikTok también lo lleva.
+
 ## Scripts
 
 | Comando | Qué hace |
 |---|---|
 | `node scripts/validar.mjs <carpeta>` | Revisa los `post.json` (formato, límites, tono, números, repetidos) |
 | `node scripts/renderizar.mjs <carpeta>` | Genera los JPG (y el MP4 de los Reels) al lado de cada `post.json` |
+| `node scripts/tiktok.mjs <carpeta>` | Arma el kit de TikTok de la semana en `.tmp/tiktok/` (necesita las imágenes y ffmpeg) |
 | `node scripts/vista-previa.mjs <carpeta>` | Arma `vista-previa.html` para revisar la semana en el navegador |
 | `node scripts/metricas.mjs --resumen` | Cómo viene la cuenta y qué pilares y formatos funcionan (lee `metricas.json`, no necesita token) |
 | `node scripts/metricas.mjs --mes AAAA-MM` | Lo mismo para un mes entero, para el informe |
