@@ -2,7 +2,9 @@ name: Publicar
 
 # Publica en Instagram lo que toca hoy, desde lo aprobado en main:
 # - historias desde las 10:07 de Uruguay;
-# - posts, carruseles y Reels desde las 12:37.
+# - posts, carruseles y Reels desde las 12:37;
+# - desde las 19:07, el Reel extra de cada post o carrusel (su video, solo
+#   en la pestaña de Reels; ver publicar.mjs).
 # Corre cada hora y publica lo que ya tiene la hora cumplida. Es así porque
 # GitHub atrasa las corridas programadas (en octubre de 2026, de 4 a 5
 # horas): con una por hora, siempre hay alguna cerca del horario. Lo ya
@@ -13,7 +15,8 @@ name: Publicar
 #   lanza el disparador externo (cron-job.org, ver README), porque GitHub
 #   a veces atrasa o se saltea las corridas programadas.
 # - fecha + franja: relanza un día que falló.
-# - carpeta: publica ese post ya (ej. semanas/2026-10-12/1-lunes).
+# - carpeta: publica ese post ya (ej. semanas/2026-10-12/1-lunes). Con
+#   "reel_extra", publica su Reel extra en vez del post.
 # - simular: hace todo menos publicar (Instagram revisa las imágenes).
 # - facebook: incluye la página de Facebook en esta corrida, aunque no esté
 #   prendida (sirve para probarla junto con "simular").
@@ -35,6 +38,10 @@ on:
       carpeta:
         description: 'O un post puntual (ej. semanas/2026-10-12/1-lunes)'
         required: false
+      reel_extra:
+        description: 'Con carpeta: publicar su Reel extra'
+        type: boolean
+        default: false
       simular:
         description: 'Simular (no publica)'
         type: boolean
@@ -70,12 +77,14 @@ jobs:
           FRANJA: ${{ inputs.franja }}
           FECHA: ${{ inputs.fecha }}
           CARPETA: ${{ inputs.carpeta }}
+          REEL_EXTRA: ${{ inputs.reel_extra }}
           SIMULAR: ${{ inputs.simular }}
           FACEBOOK: ${{ inputs.facebook && 'si' || vars.PUBLICAR_EN_FACEBOOK }}
         run: |
           args=()
           if [ -n "$CARPETA" ]; then
             args+=(--carpeta "$CARPETA")
+            if [ "$REEL_EXTRA" = "true" ]; then args+=(--reel-extra); fi
           elif [ "$EVENTO" = "schedule" ] || [ "$FRANJA" = "pendientes" ]; then
             args+=(--pendientes)
           else

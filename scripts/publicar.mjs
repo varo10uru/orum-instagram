@@ -15,8 +15,16 @@
 //        Lo mismo, para otra fecha (para relanzar un día que falló).
 //   node scripts/publicar.mjs --carpeta semanas/2026-10-12/1-lunes
 //        Publica ese post ya, sin mirar la fecha.
+//   node scripts/publicar.mjs --carpeta semanas/2026-10-12/1-lunes --reel-extra
+//        Publica ya el Reel extra de ese post (ver abajo).
 //   Con --simular hace todo menos el último paso: Instagram descarga y
 //   revisa las imágenes, pero no se publica nada.
+//
+// REEL EXTRA: cada post o carrusel tiene también su video (video.mp4, lo
+// arma renderizar.mjs). A las 19:07 de ese día sale como Reel que no se
+// repite en la grilla (solo en la pestaña de Reels), para llegar a gente que
+// no te sigue. Se anota aparte, como "<carpeta>#reel". No va a Facebook.
+// Un post con "reel_extra": false no lo lleva.
 //
 // Con FACEBOOK=si, cada cosa que sale en Instagram sale también en la
 // página de Facebook (ver facebook.mjs). Primero va Instagram y se anota;
@@ -29,7 +37,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { join, relative } from 'node:path';
 import { parseArgs } from 'node:util';
-import { HORA_POR_TIPO, RAIZ, archivosDelPost, buscarPosts, horaUY, hoyUY } from './comun.mjs';
+import { HORA_POR_TIPO, RAIZ, VIDEO_DEL_POST, archivosDelPost, buscarPosts, existe, horaUY, hoyUY } from './comun.mjs';
 import { cuenta, prepararContenedor, publicarContenedor, ultimasPublicaciones } from './instagram.mjs';
 import { cuentasYUbicacion, validarPost } from './validar.mjs';
 import { facebookPrendido, publicarEnFacebook } from './facebook.mjs';
@@ -60,8 +68,16 @@ function textoCompleto(datos){
 
 const normalizar = (t = '') => t.replace(/\s+/g, ' ').trim().slice(0, 150);
 
+// ¿Este post lleva Reel extra?
+const llevaReelExtra = ({ datos }) => (datos.tipo === 'post' || datos.tipo === 'carrusel') && datos.reel_extra !== false;
+
 // Lo que se sube: el texto, las URLs públicas de las imágenes y el video
-async function mediosDelPost({ carpeta, datos }){
+async function mediosDelPost({ carpeta, datos }, { extra = false } = {}){
+  if (extra){
+    // El video del post, como Reel solo en la pestaña de Reels; la tapa es
+    // un cuadro del video
+    return { tipo: 'reel', texto: textoCompleto(datos), video: join(carpeta, VIDEO_DEL_POST), enGrilla: false };
+  }
   const base = baseDeMedios();
   const archivos = archivosDelPost(datos);
   const imagenes = archivos.filter((a) => a.endsWith('.jpg') && a !== 'portada.jpg').map((a) => base + relative(RAIZ, join(carpeta, a)));
@@ -87,29 +103,33 @@ async function aFacebook(post, anotado, publicados){
   console.log(`  ${anotado.carpeta}: en Facebook ${anotado.facebook}`);
 }
 
-async function publicarPost(post, { simular }){
+async function publicarPost(post, { simular, extra = false }){
   const { carpeta, datos } = post;
-  const nombre = relative(RAIZ, carpeta);
+  const nombre = relative(RAIZ, carpeta) + (extra ? ' (Reel extra)' : '');
 
   const errores = validarPost(post, { listo: true });
+  if (extra && !existe(join(carpeta, VIDEO_DEL_POST))) errores.push(`falta ${VIDEO_DEL_POST}: hay que renderizar`);
   if (errores.length) throw new Error(`${nombre} no pasa la revisión:\n    ${errores.join('\n    ')}`);
 
-  // Por si una corrida anterior publicó pero no llegó a anotarlo
+  // Por si una corrida anterior publicó pero no llegó a anotarlo. El post y
+  // su Reel extra llevan el mismo texto: se distinguen por si es Reel o no.
   if (datos.tipo !== 'historia'){
     const texto = normalizar(textoCompleto(datos));
-    const yaEsta = (await ultimasPublicaciones()).find((m) => normalizar(m.caption) === texto);
+    const esReel = extra || datos.tipo === 'reel';
+    const yaEsta = (await ultimasPublicaciones()).find((m) =>
+      normalizar(m.caption) === texto && (m.media_product_type === 'REELS') === esReel);
     if (yaEsta){
       console.log(`  ${nombre}: ya estaba publicado (${yaEsta.permalink}); lo anoto`);
       return { id: yaEsta.id, link: yaEsta.permalink };
     }
   }
 
-  const medios = await mediosDelPost(post);
+  const medios = await mediosDelPost(post, { extra });
   const contenedor = await prepararContenedor({ ...medios, ...cuentasYUbicacion(datos) });
 
   if (simular){
     console.log(`  ${nombre}: Instagram lo aceptó (contenedor ${contenedor}). No se publicó: es una simulación.`);
-    if (facebookPrendido()){
+    if (facebookPrendido() && !extra){
       await publicarEnFacebook({ ...medios, simular: true });
       console.log(`  ${nombre}: Facebook lo aceptó. No se publicó: es una simulación.`);
     }
@@ -128,6 +148,7 @@ const { values: op } = parseArgs({
     franja: { type: 'string' },
     fecha: { type: 'string' },
     carpeta: { type: 'string' },
+    'reel-extra': { type: 'boolean' },
     simular: { type: 'boolean' },
   },
 });
@@ -144,13 +165,17 @@ if (op.probar){
   }
 }
 
+// Cada cosa a publicar: el post y si es su Reel extra
 let posts;
 if (op.carpeta){
-  posts = await buscarPosts([op.carpeta]);
+  posts = (await buscarPosts([op.carpeta])).map((post) => ({ post, extra: !!op['reel-extra'] }));
 } else if (op.pendientes){
   const [fecha, ahora] = [hoyUY(), horaUY()];
-  posts = (await buscarPosts([join(RAIZ, 'semanas')]))
-    .filter((p) => p.datos.fecha === fecha && HORA_POR_TIPO[p.datos.tipo] <= ahora);
+  const deHoy = (await buscarPosts([join(RAIZ, 'semanas')])).filter((p) => p.datos.fecha === fecha);
+  posts = [
+    ...deHoy.filter((p) => HORA_POR_TIPO[p.datos.tipo] <= ahora).map((post) => ({ post, extra: false })),
+    ...deHoy.filter((p) => llevaReelExtra(p) && HORA_POR_TIPO['reel-extra'] <= ahora).map((post) => ({ post, extra: true })),
+  ];
   console.log(`${fecha} ${ahora}: ${posts.length ? posts.length + ' con la hora cumplida' : 'nada para esta hora'}`);
 } else {
   if (!FRANJAS[op.franja]){
@@ -159,18 +184,23 @@ if (op.carpeta){
   }
   const fecha = op.fecha || hoyUY();
   posts = (await buscarPosts([join(RAIZ, 'semanas')]))
-    .filter((p) => p.datos.fecha === fecha && FRANJAS[op.franja].includes(p.datos.tipo));
+    .filter((p) => p.datos.fecha === fecha && FRANJAS[op.franja].includes(p.datos.tipo))
+    .map((post) => ({ post, extra: false }));
   console.log(`${fecha}, ${op.franja}: ${posts.length ? posts.length + ' para publicar' : 'nada para hoy'}`);
 }
 
 const publicados = JSON.parse(await readFile(RUTA_PUBLICADOS, 'utf8'));
 let fallas = 0;
-for (const post of posts){
-  const carpeta = relative(RAIZ, post.carpeta);
+for (const { post, extra } of posts){
+  const carpeta = relative(RAIZ, post.carpeta) + (extra ? '#reel' : '');
+  if (extra && !existe(join(post.carpeta, VIDEO_DEL_POST))){
+    console.log(`  ${carpeta}: no tiene ${VIDEO_DEL_POST}, sin Reel extra`);
+    continue;
+  }
   const anotado = publicados.find((p) => p.carpeta === carpeta);
   if (anotado){
     // Ya salió en Instagram. Si hoy no llegó a salir en Facebook, se reintenta
-    if (facebookPrendido() && !op.simular && !anotado.facebook && anotado.fecha === hoyUY()){
+    if (facebookPrendido() && !extra && !op.simular && !anotado.facebook && anotado.fecha === hoyUY()){
       try { await aFacebook(post, anotado, publicados); } catch (e){ fallas++; console.error(`✗ ${carpeta} en Facebook: ${e.message}`); }
     } else {
       console.log(`  ${carpeta}: ya publicado, lo salteo`);
@@ -179,11 +209,12 @@ for (const post of posts){
   }
   let nuevo = null;
   try {
-    const r = await publicarPost(post, { simular: op.simular });
+    const r = await publicarPost(post, { simular: op.simular, extra });
     if (r){
       // "fecha" es el día en que salió (en Uruguay), aunque el post.json
       // dijera otro (por ejemplo, si se publicó a mano antes)
-      const { fecha: planeada, tipo, pilar, tema } = post.datos;
+      const { fecha: planeada, pilar, tema } = post.datos;
+      const tipo = extra ? 'reel-extra' : post.datos.tipo;
       const fecha = hoyUY();
       nuevo = { fecha, ...(planeada !== fecha && { planeada }), carpeta, tipo, pilar, tema, id: r.id, link: r.link, publicado: new Date().toISOString() };
       publicados.push(nuevo);
@@ -194,7 +225,7 @@ for (const post of posts){
     fallas++;
     console.error(`✗ ${carpeta}: ${e.message}`);
   }
-  if (nuevo && facebookPrendido()){
+  if (nuevo && facebookPrendido() && !extra){
     try { await aFacebook(post, nuevo, publicados); } catch (e){ fallas++; console.error(`✗ ${carpeta} en Facebook: ${e.message}`); }
   }
 }

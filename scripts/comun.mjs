@@ -20,7 +20,12 @@ export const HORA_POR_TIPO = {
   post: '12:37',
   carrusel: '12:37',
   reel: '12:37',
+  // El video de un post o carrusel, como Reel que no se repite en la grilla
+  'reel-extra': '19:07',
 };
+
+// El video de un post o carrusel (para el Reel extra y para TikTok)
+export const VIDEO_DEL_POST = 'video.mp4';
 
 // Fecha de hoy en Uruguay, como "AAAA-MM-DD"
 export function hoyUY(fecha = new Date()){

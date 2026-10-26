@@ -20,7 +20,7 @@ import { execFile } from 'node:child_process';
 import { copyFile, mkdir, rm, writeFile } from 'node:fs/promises';
 import { basename, join } from 'node:path';
 import { parseArgs, promisify } from 'node:util';
-import { HORA_POR_TIPO, RAIZ, archivosDelPost, buscarPosts, existe } from './comun.mjs';
+import { HORA_POR_TIPO, RAIZ, VIDEO_DEL_POST, archivosDelPost, buscarPosts, existe } from './comun.mjs';
 
 const ejecutar = promisify(execFile);
 const FPS = 30;
@@ -38,7 +38,7 @@ const CODIFICAR = ['-c:v', 'libx264', '-preset', 'medium', '-crf', '23', '-pix_f
   '-c:a', 'aac', '-b:a', '96k', '-shortest', '-movflags', '+faststart'];
 const silencio = (segundos) => ['-f', 'lavfi', '-t', String(segundos), '-i', 'anullsrc=r=44100:cl=stereo'];
 
-async function videoDeCarrusel(imagenes, destino){
+export async function videoDeCarrusel(imagenes, destino){
   const n = imagenes.length;
   const total = n * POR_PLACA - (n - 1) * FUNDIDO;
   const entradas = imagenes.flatMap((img) => ['-loop', '1', '-framerate', String(FPS), '-t', String(POR_PLACA), '-i', img]);
@@ -54,16 +54,26 @@ async function videoDeCarrusel(imagenes, destino){
     '-filter_complex', filtro, '-map', '[v]', '-map', `${n}:a`, ...CODIFICAR, destino], { maxBuffer: 10 * 1024 * 1024 });
 }
 
-async function videoDePost(imagen, destino){
+export async function videoDePost(imagen, destino){
   const cuadros = POST * FPS;
   const filtro = `[0]${AL_LIENZO},zoompan=z='1+0.05*on/${cuadros}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${cuadros}:s=1080x1920:fps=${FPS},format=yuv420p[v]`;
   await ejecutar('ffmpeg', ['-y', '-loglevel', 'error', '-i', imagen, ...silencio(POST),
     '-filter_complex', filtro, '-map', '[v]', '-map', '1:a', ...CODIFICAR, destino], { maxBuffer: 10 * 1024 * 1024 });
 }
 
-// El texto para TikTok: el propio si lo hay, si no el mismo del post
+// El texto para TikTok: el propio si lo hay, si no el mismo del post. A los
+// hashtags se suma uno para que lo encuentren en TikTok Uruguay.
+const HASHTAG_DE_TIKTOK = '#emprendedoresuruguay';
 function textoParaTikTok(datos){
-  return `${(datos.tiktok?.texto || datos.texto).trim()}\n\n${(datos.hashtags || []).join(' ')}`;
+  const hashtags = [...(datos.hashtags || [])];
+  if (!hashtags.some((h) => h.toLowerCase() === HASHTAG_DE_TIKTOK)) hashtags.push(HASHTAG_DE_TIKTOK);
+  return `${(datos.tiktok?.texto || datos.texto).trim()}\n\n${hashtags.join(' ')}`;
+}
+
+// El video vertical de un post o carrusel (el mismo del Reel extra)
+export async function armarVideo({ carpeta, datos }, destino){
+  if (datos.tipo === 'carrusel') return videoDeCarrusel(datos.piezas.map((_, i) => join(carpeta, `${i + 1}.jpg`)), destino);
+  return videoDePost(join(carpeta, '1.jpg'), destino);
 }
 
 export async function armarKit(semanas, salida){
@@ -84,8 +94,8 @@ export async function armarKit(semanas, salida){
       continue;
     }
     if (datos.tipo === 'reel') await copyFile(join(carpeta, 'reel.mp4'), destino);
-    else if (datos.tipo === 'carrusel') await videoDeCarrusel(datos.piezas.map((_, i) => join(carpeta, `${i + 1}.jpg`)), destino);
-    else await videoDePost(join(carpeta, '1.jpg'), destino);
+    else if (existe(join(carpeta, VIDEO_DEL_POST))) await copyFile(join(carpeta, VIDEO_DEL_POST), destino);
+    else await armarVideo({ carpeta, datos }, destino);
 
     const [, mes, d] = datos.fecha.split('-');
     leeme.push(`## ${NOMBRE_DIA[dia] || dia} ${d}/${mes} · ${HORA_POR_TIPO[datos.tipo]} · \`${nombre}\``, '',

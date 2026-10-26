@@ -63,7 +63,7 @@ export async function cuenta(){
 // Últimas publicaciones del muro (para no publicar dos veces lo mismo)
 export async function ultimasPublicaciones(){
   const { usuario } = credenciales();
-  const r = await pedir('GET', `${usuario}/media`, { fields: 'id,caption,timestamp,permalink', limit: '15' });
+  const r = await pedir('GET', `${usuario}/media`, { fields: 'id,caption,timestamp,permalink,media_product_type', limit: '15' });
   return r.data || [];
 }
 
@@ -99,6 +99,7 @@ const METRICAS_POR_TIPO = {
   post:     ['reach', 'views', 'saved', 'shares', 'likes', 'comments', 'follows', 'profile_visits'],
   carrusel: ['reach', 'views', 'saved', 'shares', 'likes', 'comments', 'follows', 'profile_visits'],
   reel:     ['reach', 'views', 'saved', 'shares', 'likes', 'comments', 'ig_reels_avg_watch_time'],
+  'reel-extra': ['reach', 'views', 'saved', 'shares', 'likes', 'comments', 'ig_reels_avg_watch_time'],
 };
 const NOMBRES_DE_PUBLICACION = {
   reach: 'alcance', views: 'vistas', saved: 'guardados', shares: 'compartidos',
@@ -209,7 +210,10 @@ function extras(tipo, { ubicacion, colaboradores = [], etiquetas = [] }){
 
 // Arma el contenedor según el tipo de post y espera a que esté listo.
 // "medios" trae las URLs públicas de las imágenes y la ruta local del video.
-export async function prepararContenedor({ tipo, texto, alts = [], imagenes = [], video, portada, ...resto }){
+// En los Reels: "enGrilla: false" hace que solo aparezca en la pestaña de
+// Reels (el Reel extra de un post), y sin "portada" la tapa es el cuadro
+// del segundo "segundoDePortada".
+export async function prepararContenedor({ tipo, texto, alts = [], imagenes = [], video, portada, enGrilla = true, segundoDePortada = 1, ...resto }){
   const extra = extras(tipo, resto);
   if (tipo === 'post'){
     const { id } = await crearContenedor({ image_url: imagenes[0], caption: texto, ...(alts[0] && { alt_text: alts[0] }), ...extra });
@@ -235,7 +239,8 @@ export async function prepararContenedor({ tipo, texto, alts = [], imagenes = []
   if (tipo === 'reel'){
     const { id } = await crearContenedor({
       media_type: 'REELS', upload_type: 'resumable', caption: texto,
-      share_to_feed: 'true', ...(portada && { cover_url: portada }), ...extra,
+      share_to_feed: enGrilla ? 'true' : 'false',
+      ...(portada ? { cover_url: portada } : { thumb_offset: String(segundoDePortada * 1000) }), ...extra,
     });
     await subirVideo(id, video);
     await esperarContenedor(id, { minutos: 15 });

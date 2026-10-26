@@ -153,6 +153,12 @@ export function validarPost({ carpeta, datos }, { listo = false, todos = [] } = 
     }
   }
 
+  // ----- Reel extra (sale solo; "reel_extra": false lo saca) -----
+  if (datos.reel_extra !== undefined){
+    if (typeof datos.reel_extra !== 'boolean') error('"reel_extra" es true o false');
+    else if (datos.tipo !== 'post' && datos.tipo !== 'carrusel') error('"reel_extra" va solo en posts y carruseles');
+  }
+
   // ----- Texto para TikTok (opcional; si no está, se arma del texto) -----
   if (datos.tiktok !== undefined){
     if (datos.tipo === 'historia') error('las historias no van a TikTok: sacá "tiktok"');

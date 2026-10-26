@@ -13,7 +13,7 @@
 import { writeFile } from 'node:fs/promises';
 import { join, relative } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { HORA_POR_TIPO, RAIZ, archivosDelPost, buscarPosts, existe } from './comun.mjs';
+import { HORA_POR_TIPO, RAIZ, VIDEO_DEL_POST, archivosDelPost, buscarPosts, existe } from './comun.mjs';
 
 const NOMBRE_DIA = { lunes: 'Lunes', martes: 'Martes', miercoles: 'Miércoles', jueves: 'Jueves', viernes: 'Viernes', sabado: 'Sábado', domingo: 'Domingo' };
 const NOMBRE_TIPO = { post: 'Post', carrusel: 'Carrusel', reel: 'Reel', historia: 'Historia' };
@@ -32,7 +32,10 @@ function tarjeta(post, semana){
     return archivo.endsWith('.mp4')
       ? `<video src="${ruta}" controls muted playsinline></video>`
       : `<img src="${ruta}" alt="${escapar(datos.piezas?.[parseInt(archivo, 10) - 1]?.alt || '')}" loading="lazy">`;
-  }).join('');
+  }).join('') + (existe(join(carpeta, VIDEO_DEL_POST)) && datos.reel_extra !== false
+    // El video del Reel extra de las 19:07 (y de TikTok)
+    ? `<video src="${relative(semana, join(carpeta, VIDEO_DEL_POST))}" controls muted playsinline title="Reel extra de las ${HORA_POR_TIPO['reel-extra']}"></video>`
+    : '');
 
   const pieDeTexto = datos.tipo === 'historia'
     ? '<p class="nota">Las historias no llevan texto ni hashtags.</p>'
@@ -114,6 +117,9 @@ export async function crearComentario(semanas, base){
       const ancho = datos.tipo === 'historia' ? 200 : 250;
       lineas.push(archivosDelPost(datos).map((a, i) =>
         `<img src="${url(a)}" width="${ancho}" alt="${escapar(datos.piezas?.[i]?.alt || '')}">`).join(' '));
+      if (datos.tipo !== 'historia' && datos.reel_extra !== false && existe(join(carpeta, VIDEO_DEL_POST))){
+        lineas.push('', `A las ${HORA_POR_TIPO['reel-extra']} sale también como Reel, solo en la pestaña de Reels: [bajar el video](${url(VIDEO_DEL_POST)}).`);
+      }
     }
     if (datos.tipo !== 'historia'){
       lineas.push('', ...String(datos.texto).split('\n').map((l) => `> ${l}`), '>', `> ${(datos.hashtags || []).join(' ')}`);

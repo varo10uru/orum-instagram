@@ -10,7 +10,9 @@ Arma, revisa y publica el Instagram de ORUM. Así es una semana:
 3. **Vos lo revisás**, desde la app de GitHub en el celular o desde la compu.
 4. **Hacés merge**, y cada día se publica lo que toca:
    - historias desde las 10:07;
-   - posts, carruseles y Reels desde las 12:37.
+   - posts, carruseles y Reels desde las 12:37;
+   - a las 19:07, el video de cada post o carrusel como Reel, solo en la
+     pestaña de Reels (no se repite en la grilla).
 
    GitHub revisa cada hora y publica lo que ya tiene la hora cumplida, así
    que cada cosa sale dentro de la hora siguiente a su horario. GitHub
@@ -20,8 +22,11 @@ Arma, revisa y publica el Instagram de ORUM. Así es una semana:
    cada publicación en `metricas.json`, y el jueves la rutina los usa para
    armar la semana siguiente.
 
-**Sin merge no se publica nada.** Las reglas de contenido (qué se puede decir,
-el tono, los formatos) están en [`CLAUDE.md`](CLAUDE.md).
+**Si el domingo a la noche no la tocaste, se aprueba sola** (Action "Aprobar la
+semana", domingo 21:07 y lunes 08:07), siempre que la vista previa esté en
+verde. Si está en rojo, no se aprueba y te llega un mail de GitHub. Las
+reglas de contenido (qué se puede decir, el tono, los formatos) están en
+[`CLAUDE.md`](CLAUDE.md).
 
 ## Revisar y aprobar la semana
 

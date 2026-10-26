@@ -134,11 +134,21 @@ acorta el texto: nunca se toca la plantilla para hacerlo entrar.
 
 ### Hashtags
 
-- De 3 a 5. Instagram no deja poner más de 5.
-- **Uno o dos locales:** #Solymar, #CiudadDeLaCosta, #Canelones, #CostaDeOro.
-- **Uno o dos del tema:** #PaginasWeb, #PymesUruguay, #ComerciosUruguay,
-  #GoogleMaps.
-- **Nada genérico:** #reels, #explore, #love, #instagood.
+Instagram deja hasta 5. Desde el 26/10/2026 (lo pidió el dueño, para llegar
+a más gente) van así:
+- **2 populares del tema**, grandes pero relacionados:
+  - comercios: #emprendedores, #emprendimiento, #negocios, #marketingdigital;
+  - sitios: #diseñoweb, #paginaweb;
+  - alquileres (ALMILU): #alquilerdetemporada, #UruguayNatural.
+- **#PaginasWeb**, siempre.
+- **1 o 2 del lugar:** #Solymar, #CiudadDeLaCosta, #Canelones, #CostaDeOro;
+  en lo de ALMILU, #PuntaDelDiablo o #Rocha.
+- **Nada genérico:** #viral, #reels, #explore, #love, #instagood. Instagram
+  no los usa para recomendar y llenan el lugar de los que sí sirven.
+- Lo que más ayuda al alcance no son los hashtags: es una primera línea que
+  enganche y un texto con las palabras que la gente busca ("página web",
+  "WhatsApp", "Solymar").
+- En TikTok se suma #emprendedoresuruguay (lo agrega `tiktok.mjs`).
 
 ### Ubicación, colaboradores y etiquetas
 
@@ -230,6 +240,15 @@ interacción.
    anduvo bien. Si no hay datos suficientes, se dice y no se propone nada.
 
 Los cambios los decido yo: el informe no cambia nada por sí solo.
+
+## Reel extra
+
+Cada post y carrusel tiene también su **video vertical** (`video.mp4`, lo arma
+`renderizar.mjs`: las placas una atrás de la otra, o la imagen con un
+acercamiento). Ese mismo día, a las **19:07**, sale como **Reel solo en la
+pestaña de Reels**: no se repite en la grilla y llega a gente que no sigue la
+cuenta. Lleva el mismo texto y los mismos hashtags que el post, y no va a
+Facebook. Para que un post no lo lleve: `"reel_extra": false`.
 
 ## TikTok
 

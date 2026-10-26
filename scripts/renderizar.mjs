@@ -16,9 +16,10 @@
 import { readdir, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { RAIZ, abrirNavegador, buscarPosts } from './comun.mjs';
+import { RAIZ, VIDEO_DEL_POST, abrirNavegador, buscarPosts } from './comun.mjs';
 import { prepararPieza, renderizarPieza } from './piezas.mjs';
 import { grabarReel } from './recorrido.mjs';
+import { armarVideo } from './tiktok.mjs';
 
 export async function renderizarPost(navegador, { carpeta, datos }){
   // Borra lo renderizado antes, para que no queden imágenes viejas
@@ -37,6 +38,15 @@ export async function renderizarPost(navegador, { carpeta, datos }){
 
     for (const p of await renderizarPieza(navegador, plantilla, datosPieza, join(carpeta, `${i + 1}.jpg`))){
       problemas.push(`pieza ${i + 1}: ${p}`);
+    }
+  }
+  // Posts y carruseles: también el video vertical, para el Reel extra de
+  // las 19:07 y para TikTok (necesita ffmpeg)
+  if (datos.tipo !== 'historia' && !problemas.length){
+    try {
+      await armarVideo({ carpeta, datos }, join(carpeta, VIDEO_DEL_POST));
+    } catch (e){
+      problemas.push(`no se pudo armar el video (¿está ffmpeg?): ${e.message.split('\n')[0]}`);
     }
   }
   return problemas;

@@ -1,0 +1,63 @@
+name: Aprobar la semana
+
+# Si el domingo a la noche la semana que arranca el lunes sigue esperando
+# aprobación (PR abierto), y la vista previa está en verde, se aprueba sola.
+# Lo decidió el dueño el 26/10/2026: hasta ese momento se puede revisar y
+# cambiar como siempre. Si la vista previa está en rojo, NO se aprueba: la
+# corrida falla y GitHub manda un mail.
+#
+# Domingo 21:07 de Uruguay (00:07 UTC del lunes). Como GitHub a veces atrasa
+# horas las corridas programadas o se las saltea, hay una segunda el lunes a
+# las 08:07, antes de la primera publicación (10:07). Si ya está aprobada, no
+# hace nada.
+on:
+  schedule:
+    - cron: '7 0 * * 1'
+    - cron: '7 11 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  aprobar:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Aprobar si nadie la tocó
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          # El lunes de la semana que arranca (si hoy ya es lunes, es hoy)
+          if [ "$(TZ=America/Montevideo date +%u)" = 1 ]; then
+            lunes=$(TZ=America/Montevideo date +%F)
+          else
+            lunes=$(TZ=America/Montevideo date -d 'next monday' +%F)
+          fi
+          echo "Semana del $lunes"
+
+          # PR abierto que trae semanas/<lunes>/
+          pr=""
+          for n in $(gh pr list -R "$REPO" --state open --json number --jq '.[].number'); do
+            if gh pr view "$n" -R "$REPO" --json files --jq '.files[].path' | grep -q "^semanas/$lunes/"; then pr=$n; break; fi
+          done
+          if [ -z "$pr" ]; then
+            echo "No hay ninguna semana esperando aprobación: nada que hacer."
+            exit 0
+          fi
+
+          # Solo si la última vista previa de esa rama terminó bien. (El último
+          # commit del PR es el de las imágenes, con [skip ci], y no tiene
+          # revisiones propias: por eso se mira la corrida de la rama.)
+          rama=$(gh pr view "$pr" -R "$REPO" --json headRefName --jq .headRefName)
+          estado=$(gh run list -R "$REPO" --workflow vista-previa.yml --branch "$rama" --limit 1 \
+            --json status,conclusion --jq '.[0] | if .status == "completed" then (.conclusion // "ninguna") else .status end')
+          if [ "$estado" != "success" ]; then
+            echo "El PR #$pr tiene la vista previa en \"$estado\": no se aprueba solo. Hay que revisarlo."
+            exit 1
+          fi
+
+          gh pr comment "$pr" -R "$REPO" --body "Aprobada sola: el domingo a la noche la semana seguía sin tocar y la vista previa estaba en verde."
+          gh pr merge "$pr" -R "$REPO" --merge --delete-branch
+          echo "PR #$pr aprobado."
