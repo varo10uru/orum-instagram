@@ -1,0 +1,23 @@
+{
+  "fecha": "2026-11-06",
+  "tipo": "post",
+  "pilar": "trabajos",
+  "tema": "Barraca Centro Solymar: simulador de materiales por m²",
+  "plantilla": "post-trabajo",
+  "piezas": [
+    {
+      "etiqueta": "Trabajo real",
+      "cliente": "Barraca Centro Solymar",
+      "titulo": "¿Cuánto material *necesitás*?",
+      "cuerpo": "Ponés los metros cuadrados y el sitio te da una idea antes de pedir.",
+      "captura": {
+        "sitio": "barraca",
+        "seccion": "simulador"
+      },
+      "alt": "Celular con el sitio de Barraca Centro Solymar abierto en el simulador de materiales por metro cuadrado."
+    }
+  ],
+  "texto": "¿Vas a hacer una obra y no sabés cuánto material pedir?\n\nEn la página web de Barraca Centro Solymar hay un simulador de materiales por metro cuadrado: ponés los metros y te da una idea de lo que necesitás. Después armás tu lista y la mandás por WhatsApp para pedir presupuesto.\n\nSi tenés un comercio y querés que tus clientes lleguen con las dudas resueltas, escribime al 091 541 848.",
+  "hashtags": ["#diseñoweb", "#emprendedores", "#PaginasWeb", "#Solymar", "#Canelones"],
+  "ubicacion": "solymar"
+}
