@@ -1,0 +1,14 @@
+{
+  "fecha": "2026-11-08",
+  "tipo": "historia",
+  "pilar": "local",
+  "tema": "Invitación: ¿tenés un alquiler de temporada?",
+  "plantilla": "historia",
+  "piezas": [
+    {
+      "variante": "cierre",
+      "titulo": "¿Alquilás una casa *en temporada*?",
+      "cuerpo": "En la Costa o en Rocha, escribime al **091 541 848**.\nTe respondo yo."
+    }
+  ]
+}

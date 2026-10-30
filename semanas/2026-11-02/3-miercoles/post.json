@@ -1,0 +1,48 @@
+{
+  "fecha": "2026-11-04",
+  "tipo": "carrusel",
+  "pilar": "consejos",
+  "tema": "Mirá tu sitio desde el celular, como un cliente",
+  "plantilla": "carrusel",
+  "piezas": [
+    {
+      "variante": "portada",
+      "etiqueta": "Antes del verano",
+      "titulo": "Abrí tu sitio *en el celular*.",
+      "alt": "Portada del carrusel: abrí tu sitio en el celular."
+    },
+    {
+      "variante": "paso",
+      "etiqueta": "Antes del verano",
+      "numero": "01",
+      "titulo": "¿Se lee *sin agrandar*?",
+      "cuerpo": "Si tenés que achicar y agrandar con los dedos, el que entra se cansa y se va.",
+      "alt": "Paso 1: ¿se lee sin agrandar?"
+    },
+    {
+      "variante": "paso",
+      "etiqueta": "Antes del verano",
+      "numero": "02",
+      "titulo": "¿El WhatsApp *está a mano*?",
+      "cuerpo": "Que se vea enseguida y que al tocarlo se abra el chat con tu comercio.",
+      "alt": "Paso 2: ¿el WhatsApp está a mano?"
+    },
+    {
+      "variante": "paso",
+      "etiqueta": "Antes del verano",
+      "numero": "03",
+      "titulo": "¿Horario y dirección *al día*?",
+      "cuerpo": "Revisá que digan lo mismo que tu cartel y tu perfil de Google.",
+      "alt": "Paso 3: ¿horario y dirección al día?"
+    },
+    {
+      "variante": "cierre",
+      "titulo": "Miralo como lo mira *tu cliente*.",
+      "cuerpo": "Si algo no anda, escribime al **091 541 848** y lo vemos.",
+      "alt": "Cierre: miralo como lo mira tu cliente. Escribime al 091 541 848."
+    }
+  ],
+  "texto": "Antes de que arranque el verano, hacé esta prueba: abrí la página web de tu comercio en el celular, como si fueras un cliente.\n\n¿Se lee sin agrandar? ¿El WhatsApp está a mano? ¿El horario y la dirección están al día? Son tres cosas simples, y son las que mira quien te busca desde la playa o desde el auto.\n\nSi algo no anda o todavía no tenés sitio, escribime al 091 541 848 y lo vemos.",
+  "hashtags": ["#emprendimiento", "#negocios", "#PaginasWeb", "#Solymar", "#Canelones"],
+  "ubicacion": "solymar"
+}

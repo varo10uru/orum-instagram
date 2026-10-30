@@ -1,0 +1,16 @@
+{
+  "fecha": "2026-11-07",
+  "tipo": "historia",
+  "pilar": "local",
+  "tema": "Se viene el verano en la Costa",
+  "plantilla": "historia",
+  "piezas": [
+    {
+      "variante": "frase",
+      "etiqueta": "Desde Solymar",
+      "titulo": "Se viene *el verano*.",
+      "cuerpo": "En la Costa llega gente nueva que te busca desde el celular. Que te encuentre y te escriba.",
+      "fondo": "096"
+    }
+  ]
+}
