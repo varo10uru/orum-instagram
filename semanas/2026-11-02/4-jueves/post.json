@@ -1,0 +1,19 @@
+{
+  "fecha": "2026-11-05",
+  "tipo": "historia",
+  "pilar": "trabajos",
+  "tema": "ALMILU: todo claro antes de reservar",
+  "plantilla": "historia",
+  "piezas": [
+    {
+      "variante": "captura",
+      "etiqueta": "Trabajo real",
+      "titulo": "Todo claro *antes de reservar*.",
+      "cuerpo": "Horarios de entrada y salida, seña, cancelación y mascotas. En la página de ALMILU, en Punta del Diablo.",
+      "captura": {
+        "sitio": "almilu",
+        "seccion": "antes"
+      }
+    }
+  ]
+}
