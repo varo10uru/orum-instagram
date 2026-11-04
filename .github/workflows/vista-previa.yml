@@ -65,6 +65,10 @@ jobs:
       - name: Revisar y generar
         id: generar
         if: steps.semanas.outputs.lista != ''
+        env:
+          # La voz de los Reels (scripts/voz.mjs)
+          AZURE_SPEECH_KEY: ${{ secrets.AZURE_SPEECH_KEY }}
+          AZURE_SPEECH_REGION: ${{ vars.AZURE_SPEECH_REGION }}
         run: |
           # Se guarda lo que dice cada paso para ponerlo en el comentario
           set +e

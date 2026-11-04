@@ -212,8 +212,9 @@ function extras(tipo, { ubicacion, colaboradores = [], etiquetas = [] }){
 // "medios" trae las URLs públicas de las imágenes y la ruta local del video.
 // En los Reels: "enGrilla: false" hace que solo aparezca en la pestaña de
 // Reels (el Reel extra de un post), y sin "portada" la tapa es el cuadro
-// del segundo "segundoDePortada".
-export async function prepararContenedor({ tipo, texto, alts = [], imagenes = [], video, portada, enGrilla = true, segundoDePortada = 1, ...resto }){
+// del segundo "segundoDePortada". Con "conIA" sale con la etiqueta de Meta
+// de contenido hecho con IA: solo se puede poner al crear el contenedor.
+export async function prepararContenedor({ tipo, texto, alts = [], imagenes = [], video, portada, enGrilla = true, segundoDePortada = 1, conIA = false, ...resto }){
   const extra = extras(tipo, resto);
   if (tipo === 'post'){
     const { id } = await crearContenedor({ image_url: imagenes[0], caption: texto, ...(alts[0] && { alt_text: alts[0] }), ...extra });
@@ -240,7 +241,8 @@ export async function prepararContenedor({ tipo, texto, alts = [], imagenes = []
     const { id } = await crearContenedor({
       media_type: 'REELS', upload_type: 'resumable', caption: texto,
       share_to_feed: enGrilla ? 'true' : 'false',
-      ...(portada ? { cover_url: portada } : { thumb_offset: String(segundoDePortada * 1000) }), ...extra,
+      ...(portada ? { cover_url: portada } : { thumb_offset: String(segundoDePortada * 1000) }),
+      ...(conIA && { is_ai_generated: 'true' }), ...extra,
     });
     await subirVideo(id, video);
     await esperarContenedor(id, { minutos: 15 });
@@ -271,6 +273,15 @@ export async function publicarContenedor(contenedor){
     ({ permalink: link } = await pedir('GET', id, { fields: 'permalink' }));
   } catch { /* las historias a veces no tienen link */ }
   return { id, link };
+}
+
+// ¿Salió con la etiqueta de IA? Si Meta no contesta, se da por que no
+export async function tieneEtiquetaDeIA(id){
+  try {
+    return (await pedir('GET', id, { fields: 'is_ai_generated' })).is_ai_generated === true;
+  } catch {
+    return false;
+  }
 }
 
 // Renueva el token de Instagram Login (dura 60 días; se puede renovar si

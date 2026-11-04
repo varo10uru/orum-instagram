@@ -7,7 +7,8 @@
 // Por cada pieza del post abre su plantilla en Chrome, la llena con los
 // textos y guarda la captura en la misma carpeta del post.json (1.jpg,
 // 2.jpg...). Si la pieza muestra un sitio real ("captura"), primero saca esa
-// captura como si fuera un celular. Los Reels los arma recorrido.mjs.
+// captura como si fuera un celular. Los Reels los arma reel-voz.mjs (si
+// llevan "guion") o recorrido.mjs.
 //
 // Si algún texto no entra en su lugar, igual guarda la imagen (con el texto
 // marcado en rojo) y termina con error, para que la revisión lo frene.
@@ -19,6 +20,7 @@ import { pathToFileURL } from 'node:url';
 import { RAIZ, VIDEO_DEL_POST, abrirNavegador, buscarPosts } from './comun.mjs';
 import { prepararPieza, renderizarPieza } from './piezas.mjs';
 import { grabarReel } from './recorrido.mjs';
+import { grabarReelConVoz } from './reel-voz.mjs';
 import { armarVideo } from './tiktok.mjs';
 
 export async function renderizarPost(navegador, { carpeta, datos }){
@@ -27,7 +29,7 @@ export async function renderizarPost(navegador, { carpeta, datos }){
     if (/\.(jpg|mp4)$/.test(nombre)) await rm(join(carpeta, nombre));
   }
 
-  if (datos.tipo === 'reel') return grabarReel(navegador, { carpeta, datos });
+  if (datos.tipo === 'reel') return (datos.guion ? grabarReelConVoz : grabarReel)(navegador, { carpeta, datos });
 
   const problemas = [];
   const total = datos.piezas.length;

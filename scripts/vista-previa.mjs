@@ -113,6 +113,7 @@ export async function crearComentario(semanas, base){
     if (datos.tipo === 'reel'){
       lineas.push(`<img src="${url('tira.jpg')}" width="100%" alt="Cuadros del Reel">`, '');
       lineas.push(`[Bajar el video](${url('reel.mp4')})`);
+      if (datos.guion) lineas.push('', 'Voz de Mateo: en Instagram sale con la etiqueta de IA. A Facebook no va.');
     } else {
       const ancho = datos.tipo === 'historia' ? 200 : 250;
       lineas.push(archivosDelPost(datos).map((a, i) =>

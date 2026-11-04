@@ -1,0 +1,89 @@
+{
+  "fecha": "2026-11-11",
+  "tipo": "reel",
+  "pilar": "trabajos",
+  "tema": "ALMILU: la consulta de las once de la noche",
+  "recorrido": { "sitio": "almilu" },
+  "guion": [
+    {
+      "dice": "Son las once de la noche, y alguien busca casa para enero en Punta del Diablo.",
+      "subtitulos": ["Son las once\nde la noche,", "y alguien busca\ncasa para enero", "en *Punta del Diablo.*"],
+      "hora": "23:00",
+      "pasos": [
+        { "oscuro": 0.84 },
+        { "ir": "#casas", "margen": -250 }
+      ]
+    },
+    {
+      "dice": "Los dueños están durmiendo.",
+      "subtitulos": ["Los dueños están *durmiendo.*"],
+      "hora": "23:00"
+    },
+    {
+      "dice": "La página, no.",
+      "subtitulos": ["La página, *no.*"],
+      "pasos": [
+        { "ir": "#reserva :text(\"Fechas libres\")", "margen": 700 },
+        { "bajar": "#reserva :text(\"Fechas libres\")", "segundos": 1.5, "prender": true }
+      ]
+    },
+    {
+      "dice": "Ve qué fechas están libres en cada casa.",
+      "subtitulos": ["Ve qué fechas\nestán libres", "en *cada casa.*"],
+      "pasos": [
+        { "tocar": "#reserva button:has-text(\"ALMILU 2\")" },
+        { "tocar": "#reserva button:has-text(\"ALMILU 1\")", "espera": 0.2 },
+        { "tocar": "#reserva button[aria-label=\"Mes siguiente\"]", "espera": 0.1 },
+        { "tocar": "#reserva button[aria-label=\"Mes siguiente\"]", "espera": 0.1 }
+      ]
+    },
+    {
+      "dice": "Toca el día que llega y el día que se va.",
+      "subtitulos": ["Toca el día que llega", "y el día que *se va.*"],
+      "pasos": [
+        { "bajar": "#reserva :text(\"de 2027\")", "margen": 100, "segundos": 0.4 },
+        { "tocar": "#reserva button:not([disabled]):text-is(\"9\")" },
+        { "tocar": "#reserva button:not([disabled]):text-is(\"13\")", "espera": 0.2 }
+      ]
+    },
+    {
+      "dice": "Y ya sabe si la casa está disponible.",
+      "subtitulos": ["Y ya sabe si la casa", "está *disponible.*"],
+      "pasos": [
+        { "bajar": "#reserva :text(\"Tu mensaje\")", "margen": 78, "segundos": 1.1 }
+      ]
+    },
+    {
+      "dice": "El mensaje se arma solo, y lo manda por WhatsApp.",
+      "subtitulos": ["El mensaje\nse arma solo,", "y lo manda\npor *WhatsApp.*"],
+      "pasos": [
+        { "senalar": "#reserva a:has-text(\"Mandar por WhatsApp\")" }
+      ]
+    },
+    {
+      "dice": "A la mañana, la consulta ya está esperando, con las fechas y la casa.",
+      "subtitulos": ["A la mañana,\nla consulta", "ya está *esperando,*", "con las fechas\ny la casa."],
+      "pasos": [
+        { "placa": "mensaje", "hora": "08:00", "etiqueta": "Esto llega por WhatsApp:", "leer": "#reserva output" }
+      ]
+    },
+    {
+      "dice": "Si tenés un alquiler para la temporada, te armo algo así.",
+      "subtitulos": ["Si tenés un alquiler", "para la temporada,", "*te armo algo así.*"],
+      "pasos": [
+        { "oscuro": 0.6 },
+        { "ir": "#fotos", "margen": 0 },
+        { "bajar": "#fotos", "margen": -420, "segundos": 3.4 }
+      ]
+    },
+    {
+      "dice": "Escribime al cero noventa y uno, quinientos cuarenta y uno, ochocientos cuarenta y ocho.",
+      "pasos": [
+        { "placa": "cierre" }
+      ]
+    }
+  ],
+  "texto": "Son las once de la noche y alguien busca casa para enero en Punta del Diablo. Los dueños de ALMILU están durmiendo, pero la página sigue ahí: muestra las fechas libres de cada casa y arma el mensaje de WhatsApp con las fechas y la casa.\n\nA la mañana, la consulta ya está esperando.\n\nSi tenés un alquiler para la temporada, escribime al 091 541 848.\n\nVideo aéreo del inicio: Marcelo Campi (CC BY 3.0).",
+  "hashtags": ["#alquilerdetemporada", "#UruguayNatural", "#PaginasWeb", "#PuntaDelDiablo", "#Rocha"],
+  "ubicacion": "solymar"
+}

@@ -21,7 +21,7 @@ import { prepararPieza, renderizarPieza } from './piezas.mjs';
 import { abrirSitio, posicionDe, resolverCaptura } from './sitios.mjs';
 
 const ejecutar = promisify(execFile);
-const FPS = 30;
+export const FPS = 30;
 const ENTRADA = 2.5;     // segundos de la placa de entrada
 const CIERRE = 3;        // segundos de la placa de cierre
 const FUNDIDO = 0.4;     // segundos de cada fundido entre partes
@@ -29,7 +29,7 @@ const QUIETO_INICIO = 1.2;
 const MOVIMIENTO = 1.6;  // segundos que tarda en llegar a cada parada
 const QUIETO = 1.4;      // segundos que se queda en cada parada
 
-const suave = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+export const suave = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
 // Cronograma: la posición de la página en cada cuadro
 function cronograma(posiciones){
@@ -86,6 +86,16 @@ async function grabarCuadros(navegador, recorrido, destino){
   return cuadros.length / FPS;
 }
 
+// Tira con 8 cuadros del video, para revisarlo en el PR (GitHub no muestra
+// videos en los comentarios)
+export async function armarTira(carpeta, total){
+  await ejecutar('ffmpeg', [
+    '-y', '-loglevel', 'error', '-i', join(carpeta, 'reel.mp4'),
+    '-vf', `fps=8/${total.toFixed(3)},scale=270:-1,tile=8x1`, '-frames:v', '1', '-q:v', '4',
+    join(carpeta, 'tira.jpg'),
+  ]);
+}
+
 export async function grabarReel(navegador, { carpeta, datos }){
   const problemas = [];
   const tmp = join(RAIZ, '.tmp', `reel-${basename(carpeta)}`);
@@ -126,13 +136,7 @@ export async function grabarReel(navegador, { carpeta, datos }){
     join(carpeta, 'reel.mp4'),
   ], { maxBuffer: 10 * 1024 * 1024 });
 
-  // 4. Tira con 8 cuadros del video, para revisarlo en el PR (GitHub no
-  //    muestra videos en los comentarios)
-  await ejecutar('ffmpeg', [
-    '-y', '-loglevel', 'error', '-i', join(carpeta, 'reel.mp4'),
-    '-vf', `fps=8/${total.toFixed(3)},scale=270:-1,tile=8x1`, '-frames:v', '1', '-q:v', '4',
-    join(carpeta, 'tira.jpg'),
-  ]);
+  await armarTira(carpeta, total);
 
   await rm(tmp, { recursive: true, force: true });
   return problemas;

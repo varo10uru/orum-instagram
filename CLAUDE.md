@@ -85,8 +85,8 @@ cómo lo resuelve el sitio, no qué tiene el sitio.
   partir de las 12:37.
 - **Martes, jueves, sábado y domingo:** `historia`. Se publican a partir de las 10:07.
 - **Reels:** como máximo uno cada dos semanas. Hay que mirar las semanas
-  anteriores en `semanas/` y en `publicados.json`. Hasta que estén listos los
-  Reels con voz (ver "Reels con voz"), la rutina no arma ninguno.
+  anteriores en `semanas/` y en `publicados.json`. Hasta que esté cargada la
+  clave de Azure (ver "Reels con voz"), la rutina no arma ninguno.
 - **Temas:** no se repiten temas de las últimas 6 semanas (`publicados.json`).
 
 ## Formato del `post.json`
@@ -268,10 +268,22 @@ Por ahora no aparezco ni uso mi voz. Los Reels nuevos llevan:
 - **Subtítulos** grandes, para quien lo mira sin sonido.
 - **Guion:** una situación (ver "Que importe"), unos 30 segundos, con cierre
   en el 091 541 848.
-- **Etiqueta de IA:** obligatoria en Instagram por la voz.
+- **Etiqueta de IA:** obligatoria en Instagram por la voz. `publicar.mjs` la
+  pone sola y, si Meta no la deja puesta, la corrida falla y avisa.
+- **Facebook:** no va, porque su API no tiene una forma confirmada de poner la
+  etiqueta. En TikTok se prende a mano: el kit lo recuerda.
 
-Falta la cuenta de Azure para la voz y sumar esto a los scripts, incluida la
-etiqueta (`is_ai_generated`) al publicar.
+Se arman con `"recorrido": { "sitio": "almilu" }` y un `"guion"`, sin `piezas`.
+Cada línea lleva lo que dice la voz (`dice`), lo que se lee (`subtitulos`) y lo
+que pasa en pantalla (`pasos`); la voz marca los tiempos. Los pasos están
+explicados en `scripts/reel-voz.mjs` y hay un ejemplo completo en
+`ejemplo-reel/3-miercoles/`.
+- WhatsApp se señala (`senalar`), nunca se toca. Nada se manda.
+- El mensaje de la placa se lee de la página (`"leer"`): no se escribe a mano.
+- La última línea termina con la placa de cierre, que tiene el número.
+
+Falta la clave de Azure (`AZURE_SPEECH_KEY`, ver README): sin ella, la vista
+previa de un Reel con voz da error.
 
 ## Reel extra
 

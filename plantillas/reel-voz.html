@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es-UY">
+<head>
+<meta charset="UTF-8">
+<title>Reel con voz</title>
+<!-- Las partes de un Reel con voz (1080×1920). Las saca reel-voz.mjs:
+     - hora y subtítulo: con fondo transparente, van encima del video.
+     - placa "mensaje": una hora y el mensaje que llega por WhatsApp.
+     - placa "cierre": el logo y el número.
+     Instagram tapa unos 250px arriba y 340px abajo con sus botones, así que
+     todo queda dentro de esa zona segura. -->
+<link rel="stylesheet" href="base.css">
+<style>
+  :root{ --ancho:1080px; --alto:1920px; }
+  html, body{ width:var(--ancho); height:var(--alto); background:transparent; }
+
+  .placa{ position:absolute; inset:0; padding:300px 90px 0; background:var(--bg); }
+  .hora{ font:800 210px/1 'Bricolage Grotesque'; color:var(--acento); letter-spacing:-.04em; }
+  .solo-hora{ position:absolute; left:90px; top:330px; }
+
+  .aviso{ font:500 40px/1.3 'Inter'; color:var(--secundario); margin:26px 0 50px; }
+  .burbuja{ max-width:900px; padding:48px 50px; border-radius:36px; background:var(--superficie); font:500 52px/1.38 'Inter'; }
+
+  .marca{ display:block; width:430px; margin-bottom:150px; }
+  .invitacion{ font:800 92px/1.06 'Bricolage Grotesque'; letter-spacing:-.02em; }
+  .numero{ margin:44px 0 50px; font:800 138px/1 'Bricolage Grotesque'; color:var(--acento); letter-spacing:-.03em; white-space:nowrap; }
+  .quien{ font:500 42px/1.35 'Inter'; color:var(--secundario); }
+
+  .subtitulo{ position:absolute; left:90px; right:130px; top:1190px; }
+  .subtitulo div{ display:inline-block; padding:30px 40px; border-radius:30px; background:#0A0A0Bf0; font:800 74px/1.1 'Bricolage Grotesque'; letter-spacing:-.015em; }
+  .subtitulo b{ color:var(--acento); font-weight:800; }
+</style>
+</head>
+<body>
+<div id="capa"></div>
+<script>
+  // *Esto* va en verde y un salto de línea corta el renglón
+  const conMarcas = (t) => t
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/\*(.+?)\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+
+  window.armar = ({ tipo, hora, etiqueta, texto }) => {
+    const capa = document.getElementById('capa');
+    if (tipo === 'hora') capa.innerHTML = `<div class="solo-hora hora">${hora}</div>`;
+    if (tipo === 'subtitulo') capa.innerHTML = `<div class="subtitulo"><div>${conMarcas(texto)}</div></div>`;
+    if (tipo === 'mensaje') capa.innerHTML = `<div class="placa"><div class="hora">${hora}</div><div class="aviso">${etiqueta}</div><div class="burbuja"></div></div>`;
+    if (tipo === 'mensaje') capa.querySelector('.burbuja').textContent = texto;
+    if (tipo === 'cierre') capa.innerHTML = `<div class="placa">
+      <img class="marca" src="../marca/logo-completo.svg" alt="">
+      <div class="invitacion">Escribime.</div>
+      <div class="numero">091 541 848</div>
+      <div class="quien">Sitios web para comercios y alquileres.<br>Solymar, Canelones.</div>
+    </div>`;
+    return Promise.all([...capa.querySelectorAll('img')].map((i) => i.decode()));
+  };
+</script>
+</body>
+</html>

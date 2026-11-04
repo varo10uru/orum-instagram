@@ -221,6 +221,27 @@ el mail de GitHub. El link de Facebook queda en `publicados.json`.
 Para apagarla, se borra la variable (`gh variable delete
 PUBLICAR_EN_FACEBOOK --repo varo10uru/orum-instagram`).
 
+## Reels con voz
+
+La voz es Mateo (`es-UY-MateoNeural`), de Azure Speech. Se genera en la vista
+previa del PR, así que la clave va en GitHub. Para prenderla (una sola vez):
+
+1. En [portal.azure.com](https://portal.azure.com), crear un recurso **Speech**
+   en el plan gratuito **F0**, región **East US**.
+2. Copiar una de las claves (**Claves y punto de conexión**) y cargarla desde
+   la terminal. Nunca se pega en un chat:
+
+   ```
+   gh secret set AZURE_SPEECH_KEY -R varo10uru/orum-instagram
+   ```
+
+3. Si la región no es East US, avisarlo:
+   `gh variable set AZURE_SPEECH_REGION -R varo10uru/orum-instagram --body <región>`.
+
+Sale en Instagram con la etiqueta de IA y no va a Facebook (ver `CLAUDE.md`,
+"Reels con voz"). Si Meta no deja la etiqueta puesta, la corrida falla: hay que
+ponérsela a mano desde la app.
+
 ## TikTok
 
 TikTok no deja publicar solo con una app propia hasta que la audita (sin
@@ -310,7 +331,7 @@ Para ver una plantilla sola, abrila en Chrome (por ejemplo,
 | `metricas.json` | Los números de la cuenta y de cada publicación (los anota la Action "Métricas") |
 | `scripts/` | Validar, renderizar, vista previa, Reels, publicar (en Instagram y Facebook), métricas, ubicaciones, conectar y revisar el token |
 | `.github/workflows/` | Vista previa en los PR, publicación diaria, métricas de los miércoles, ubicaciones y cuentas (a mano) y renovación del token |
-| `ejemplo/`, `ejemplo-reel/` | Una semana de muestra y un Reel de muestra |
+| `ejemplo/`, `ejemplo-reel/` | Una semana de muestra y dos Reels de muestra: el recorrido viejo y el Reel con voz |
 
 ## Cambiar algo
 
