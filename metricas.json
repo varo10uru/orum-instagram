@@ -14,6 +14,11 @@
       "fecha": "2026-10-21",
       "seguidores": 19,
       "publicaciones": 8
+    },
+    {
+      "fecha": "2026-11-04",
+      "seguidores": 48,
+      "publicaciones": 13
     }
   ],
   "semanas": {
@@ -40,6 +45,22 @@
       "interacciones": 12,
       "toques_en_contacto": 0,
       "medido": "2026-10-22T00:44:54.449Z"
+    },
+    "2026-10-19": {
+      "alcance": 343,
+      "vistas": 639,
+      "cuentas_que_interactuaron": 7,
+      "interacciones": 18,
+      "toques_en_contacto": 0,
+      "medido": "2026-11-04T14:33:13.287Z"
+    },
+    "2026-10-26": {
+      "alcance": 82,
+      "vistas": 548,
+      "cuentas_que_interactuaron": 5,
+      "interacciones": 14,
+      "toques_en_contacto": 0,
+      "medido": "2026-11-04T14:33:13.287Z"
     }
   },
   "publicaciones": {
@@ -49,15 +70,15 @@
       "pilar": "consejos",
       "tema": "Perfil de empresa de Google",
       "link": "https://www.instagram.com/p/DePZzrLkjJ0/",
-      "alcance": 16,
-      "vistas": 22,
+      "alcance": 20,
+      "vistas": 26,
       "guardados": 0,
       "compartidos": 0,
-      "me_gusta": 0,
+      "me_gusta": 1,
       "comentarios": 0,
       "seguidores": 0,
       "visitas_al_perfil": 0,
-      "medido": "2026-10-22T00:44:54.449Z"
+      "medido": "2026-11-04T14:33:13.287Z"
     },
     "18137599090727992": {
       "fecha": "2026-10-08",
@@ -65,15 +86,15 @@
       "pilar": "consejos",
       "tema": "Tres cosas para que te escriban desde la web",
       "link": "https://www.instagram.com/p/DePZ5xhl-gM/",
-      "alcance": 29,
-      "vistas": 58,
+      "alcance": 36,
+      "vistas": 67,
       "guardados": 0,
       "compartidos": 0,
       "me_gusta": 3,
       "comentarios": 0,
       "seguidores": 0,
       "visitas_al_perfil": 0,
-      "medido": "2026-10-22T00:44:54.449Z"
+      "medido": "2026-11-04T14:33:13.287Z"
     },
     "17880002601629854": {
       "fecha": "2026-10-08",
@@ -81,15 +102,15 @@
       "pilar": "trabajos",
       "tema": "Barraca Centro Solymar: pedir presupuesto por WhatsApp",
       "link": "https://www.instagram.com/p/DePZ_PajLrY/",
-      "alcance": 20,
-      "vistas": 37,
+      "alcance": 26,
+      "vistas": 46,
       "guardados": 0,
       "compartidos": 0,
-      "me_gusta": 1,
+      "me_gusta": 2,
       "comentarios": 0,
       "seguidores": 0,
       "visitas_al_perfil": 0,
-      "medido": "2026-10-22T00:44:54.449Z"
+      "medido": "2026-11-04T14:33:13.287Z"
     },
     "18112332062612941": {
       "fecha": "2026-10-12",
@@ -97,15 +118,15 @@
       "pilar": "local",
       "tema": "Quién soy: sitios web desde Solymar",
       "link": "https://www.instagram.com/p/DeZ75xbmIBb/",
-      "alcance": 100,
-      "vistas": 216,
+      "alcance": 105,
+      "vistas": 225,
       "guardados": 0,
       "compartidos": 1,
-      "me_gusta": 2,
+      "me_gusta": 3,
       "comentarios": 0,
       "seguidores": 3,
       "visitas_al_perfil": 12,
-      "medido": "2026-10-22T00:44:54.449Z"
+      "medido": "2026-11-04T14:33:13.287Z"
     },
     "18111063713177596": {
       "fecha": "2026-10-14",
@@ -113,15 +134,15 @@
       "pilar": "consejos",
       "tema": "Las preguntas de siempre, respondidas en la web",
       "link": "https://www.instagram.com/p/DeevKHIlJ85/",
-      "alcance": 20,
-      "vistas": 41,
+      "alcance": 25,
+      "vistas": 49,
       "guardados": 0,
       "compartidos": 0,
-      "me_gusta": 1,
+      "me_gusta": 2,
       "comentarios": 0,
       "seguidores": 0,
       "visitas_al_perfil": 0,
-      "medido": "2026-10-22T00:44:54.449Z"
+      "medido": "2026-11-04T14:33:13.287Z"
     },
     "17948403021344817": {
       "fecha": "2026-10-16",
@@ -129,14 +150,14 @@
       "pilar": "trabajos",
       "tema": "Barraca Centro Solymar: recorrido por el sitio",
       "link": "https://www.instagram.com/reel/Dej5hdOCo_m/",
-      "alcance": 20,
-      "vistas": 35,
+      "alcance": 25,
+      "vistas": 42,
       "guardados": 0,
       "compartidos": 0,
-      "me_gusta": 2,
+      "me_gusta": 3,
       "comentarios": 0,
-      "segundos_promedio": 5.5,
-      "medido": "2026-10-22T00:44:54.449Z"
+      "segundos_promedio": 4.9,
+      "medido": "2026-11-04T14:33:13.287Z"
     },
     "18158365261512871": {
       "fecha": "2026-10-20",
@@ -144,15 +165,15 @@
       "pilar": "proceso",
       "tema": "Del boceto al sitio: primero charlamos",
       "link": "https://www.instagram.com/p/DevDXuKjaGy/",
-      "alcance": 9,
-      "vistas": 17,
+      "alcance": 19,
+      "vistas": 37,
       "guardados": 0,
       "compartidos": 0,
       "me_gusta": 1,
       "comentarios": 0,
       "seguidores": 0,
       "visitas_al_perfil": 0,
-      "medido": "2026-10-22T00:44:54.449Z"
+      "medido": "2026-11-04T14:33:13.287Z"
     },
     "18152562451551847": {
       "fecha": "2026-10-21",
@@ -160,15 +181,108 @@
       "pilar": "consejos",
       "tema": "Fotos propias en tu sitio",
       "link": "https://www.instagram.com/p/DewwA_yDSjk/",
-      "alcance": 10,
-      "vistas": 31,
+      "alcance": 26,
+      "vistas": 64,
+      "guardados": 0,
+      "compartidos": 0,
+      "me_gusta": 1,
+      "comentarios": 0,
+      "seguidores": 0,
+      "visitas_al_perfil": 1,
+      "medido": "2026-11-04T14:33:13.287Z"
+    },
+    "18173600908457501": {
+      "fecha": "2026-10-23",
+      "tipo": "post",
+      "pilar": "trabajos",
+      "tema": "Barraca Centro Solymar: precios y stock desde un panel",
+      "link": "https://www.instagram.com/p/De15kN8j9eN/",
+      "alcance": 26,
+      "vistas": 56,
+      "guardados": 0,
+      "compartidos": 0,
+      "me_gusta": 0,
+      "comentarios": 0,
+      "seguidores": 0,
+      "visitas_al_perfil": 0,
+      "medido": "2026-11-04T14:33:13.287Z"
+    },
+    "18420967600153676": {
+      "fecha": "2026-10-26",
+      "tipo": "post",
+      "pilar": "trabajos",
+      "tema": "ALMILU: nuevo trabajo en Punta del Diablo",
+      "link": "https://www.instagram.com/p/De9m9j5l_5w/",
+      "alcance": 32,
+      "vistas": 78,
+      "guardados": 0,
+      "compartidos": 0,
+      "me_gusta": 2,
+      "comentarios": 0,
+      "seguidores": 0,
+      "visitas_al_perfil": 1,
+      "medido": "2026-11-04T14:33:13.287Z"
+    },
+    "18095868659539650": {
+      "fecha": "2026-10-26",
+      "tipo": "reel-extra",
+      "pilar": "local",
+      "tema": "Que te encuentren los vecinos de la Costa",
+      "link": "https://www.instagram.com/reel/De-Uli1EkLd/",
+      "alcance": 14,
+      "vistas": 28,
+      "guardados": 0,
+      "compartidos": 0,
+      "me_gusta": 1,
+      "comentarios": 0,
+      "segundos_promedio": 6.1,
+      "medido": "2026-11-04T14:33:13.287Z"
+    },
+    "17914766631285897": {
+      "fecha": "2026-10-28",
+      "tipo": "carrusel",
+      "pilar": "consejos",
+      "tema": "Responder las reseñas de Google",
+      "link": "https://www.instagram.com/p/DfCxlDTl9wD/",
+      "alcance": 20,
+      "vistas": 56,
       "guardados": 0,
       "compartidos": 0,
       "me_gusta": 1,
       "comentarios": 0,
       "seguidores": 0,
       "visitas_al_perfil": 0,
-      "medido": "2026-10-22T00:44:54.449Z"
+      "medido": "2026-11-04T14:33:13.287Z"
+    },
+    "17971078200183787": {
+      "fecha": "2026-10-28",
+      "tipo": "reel-extra",
+      "pilar": "consejos",
+      "tema": "Responder las reseñas de Google",
+      "link": "https://www.instagram.com/reel/DfDrHXwCYD9/",
+      "alcance": 10,
+      "vistas": 20,
+      "guardados": 0,
+      "compartidos": 0,
+      "me_gusta": 0,
+      "comentarios": 0,
+      "segundos_promedio": 4.4,
+      "medido": "2026-11-04T14:33:13.287Z"
+    },
+    "18112019378186914": {
+      "fecha": "2026-11-02",
+      "tipo": "reel-extra",
+      "pilar": "proceso",
+      "tema": "Qué te pido para arrancar tu sitio",
+      "link": "https://www.instagram.com/reel/DfQW8BTAZWK/",
+      "alcance": 14,
+      "vistas": 24,
+      "guardados": 0,
+      "compartidos": 0,
+      "me_gusta": 0,
+      "comentarios": 0,
+      "segundos_promedio": 6.2,
+      "medido": "2026-11-04T14:33:13.287Z"
     }
   }
 }
