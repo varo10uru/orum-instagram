@@ -2,22 +2,21 @@
   "fecha": "2026-11-06",
   "tipo": "post",
   "pilar": "trabajos",
-  "tema": "Barraca Centro Solymar: simulador de materiales por m²",
+  "tema": "ALMILU: la consulta que llega en portugués",
   "plantilla": "post-trabajo",
   "piezas": [
     {
       "etiqueta": "Trabajo real",
-      "cliente": "Barraca Centro Solymar",
-      "titulo": "¿Cuánto material *necesitás*?",
-      "cuerpo": "Ponés los metros cuadrados y el sitio te da una idea antes de pedir.",
+      "cliente": "ALMILU",
+      "titulo": "Busca casa *desde Brasil*.",
+      "cuerpo": "La página también está en portugués, y el mensaje le sale en su idioma.",
       "captura": {
-        "sitio": "barraca",
-        "seccion": "simulador"
+        "archivo": "marca/capturas/almilu-pt-mensaje.png"
       },
-      "alt": "Celular con el sitio de Barraca Centro Solymar abierto en el simulador de materiales por metro cuadrado."
+      "alt": "Celular con la página de ALMILU en portugués: el mensaje de consulta armado con la casa y las fechas, y el botón para enviarlo por WhatsApp."
     }
   ],
-  "texto": "¿Vas a hacer una obra y no sabés cuánto material pedir?\n\nEn la página web de Barraca Centro Solymar hay un simulador de materiales por metro cuadrado: ponés los metros y te da una idea de lo que necesitás. Después armás tu lista y la mandás por WhatsApp para pedir presupuesto.\n\nSi tenés un comercio y querés que tus clientes lleguen con las dudas resueltas, escribime al 091 541 848.",
-  "hashtags": ["#diseñoweb", "#emprendedores", "#PaginasWeb", "#Solymar", "#Canelones"],
+  "texto": "Alguien en Brasil busca casa para el verano en Punta del Diablo. Entra a una página que está solo en español y capaz que se va sin preguntar.\n\nLa página de ALMILU también está en portugués. Elige la casa y las fechas, y el mensaje de WhatsApp se arma solo, en su idioma. Del otro lado llega la consulta completa, y para contestarla los dueños tienen mensajes listos en español y en portugués.\n\nSi tenés un alquiler y te buscan desde Brasil, escribime al 091 541 848.",
+  "hashtags": ["#alquilerdetemporada", "#UruguayNatural", "#PaginasWeb", "#PuntaDelDiablo", "#Rocha"],
   "ubicacion": "solymar"
 }

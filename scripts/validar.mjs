@@ -229,7 +229,8 @@ export function validarPost({ carpeta, datos }, { listo = false, todos = [] } = 
   desde.setUTCDate(desde.getUTCDate() - DIAS_SIN_REPETIR_TEMA);
   const estaCarpeta = relative(RAIZ, carpeta);
   for (const viejo of PUBLICADOS){
-    if (viejo.carpeta === estaCarpeta) continue;   // es este mismo post, ya publicado
+    // Es este mismo post, ya publicado, o su Reel extra ("carpeta#reel")
+    if (viejo.carpeta.replace(/#reel$/, '') === estaCarpeta) continue;
     if (normalizar(viejo.tema || '') === tema && new Date(viejo.fecha) >= desde){
       error(`el tema "${datos.tema}" ya salió el ${viejo.fecha}`);
     }
