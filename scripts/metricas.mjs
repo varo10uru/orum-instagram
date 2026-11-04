@@ -83,19 +83,33 @@ async function medir(){
   // Cada post, carrusel y Reel de las últimas 4 semanas
   const desde = aFecha(aMs(hoy) - DIAS_QUE_SE_MIDEN * DIA);
   const aMedir = publicados.filter((p) => p.id && p.tipo !== 'historia' && p.fecha >= desde);
+  let medidas = 0;
   for (const p of aMedir){
-    const { metricas: valores, faltan } = await metricasDePublicacion(p.id, p.tipo);
+    let resultado;
+    try {
+      resultado = await metricasDePublicacion(p.id, p.tipo);
+    } catch (e){
+      // Un post borrado a mano no frena al resto. Cualquier otro error sigue de largo
+      if (!/Object with ID .* does not exist/i.test(e.message)) throw e;
+      console.log(`  ${p.fecha} ${p.tipo} (${p.pilar}): ya no está en Instagram, no se mide`);
+      continue;
+    }
+    medidas++;
+    const { metricas: valores, faltan } = resultado;
     const { fecha, tipo, pilar, tema, link } = p;
     metricas.publicaciones[p.id] = { fecha, tipo, pilar, tema, link, ...valores, medido };
     avisos.push(...faltan.map((f) => `${p.carpeta}: ${f}`));
     console.log(`  ${fecha} ${tipo} (${pilar}): alcance ${valores.alcance ?? '—'}, guardados ${valores.guardados ?? '—'}, seguidores ${valores.seguidores ?? '—'}`);
   }
 
+  // Si no se pudo medir ninguna, el problema es el token, no un post borrado
+  if (aMedir.length && !medidas) throw new Error(`no se pudo medir ninguna de las ${aMedir.length} publicaciones`);
+
   await writeFile(RUTA_METRICAS, JSON.stringify(metricas, null, 2) + '\n');
   if (avisos.length){
     console.log(`\nDatos que Meta no dio (quedan en null):\n  ${avisos.join('\n  ')}`);
   }
-  console.log(`\nListo: ${aMedir.length} publicaciones medidas.`);
+  console.log(`\nListo: ${medidas} publicaciones medidas.`);
 }
 
 // ----- Resumen en Markdown -----
