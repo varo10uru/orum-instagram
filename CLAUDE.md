@@ -22,8 +22,9 @@ Cada post del muro también sale en TikTok: va en el kit de la semana (ver
   reales. Hoy es una demo privada con renders de ejemplo (decisión del
   2026-10-08).
 - **ALMILU** (alquiler en Punta del Diablo) es cliente desde octubre de 2026.
-  Se muestra solo lo que dice `sitios.json`: el panel de reservas está en
-  desarrollo y no se nombra, y los monoambientes son "próximamente".
+  Se muestra solo lo que dice `sitios.json`. Del panel privado se puede contar
+  qué hace, pero nunca mostrar capturas con datos de huéspedes ni nombres
+  reales. Los monoambientes son "próximamente".
 - **Crédito obligatorio:** el video del inicio de ALMILU es de Marcelo Campi
   (CC BY 3.0). Si una captura o un Reel muestra el inicio, el texto lleva
   "Video aéreo del inicio: Marcelo Campi (CC BY 3.0)." `validar.mjs` lo exige.
@@ -51,13 +52,29 @@ Cada post del muro también sale en TikTok: va en el kit de la semana (ver
 
 | Pilar | Qué es | Ejemplos |
 |---|---|---|
-| `trabajos` | Sitios reales que hice (hoy la barraca y ALMILU) | Una función contada en simple, una captura, un Reel con el recorrido |
+| `trabajos` | Sitios reales que hice (hoy ALMILU y la barraca) | Una situación real y cómo la resuelve el sitio, con una captura |
 | `consejos` | Ideas útiles para un comercio, sin tecnicismos | Aparecer en Google Maps, el WhatsApp a mano en la web, fotos propias, horario al día |
 | `proceso` | Cómo trabajo, detrás de escena | El render 3D del sitio de ORUM, del boceto al sitio, hablar directo conmigo |
 | `local` | La Costa: Solymar, Ciudad de la Costa, Costa de Oro | Quién soy, desde dónde trabajo, invitación a escribir |
 
 Cada semana, los 3 posts del muro son de 3 pilares distintos. Los trabajos se
-reparten: como mucho 2 piezas del mismo cliente por semana.
+reparten: como mucho 2 piezas del mismo cliente por semana. **ALMILU va
+primero** porque es el caso nuevo: la barraca ya se usó mucho y sale como
+mucho una vez cada 2 semanas.
+
+## Que importe
+
+Cada pieza parte de una situación real del dueño de un comercio o de un
+alquiler: alguien que busca a la noche y nadie contesta, las mismas preguntas
+de todos los días, una consulta que llega incompleta. Se cuenta qué pasa y
+cómo lo resuelve el sitio, no qué tiene el sitio.
+
+- **Antes de elegir un tema:** tiene que quedar claro qué problema real le
+  resuelve al dueño. Si no queda claro, se cambia el tema.
+- **Nada de recorridos:** un paseo por una página no le dice nada a nadie.
+- **Lo que no va:** borré a mano "Que te encuentren tus vecinos", "Para
+  arrancar, poca cosa" y el recorrido de ALMILU porque apuntaban a algo sin
+  importancia.
 
 ## La semana
 
@@ -68,7 +85,8 @@ reparten: como mucho 2 piezas del mismo cliente por semana.
   partir de las 12:37.
 - **Martes, jueves, sábado y domingo:** `historia`. Se publican a partir de las 10:07.
 - **Reels:** como máximo uno cada dos semanas. Hay que mirar las semanas
-  anteriores en `semanas/` y en `publicados.json`.
+  anteriores en `semanas/` y en `publicados.json`. Hasta que estén listos los
+  Reels con voz (ver "Reels con voz"), la rutina no arma ninguno.
 - **Temas:** no se repiten temas de las últimas 6 semanas (`publicados.json`).
 
 ## Formato del `post.json`
@@ -129,7 +147,8 @@ acorta el texto: nunca se toca la plantilla para hacerlo entrar.
   inicio.
 - **Reel:** `"recorrido": { "sitio": "barraca", "paradas": ["simulador", "catalogo"] }`
   con dos piezas de plantilla `historia`: la entrada (`frase`) y el cierre
-  (`cierre`).
+  (`cierre`). Es el formato de recorrido: no se usa en piezas nuevas (ver
+  "Que importe").
 - **Antes de usar una sección:** leer los "avisos" del sitio en `sitios.json`.
 
 ### Hashtags
@@ -240,6 +259,19 @@ interacción.
    anduvo bien. Si no hay datos suficientes, se dice y no se propone nada.
 
 Los cambios los decido yo: el informe no cambia nada por sí solo.
+
+## Reels con voz
+
+Por ahora no aparezco ni uso mi voz. Los Reels nuevos llevan:
+- **Voz:** Mateo (`es-UY-MateoNeural`), en español uruguayo.
+- **Imagen:** la pantalla real del sitio, usándose de verdad, sin mandar nada.
+- **Subtítulos** grandes, para quien lo mira sin sonido.
+- **Guion:** una situación (ver "Que importe"), unos 30 segundos, con cierre
+  en el 091 541 848.
+- **Etiqueta de IA:** obligatoria en Instagram por la voz.
+
+Falta la cuenta de Azure para la voz y sumar esto a los scripts, incluida la
+etiqueta (`is_ai_generated`) al publicar.
 
 ## Reel extra
 
