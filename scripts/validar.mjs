@@ -20,6 +20,8 @@ const PILARES = ['trabajos', 'consejos', 'proceso', 'local'];
 const MAX_HASHTAGS = 5;          // límite de Instagram desde fines de 2025
 const MAX_TEXTO = 2200;          // texto + hashtags
 const DIAS_SIN_REPETIR_TEMA = 42;
+const MAX_GUION = 600;           // caracteres de la voz de un Reel
+const PASOS_DEL_GUION = ['ir', 'bajar', 'tocar', 'senalar', 'oscuro', 'placa'];
 
 // Jerga y frases de venta que alejan al cliente (ver CLAUDE.md, "Tono")
 const PALABRAS_PROHIBIDAS = [
@@ -64,7 +66,30 @@ function normalizar(texto){
 function textosDelPost(datos){
   const textos = [datos.texto || ''];
   for (const p of datos.piezas || []) textos.push(p.etiqueta, p.titulo, p.cuerpo, p.pie, p.cliente, p.alt);
+  for (const l of datos.guion || []) textos.push(l.dice, ...(l.subtitulos || []));
   return textos.filter(Boolean).join('\n');
+}
+
+// El guion de un Reel con voz (ver reel-voz.mjs)
+function revisarGuion(guion, error){
+  if (!Array.isArray(guion) || !guion.length) return error('"guion" es una lista de líneas, cada una con su "dice"');
+  const largo = guion.reduce((suma, l) => suma + (l.dice?.length || 0), 0);
+  if (largo > MAX_GUION) error(`el guion ocupa ${largo} caracteres (máximo ${MAX_GUION}, unos 40 segundos)`);
+  guion.forEach((linea, i) => {
+    const n = `línea ${i + 1} del guion`;
+    if (!linea.dice?.trim()) error(`${n}: falta "dice"`);
+    if (linea.subtitulos !== undefined && !(Array.isArray(linea.subtitulos) && linea.subtitulos.every((t) => t?.trim()))){
+      error(`${n}: "subtitulos" es una lista de textos`);
+    }
+    for (const paso of linea.pasos || []){
+      const accion = Object.keys(paso).find((clave) => PASOS_DEL_GUION.includes(clave));
+      if (!accion) error(`${n}: paso desconocido ${JSON.stringify(paso)} (hay: ${PASOS_DEL_GUION.join(', ')})`);
+      if (/whatsapp|wa\.me/i.test(paso.tocar || '')) error(`${n}: WhatsApp no se toca, se señala con "senalar"`);
+      if (paso.placa && !['mensaje', 'cierre'].includes(paso.placa)) error(`${n}: la placa "${paso.placa}" no existe (hay: mensaje, cierre)`);
+      if (paso.placa === 'mensaje' && !paso.leer) error(`${n}: la placa "mensaje" muestra lo que dice la página: falta "leer"`);
+    }
+  });
+  if (!guion.at(-1).pasos?.some((p) => p.placa === 'cierre')) error('la última línea del guion termina con { "placa": "cierre" }, el número');
 }
 
 export function validarPost({ carpeta, datos }, { listo = false, todos = [] } = {}){
@@ -87,7 +112,8 @@ export function validarPost({ carpeta, datos }, { listo = false, todos = [] } = 
   // ----- Piezas -----
   const piezas = datos.piezas || [];
   if (datos.tipo === 'reel'){
-    if (piezas.length !== 2) error('un Reel lleva 2 piezas: la placa de entrada y la de cierre');
+    if (datos.guion !== undefined) revisarGuion(datos.guion, error);
+    else if (piezas.length !== 2) error('un Reel lleva 2 piezas: la placa de entrada y la de cierre');
     const r = datos.recorrido;
     if (!r) error('falta "recorrido" (qué sitio se muestra y dónde para)');
     else if (r.sitio){

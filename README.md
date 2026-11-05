@@ -221,6 +221,24 @@ el mail de GitHub. El link de Facebook queda en `publicados.json`.
 Para apagarla, se borra la variable (`gh variable delete
 PUBLICAR_EN_FACEBOOK --repo varo10uru/orum-instagram`).
 
+## Reels con voz
+
+La voz es Mateo, de Clipchamp, que es gratis y no pide tarjeta. Se arman en la
+Mac, uno por vez:
+
+1. Armar el `post.json` con su `"guion"` (ejemplo en `ejemplo-reel/3-miercoles/`).
+2. En [Clipchamp](https://app.clipchamp.com): **Texto a voz**, idioma
+   **Español (Uruguay)**, voz **Mateo**. Pegar todas las líneas del guion, con
+   `...` entre una y otra, y tocar **Guardar**.
+3. **Exportar** → **Solo audio**. Guardar el archivo como `voz.m4a` al lado del
+   `post.json`. No va al repo, ya está en `.gitignore`.
+4. Armar el video: `node scripts/renderizar.mjs <carpeta del post>`.
+5. Subir al PR el `post.json`, `reel.mp4`, `portada.jpg` y `tira.jpg`.
+
+Sale en Instagram con la etiqueta de IA y no va a Facebook (ver `CLAUDE.md`,
+"Reels con voz"). Si Meta no deja la etiqueta puesta, la corrida falla: hay que
+ponérsela a mano desde la app.
+
 ## TikTok
 
 TikTok no deja publicar solo con una app propia hasta que la audita (sin
@@ -310,7 +328,7 @@ Para ver una plantilla sola, abrila en Chrome (por ejemplo,
 | `metricas.json` | Los números de la cuenta y de cada publicación (los anota la Action "Métricas") |
 | `scripts/` | Validar, renderizar, vista previa, Reels, publicar (en Instagram y Facebook), métricas, ubicaciones, conectar y revisar el token |
 | `.github/workflows/` | Vista previa en los PR, publicación diaria, métricas de los miércoles, ubicaciones y cuentas (a mano) y renovación del token |
-| `ejemplo/`, `ejemplo-reel/` | Una semana de muestra y un Reel de muestra |
+| `ejemplo/`, `ejemplo-reel/` | Una semana de muestra y dos Reels de muestra: el recorrido viejo y el Reel con voz |
 
 ## Cambiar algo
 

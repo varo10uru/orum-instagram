@@ -98,8 +98,9 @@ export async function armarKit(semanas, salida){
     else await armarVideo({ carpeta, datos }, destino);
 
     const [, mes, d] = datos.fecha.split('-');
-    leeme.push(`## ${NOMBRE_DIA[dia] || dia} ${d}/${mes} · ${HORA_POR_TIPO[datos.tipo]} · \`${nombre}\``, '',
-      '```', textoParaTikTok(datos), '```', '');
+    leeme.push(`## ${NOMBRE_DIA[dia] || dia} ${d}/${mes} · ${HORA_POR_TIPO[datos.tipo]} · \`${nombre}\``, '');
+    if (datos.guion) leeme.push('**Tiene voz de IA:** no le pongas sonido y prendé "Contenido generado por IA" al subirlo.', '');
+    leeme.push('```', textoParaTikTok(datos), '```', '');
   }
   await writeFile(join(salida, 'LEEME.md'), leeme.join('\n'));
   return { cantidad: posts.length - problemas.length, problemas };
