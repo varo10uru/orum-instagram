@@ -8,5 +8,8 @@ ejemplo-reel/**/*.mp4
 # La del perfil está hecha a mano y sí va
 !perfil/vista-previa.html
 
+# La voz de los Reels: el audio suelto no se reparte (ver scripts/voz.mjs)
+voz.m4a
+
 # Kit de TikTok que arma la vista previa
 kit-tiktok/

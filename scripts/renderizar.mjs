@@ -17,13 +17,17 @@
 import { readdir, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { RAIZ, VIDEO_DEL_POST, abrirNavegador, buscarPosts } from './comun.mjs';
+import { RAIZ, VIDEO_DEL_POST, VOZ_DEL_REEL, abrirNavegador, buscarPosts, existe } from './comun.mjs';
 import { prepararPieza, renderizarPieza } from './piezas.mjs';
 import { grabarReel } from './recorrido.mjs';
 import { grabarReelConVoz } from './reel-voz.mjs';
 import { armarVideo } from './tiktok.mjs';
 
 export async function renderizarPost(navegador, { carpeta, datos }){
+  // Un Reel con voz se arma en la Mac, con el audio que no va al repo. En
+  // GitHub no está ese audio: queda el video ya armado
+  if (datos.guion && !existe(join(carpeta, VOZ_DEL_REEL)) && existe(join(carpeta, 'reel.mp4'))) return [];
+
   // Borra lo renderizado antes, para que no queden imágenes viejas
   for (const nombre of await readdir(carpeta)){
     if (/\.(jpg|mp4)$/.test(nombre)) await rm(join(carpeta, nombre));

@@ -15,8 +15,8 @@
       ]
     },
     {
-      "dice": "Los dueños están durmiendo.",
-      "subtitulos": ["Los dueños están *durmiendo.*"],
+      "dice": "La administración está durmiendo.",
+      "subtitulos": ["La administración\nestá *durmiendo.*"],
       "hora": "23:00"
     },
     {
@@ -73,7 +73,7 @@
       "pasos": [
         { "oscuro": 0.6 },
         { "ir": "#fotos", "margen": 0 },
-        { "bajar": "#fotos", "margen": -420, "segundos": 3.4 }
+        { "bajar": "#fotos", "margen": -420, "segundos": 2.7 }
       ]
     },
     {
@@ -83,7 +83,7 @@
       ]
     }
   ],
-  "texto": "Son las once de la noche y alguien busca casa para enero en Punta del Diablo. Los dueños de ALMILU están durmiendo, pero la página sigue ahí: muestra las fechas libres de cada casa y arma el mensaje de WhatsApp con las fechas y la casa.\n\nA la mañana, la consulta ya está esperando.\n\nSi tenés un alquiler para la temporada, escribime al 091 541 848.\n\nVideo aéreo del inicio: Marcelo Campi (CC BY 3.0).",
+  "texto": "Son las once de la noche y alguien busca casa para enero en Punta del Diablo. La administración de ALMILU está durmiendo, pero la página sigue ahí: muestra las fechas libres de cada casa y arma el mensaje de WhatsApp con las fechas y la casa.\n\nA la mañana, la consulta ya está esperando.\n\nSi tenés un alquiler para la temporada, escribime al 091 541 848.\n\nVideo aéreo del inicio: Marcelo Campi (CC BY 3.0).",
   "hashtags": ["#alquilerdetemporada", "#UruguayNatural", "#PaginasWeb", "#PuntaDelDiablo", "#Rocha"],
   "ubicacion": "solymar"
 }

@@ -86,8 +86,8 @@ cómo lo resuelve el sitio, no qué tiene el sitio.
   partir de las 12:37.
 - **Martes, jueves, sábado y domingo:** `historia`. Se publican a partir de las 10:07.
 - **Reels:** como máximo uno cada dos semanas. Hay que mirar las semanas
-  anteriores en `semanas/` y en `publicados.json`. Hasta que esté cargada la
-  clave de Azure (ver "Reels con voz"), la rutina no arma ninguno.
+  anteriores en `semanas/` y en `publicados.json`. Los Reels con voz se arman a
+  mano en la Mac (ver "Reels con voz"): la rutina no arma ninguno.
 - **Temas:** no se repiten temas de las últimas 6 semanas (`publicados.json`).
 
 ## Formato del `post.json`
@@ -264,7 +264,7 @@ Los cambios los decido yo: el informe no cambia nada por sí solo.
 ## Reels con voz
 
 Por ahora no aparezco ni uso mi voz. Los Reels nuevos llevan:
-- **Voz:** Mateo (`es-UY-MateoNeural`), en español uruguayo.
+- **Voz:** Mateo, en español uruguayo, de Clipchamp (gratis y sin tarjeta).
 - **Imagen:** la pantalla real del sitio, usándose de verdad, sin mandar nada.
 - **Subtítulos** grandes, para quien lo mira sin sonido.
 - **Guion:** una situación (ver "Que importe"), unos 30 segundos, con cierre
@@ -283,8 +283,8 @@ explicados en `scripts/reel-voz.mjs` y hay un ejemplo completo en
 - El mensaje de la placa se lee de la página (`"leer"`): no se escribe a mano.
 - La última línea termina con la placa de cierre, que tiene el número.
 
-Falta la clave de Azure (`AZURE_SPEECH_KEY`, ver README): sin ella, la vista
-previa de un Reel con voz da error.
+Se arman en la Mac porque el audio sale de Clipchamp a mano y no va al repo,
+que es público. Al repo va el video terminado (ver README, "Reels con voz").
 
 ## Reel extra
 

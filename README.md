@@ -223,20 +223,17 @@ PUBLICAR_EN_FACEBOOK --repo varo10uru/orum-instagram`).
 
 ## Reels con voz
 
-La voz es Mateo (`es-UY-MateoNeural`), de Azure Speech. Se genera en la vista
-previa del PR, así que la clave va en GitHub. Para prenderla (una sola vez):
+La voz es Mateo, de Clipchamp, que es gratis y no pide tarjeta. Se arman en la
+Mac, uno por vez:
 
-1. En [portal.azure.com](https://portal.azure.com), crear un recurso **Speech**
-   en el plan gratuito **F0**, región **East US**.
-2. Copiar una de las claves (**Claves y punto de conexión**) y cargarla desde
-   la terminal. Nunca se pega en un chat:
-
-   ```
-   gh secret set AZURE_SPEECH_KEY -R varo10uru/orum-instagram
-   ```
-
-3. Si la región no es East US, avisarlo:
-   `gh variable set AZURE_SPEECH_REGION -R varo10uru/orum-instagram --body <región>`.
+1. Armar el `post.json` con su `"guion"` (ejemplo en `ejemplo-reel/3-miercoles/`).
+2. En [Clipchamp](https://app.clipchamp.com): **Texto a voz**, idioma
+   **Español (Uruguay)**, voz **Mateo**. Pegar todas las líneas del guion, con
+   `...` entre una y otra, y tocar **Guardar**.
+3. **Exportar** → **Solo audio**. Guardar el archivo como `voz.m4a` al lado del
+   `post.json`. No va al repo, ya está en `.gitignore`.
+4. Armar el video: `node scripts/renderizar.mjs <carpeta del post>`.
+5. Subir al PR el `post.json`, `reel.mp4`, `portada.jpg` y `tira.jpg`.
 
 Sale en Instagram con la etiqueta de IA y no va a Facebook (ver `CLAUDE.md`,
 "Reels con voz"). Si Meta no deja la etiqueta puesta, la corrida falla: hay que

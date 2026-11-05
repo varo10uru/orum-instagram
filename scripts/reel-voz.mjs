@@ -21,7 +21,7 @@
 // "margen" es el lugar que queda arriba del elemento; si es negativo, baja
 // más allá de su principio.
 //
-// Primero se pide la voz (voz.mjs): cuánto dura cada línea marca el video.
+// Primero se corta la voz (voz.mjs): cuánto dura cada línea marca el video.
 // Se graba cuadro por cuadro, así sale parejo aunque la máquina sea lenta.
 // Nunca se manda nada: abrirSitio corta todo lo que no sea GET y WhatsApp no
 // llega a abrirse. Resultado: reel.mp4 (1080×1920), portada.jpg y tira.jpg.
@@ -33,10 +33,10 @@ import { copyFile, mkdir, rm } from 'node:fs/promises';
 import { basename, join } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { promisify } from 'node:util';
-import { RAIZ } from './comun.mjs';
+import { RAIZ, VOZ_DEL_REEL } from './comun.mjs';
 import { FPS, armarTira, suave } from './recorrido.mjs';
 import { abrirSitio } from './sitios.mjs';
-import { grabarVoz } from './voz.mjs';
+import { prepararVoz } from './voz.mjs';
 
 const ejecutar = promisify(execFile);
 const COLA = 0.8;          // segundos que sigue el cierre después de la voz
@@ -196,7 +196,7 @@ export async function grabarReelConVoz(navegador, { carpeta, datos }){
   await mkdir(tmp, { recursive: true });
 
   // 1. La voz: de acá salen los tiempos de todo lo demás
-  const { archivo: voz, tiempos } = await grabarVoz(datos.guion.map((l) => l.dice), join(tmp, 'voz'));
+  const { archivo: voz, tiempos } = await prepararVoz(join(carpeta, VOZ_DEL_REEL), datos.guion.length, join(tmp, 'voz'));
   const total = tiempos.at(-1).fin + COLA;
 
   // 2. La pantalla y las capas
