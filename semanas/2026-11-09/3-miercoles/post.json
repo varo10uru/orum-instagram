@@ -1,0 +1,23 @@
+{
+  "fecha": "2026-11-11",
+  "tipo": "post",
+  "pilar": "consejos",
+  "tema": "Que no te llamen para preguntar cómo llegar",
+  "plantilla": "post-consejo",
+  "piezas": [
+    {
+      "etiqueta": "Consejo",
+      "titulo": "¿Te llaman para preguntar *cómo llegar*?",
+      "cuerpo": "Poné en tu sitio el mapa con tu ubicación y una foto del frente. Que te encuentren a la primera.",
+      "pie": "Solymar · Canelones",
+      "fondo": "096",
+      "alt": "Placa de ORUM con la pregunta: ¿te llaman para preguntar cómo llegar?"
+    }
+  ],
+  "texto": "«¿Dónde quedan? ¿Es la casa del portón verde?» Si te llaman seguido para preguntar cómo llegar, es que la dirección sola no alcanza.\n\nEn la Costa no siempre es fácil encontrar un local. Un mapa en tu página web que abra Google Maps, una foto del frente y una referencia simple («frente a la plaza», «al lado de la farmacia») le ahorran la vuelta a tu cliente, y a vos el llamado.\n\nSi querés que lo veamos para tu comercio, escribime al 091 541 848.",
+  "hashtags": ["#emprendimiento", "#marketingdigital", "#PaginasWeb", "#CiudadDeLaCosta", "#Canelones"],
+  "ubicacion": "solymar",
+  "tiktok": {
+    "texto": "¿Te llaman para preguntar cómo llegar? Poné en tu página el mapa, una foto del frente y una referencia simple. Si querés que lo veamos, escribime al 091 541 848."
+  }
+}

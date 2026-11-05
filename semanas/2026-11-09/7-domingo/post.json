@@ -1,0 +1,14 @@
+{
+  "fecha": "2026-11-15",
+  "tipo": "historia",
+  "pilar": "local",
+  "tema": "Invitación: contame qué te preguntan siempre",
+  "plantilla": "historia",
+  "piezas": [
+    {
+      "variante": "cierre",
+      "titulo": "¿Qué te preguntan *todos los días*?",
+      "cuerpo": "Contame por WhatsApp al **091 541 848** y vemos cómo te ayuda tu sitio.\nTe respondo yo."
+    }
+  ]
+}

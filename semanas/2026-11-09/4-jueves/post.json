@@ -1,0 +1,19 @@
+{
+  "fecha": "2026-11-12",
+  "tipo": "historia",
+  "pilar": "trabajos",
+  "tema": "Barraca Centro Solymar: cuánto material llevar, por m²",
+  "plantilla": "historia",
+  "piezas": [
+    {
+      "variante": "captura",
+      "etiqueta": "Trabajo real",
+      "titulo": "¿Cuánto *material* llevo?",
+      "cuerpo": "Ponés los metros cuadrados y el simulador calcula los materiales. En el sitio de Barraca Centro Solymar.",
+      "captura": {
+        "sitio": "barraca",
+        "seccion": "simulador"
+      }
+    }
+  ]
+}

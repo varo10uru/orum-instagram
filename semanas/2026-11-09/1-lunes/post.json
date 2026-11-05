@@ -1,0 +1,23 @@
+{
+  "fecha": "2026-11-09",
+  "tipo": "post",
+  "pilar": "local",
+  "tema": "Cuando te recomiendan en el grupo del barrio",
+  "plantilla": "post-consejo",
+  "piezas": [
+    {
+      "etiqueta": "Desde Solymar",
+      "titulo": "Te nombran en *el grupo* del barrio.",
+      "cuerpo": "Alguien pregunta en Facebook quién hace eso en Solymar y te recomiendan. Que tengan dónde verte y escribirte.",
+      "pie": "Solymar · Canelones",
+      "fondo": "024",
+      "alt": "Placa de ORUM con la frase: te nombran en el grupo del barrio."
+    }
+  ],
+  "texto": "En los grupos de Facebook de Solymar y de toda la Costa pasa siempre: alguien pregunta «¿alguien conoce una peluquería cerca?» y un vecino te nombra.\n\nAhí se juega mucho. Si quien preguntó te busca y encuentra una página web con lo que hacés, tu horario, dónde estás y tu WhatsApp a un toque, es fácil que te escriba. Si no encuentra nada, sigue con el comentario de abajo.\n\nTrabajo desde Solymar con comercios de la Costa. Si querés que esa recomendación no se pierda, escribime al 091 541 848.",
+  "hashtags": ["#emprendedores", "#negocios", "#PaginasWeb", "#Solymar", "#CiudadDeLaCosta"],
+  "ubicacion": "solymar",
+  "tiktok": {
+    "texto": "Te recomiendan en el grupo del barrio... ¿y qué encuentran cuando te buscan? Que haya una página con tu horario, dónde estás y tu WhatsApp. Trabajo desde Solymar: escribime al 091 541 848."
+  }
+}

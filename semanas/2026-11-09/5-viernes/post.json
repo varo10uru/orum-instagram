@@ -1,0 +1,26 @@
+{
+  "fecha": "2026-11-13",
+  "tipo": "post",
+  "pilar": "trabajos",
+  "tema": "ALMILU: las fotos de cada casa, sin pedirlas",
+  "plantilla": "post-trabajo",
+  "piezas": [
+    {
+      "etiqueta": "Trabajo real",
+      "cliente": "ALMILU",
+      "titulo": "¿Me mandás *fotos* de la casa?",
+      "cuerpo": "En la página de ALMILU, cada casa tiene sus fotos. Se ven antes de escribir.",
+      "captura": {
+        "sitio": "almilu",
+        "seccion": "fotos"
+      },
+      "alt": "Celular con la sección de fotos de la página de ALMILU, dos casas con piscina en Punta del Diablo."
+    }
+  ],
+  "texto": "Si alquilás una casa en temporada, conocés el mensaje: «Hola, ¿me mandás fotos?». Y otra vez a buscarlas en el celular, elegir las mejores y mandarlas, a cada persona que pregunta.\n\nEn la página de ALMILU, dos casas con piscina en Punta del Diablo, cada casa tiene sus fotos, junto con las comodidades y lo que hay que saber antes de reservar. Quien entra puede ver cada casa antes de escribir, y si consulta, el mensaje ya dice qué casa eligió.\n\nSi tenés un alquiler de temporada en la Costa o en Rocha, escribime al 091 541 848.",
+  "hashtags": ["#alquilerdetemporada", "#UruguayNatural", "#PaginasWeb", "#PuntaDelDiablo", "#Rocha"],
+  "ubicacion": "solymar",
+  "tiktok": {
+    "texto": "«¿Me mandás fotos?» Si alquilás en temporada, lo escuchás seguido. En la página de ALMILU, en Punta del Diablo, cada casa tiene sus fotos para verlas antes de escribir. ¿Tenés un alquiler? Escribime al 091 541 848."
+  }
+}

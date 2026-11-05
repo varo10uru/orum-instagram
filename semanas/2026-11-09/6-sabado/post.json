@@ -1,0 +1,16 @@
+{
+  "fecha": "2026-11-14",
+  "tipo": "historia",
+  "pilar": "proceso",
+  "tema": "Sin términos técnicos: te explico claro",
+  "plantilla": "historia",
+  "piezas": [
+    {
+      "variante": "frase",
+      "etiqueta": "Cómo trabajo",
+      "titulo": "¿Te preocupa *no entender*?",
+      "cuerpo": "Te explico cada cosa sin términos técnicos, y lo decidimos juntos por WhatsApp.",
+      "fondo": "048"
+    }
+  ]
+}
