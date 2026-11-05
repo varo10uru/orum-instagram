@@ -24,7 +24,8 @@ Cada post del muro también sale en TikTok: va en el kit de la semana (ver
 - **ALMILU** (alquiler en Punta del Diablo) es cliente desde octubre de 2026.
   Se muestra solo lo que dice `sitios.json`. Del panel privado se puede contar
   qué hace, pero nunca mostrar capturas con datos de huéspedes ni nombres
-  reales. Los monoambientes son "próximamente".
+  reales. Los monoambientes son "próximamente". Quien atiende ALMILU es "la
+  administración": nunca "los dueños" ni un nombre propio.
 - **Crédito obligatorio:** el video del inicio de ALMILU es de Marcelo Campi
   (CC BY 3.0). Si una captura o un Reel muestra el inicio, el texto lleva
   "Video aéreo del inicio: Marcelo Campi (CC BY 3.0)." `validar.mjs` lo exige.
