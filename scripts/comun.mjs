@@ -27,6 +27,9 @@ export const HORA_POR_TIPO = {
 // El video de un post o carrusel (para el Reel extra y para TikTok)
 export const VIDEO_DEL_POST = 'video.mp4';
 
+// La voz de un Reel, exportada de Clipchamp (no va al repo, ver voz.mjs)
+export const VOZ_DEL_REEL = 'voz.m4a';
+
 // Fecha de hoy en Uruguay, como "AAAA-MM-DD"
 export function hoyUY(fecha = new Date()){
   return new Intl.DateTimeFormat('en-CA', { timeZone: ZONA, year: 'numeric', month: '2-digit', day: '2-digit' }).format(fecha);

@@ -30,6 +30,10 @@
 // página de Facebook (ver facebook.mjs). Primero va Instagram y se anota;
 // si Facebook falla, se reintenta en las corridas siguientes de ese día.
 //
+// REELS CON VOZ: la voz es de IA, así que en Instagram salen con la etiqueta
+// y, si no la tienen al publicarse, se avisa. A Facebook no van: su API no
+// tiene una forma confirmada de ponerla.
+//
 // Lo publicado se anota en publicados.json. Lo que ya está anotado no se
 // vuelve a publicar.
 // ===========================================================================
@@ -38,7 +42,7 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { join, relative } from 'node:path';
 import { parseArgs } from 'node:util';
 import { HORA_POR_TIPO, RAIZ, VIDEO_DEL_POST, archivosDelPost, buscarPosts, existe, horaUY, hoyUY } from './comun.mjs';
-import { cuenta, prepararContenedor, publicarContenedor, ultimasPublicaciones } from './instagram.mjs';
+import { cuenta, prepararContenedor, publicarContenedor, tieneEtiquetaDeIA, ultimasPublicaciones } from './instagram.mjs';
 import { cuentasYUbicacion, validarPost } from './validar.mjs';
 import { facebookPrendido, publicarEnFacebook } from './facebook.mjs';
 
@@ -71,6 +75,9 @@ const normalizar = (t = '') => t.replace(/\s+/g, ' ').trim().slice(0, 150);
 // ¿Este post lleva Reel extra?
 const llevaReelExtra = ({ datos }) => (datos.tipo === 'post' || datos.tipo === 'carrusel') && datos.reel_extra !== false;
 
+// ¿Sale también en Facebook? (ver arriba)
+const vaAFacebook = ({ datos }, extra) => facebookPrendido() && !extra && !datos.guion;
+
 // Lo que se sube: el texto, las URLs públicas de las imágenes y el video
 async function mediosDelPost({ carpeta, datos }, { extra = false } = {}){
   if (extra){
@@ -91,6 +98,7 @@ async function mediosDelPost({ carpeta, datos }, { extra = false } = {}){
     imagenes,
     video: datos.tipo === 'reel' ? join(carpeta, 'reel.mp4') : undefined,
     portada,
+    conIA: !!datos.guion,
   };
 }
 
@@ -129,7 +137,7 @@ async function publicarPost(post, { simular, extra = false }){
 
   if (simular){
     console.log(`  ${nombre}: Instagram lo aceptó (contenedor ${contenedor}). No se publicó: es una simulación.`);
-    if (facebookPrendido() && !extra){
+    if (vaAFacebook(post, extra)){
       await publicarEnFacebook({ ...medios, simular: true });
       console.log(`  ${nombre}: Facebook lo aceptó. No se publicó: es una simulación.`);
     }
@@ -137,6 +145,10 @@ async function publicarPost(post, { simular, extra = false }){
   }
   const publicado = await publicarContenedor(contenedor);
   console.log(`  ${nombre}: publicado ${publicado.link || publicado.id}`);
+  if (medios.conIA && !await tieneEtiquetaDeIA(publicado.id)){
+    fallas++;   // queda anotado como publicado, pero la corrida falla y llega el aviso
+    console.error(`✗ ${nombre}: salió sin la etiqueta de IA. Hay que ponérsela a mano en Instagram.`);
+  }
   return publicado;
 }
 
@@ -200,7 +212,7 @@ for (const { post, extra } of posts){
   const anotado = publicados.find((p) => p.carpeta === carpeta);
   if (anotado){
     // Ya salió en Instagram. Si hoy no llegó a salir en Facebook, se reintenta
-    if (facebookPrendido() && !extra && !op.simular && !anotado.facebook && anotado.fecha === hoyUY()){
+    if (vaAFacebook(post, extra) && !op.simular && !anotado.facebook && anotado.fecha === hoyUY()){
       try { await aFacebook(post, anotado, publicados); } catch (e){ fallas++; console.error(`✗ ${carpeta} en Facebook: ${e.message}`); }
     } else {
       console.log(`  ${carpeta}: ya publicado, lo salteo`);
@@ -225,7 +237,7 @@ for (const { post, extra } of posts){
     fallas++;
     console.error(`✗ ${carpeta}: ${e.message}`);
   }
-  if (nuevo && facebookPrendido() && !extra){
+  if (nuevo && vaAFacebook(post, extra)){
     try { await aFacebook(post, nuevo, publicados); } catch (e){ fallas++; console.error(`✗ ${carpeta} en Facebook: ${e.message}`); }
   }
 }
