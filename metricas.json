@@ -19,6 +19,11 @@
       "fecha": "2026-11-04",
       "seguidores": 48,
       "publicaciones": 13
+    },
+    {
+      "fecha": "2026-11-12",
+      "seguidores": 51,
+      "publicaciones": 13
     }
   ],
   "semanas": {
@@ -60,7 +65,15 @@
       "cuentas_que_interactuaron": 5,
       "interacciones": 14,
       "toques_en_contacto": 0,
-      "medido": "2026-11-05T02:35:24.141Z"
+      "medido": "2026-11-12T03:08:53.640Z"
+    },
+    "2026-11-02": {
+      "alcance": 32,
+      "vistas": 144,
+      "cuentas_que_interactuaron": 2,
+      "interacciones": 2,
+      "toques_en_contacto": 0,
+      "medido": "2026-11-12T03:08:53.640Z"
     }
   },
   "publicaciones": {
@@ -157,7 +170,7 @@
       "me_gusta": 3,
       "comentarios": 0,
       "segundos_promedio": 4.9,
-      "medido": "2026-11-05T02:35:24.141Z"
+      "medido": "2026-11-12T03:08:53.640Z"
     },
     "18158365261512871": {
       "fecha": "2026-10-20",
@@ -173,7 +186,7 @@
       "comentarios": 0,
       "seguidores": 0,
       "visitas_al_perfil": 0,
-      "medido": "2026-11-05T02:35:24.141Z"
+      "medido": "2026-11-12T03:08:53.640Z"
     },
     "18152562451551847": {
       "fecha": "2026-10-21",
@@ -182,14 +195,14 @@
       "tema": "Fotos propias en tu sitio",
       "link": "https://www.instagram.com/p/DewwA_yDSjk/",
       "alcance": 26,
-      "vistas": 64,
+      "vistas": 66,
       "guardados": 0,
       "compartidos": 0,
       "me_gusta": 1,
       "comentarios": 0,
       "seguidores": 0,
       "visitas_al_perfil": 1,
-      "medido": "2026-11-05T02:35:24.141Z"
+      "medido": "2026-11-12T03:08:53.640Z"
     },
     "18173600908457501": {
       "fecha": "2026-10-23",
@@ -205,7 +218,7 @@
       "comentarios": 0,
       "seguidores": 0,
       "visitas_al_perfil": 0,
-      "medido": "2026-11-05T02:35:24.141Z"
+      "medido": "2026-11-12T03:08:53.640Z"
     },
     "18420967600153676": {
       "fecha": "2026-10-26",
@@ -221,7 +234,7 @@
       "comentarios": 0,
       "seguidores": 0,
       "visitas_al_perfil": 1,
-      "medido": "2026-11-05T02:35:24.141Z"
+      "medido": "2026-11-12T03:08:53.640Z"
     },
     "18095868659539650": {
       "fecha": "2026-10-26",
@@ -229,14 +242,14 @@
       "pilar": "local",
       "tema": "Que te encuentren los vecinos de la Costa",
       "link": "https://www.instagram.com/reel/De-Uli1EkLd/",
-      "alcance": 14,
-      "vistas": 28,
+      "alcance": 15,
+      "vistas": 29,
       "guardados": 0,
       "compartidos": 0,
       "me_gusta": 1,
       "comentarios": 0,
-      "segundos_promedio": 6.1,
-      "medido": "2026-11-05T02:35:24.141Z"
+      "segundos_promedio": 5.8,
+      "medido": "2026-11-12T03:08:53.640Z"
     },
     "17914766631285897": {
       "fecha": "2026-10-28",
@@ -244,15 +257,15 @@
       "pilar": "consejos",
       "tema": "Responder las reseñas de Google",
       "link": "https://www.instagram.com/p/DfCxlDTl9wD/",
-      "alcance": 20,
-      "vistas": 56,
+      "alcance": 21,
+      "vistas": 57,
       "guardados": 0,
       "compartidos": 0,
       "me_gusta": 1,
       "comentarios": 0,
       "seguidores": 0,
       "visitas_al_perfil": 0,
-      "medido": "2026-11-05T02:35:24.141Z"
+      "medido": "2026-11-12T03:08:53.640Z"
     },
     "17971078200183787": {
       "fecha": "2026-10-28",
@@ -267,7 +280,7 @@
       "me_gusta": 0,
       "comentarios": 0,
       "segundos_promedio": 4.4,
-      "medido": "2026-11-05T02:35:24.141Z"
+      "medido": "2026-11-12T03:08:53.640Z"
     },
     "18112019378186914": {
       "fecha": "2026-11-02",
@@ -275,14 +288,14 @@
       "pilar": "proceso",
       "tema": "Qué te pido para arrancar tu sitio",
       "link": "https://www.instagram.com/reel/DfQW8BTAZWK/",
-      "alcance": 14,
-      "vistas": 24,
+      "alcance": 15,
+      "vistas": 27,
       "guardados": 0,
       "compartidos": 0,
       "me_gusta": 0,
       "comentarios": 0,
-      "segundos_promedio": 6.2,
-      "medido": "2026-11-05T02:35:24.141Z"
+      "segundos_promedio": 6.1,
+      "medido": "2026-11-12T03:08:53.640Z"
     },
     "18129629332869615": {
       "fecha": "2026-11-04",
@@ -290,14 +303,14 @@
       "pilar": "consejos",
       "tema": "Mirá tu sitio desde el celular, como un cliente",
       "link": "https://www.instagram.com/reel/DfVrCj5kiS2/",
-      "alcance": 6,
-      "vistas": 15,
+      "alcance": 10,
+      "vistas": 26,
       "guardados": 0,
       "compartidos": 0,
       "me_gusta": 0,
       "comentarios": 0,
-      "segundos_promedio": 6.4,
-      "medido": "2026-11-05T02:35:24.141Z"
+      "segundos_promedio": 5.2,
+      "medido": "2026-11-12T03:08:53.640Z"
     }
   }
 }
