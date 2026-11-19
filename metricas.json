@@ -24,6 +24,11 @@
       "fecha": "2026-11-12",
       "seguidores": 51,
       "publicaciones": 13
+    },
+    {
+      "fecha": "2026-11-19",
+      "seguidores": 52,
+      "publicaciones": 13
     }
   ],
   "semanas": {
@@ -73,7 +78,15 @@
       "cuentas_que_interactuaron": 2,
       "interacciones": 2,
       "toques_en_contacto": 0,
-      "medido": "2026-11-12T03:08:53.640Z"
+      "medido": "2026-11-19T03:40:56.181Z"
+    },
+    "2026-11-09": {
+      "alcance": 4,
+      "vistas": 12,
+      "cuentas_que_interactuaron": 1,
+      "interacciones": 1,
+      "toques_en_contacto": 0,
+      "medido": "2026-11-19T03:40:56.181Z"
     }
   },
   "publicaciones": {
@@ -218,7 +231,7 @@
       "comentarios": 0,
       "seguidores": 0,
       "visitas_al_perfil": 0,
-      "medido": "2026-11-12T03:08:53.640Z"
+      "medido": "2026-11-19T03:40:56.181Z"
     },
     "18420967600153676": {
       "fecha": "2026-10-26",
@@ -234,7 +247,7 @@
       "comentarios": 0,
       "seguidores": 0,
       "visitas_al_perfil": 1,
-      "medido": "2026-11-12T03:08:53.640Z"
+      "medido": "2026-11-19T03:40:56.181Z"
     },
     "18095868659539650": {
       "fecha": "2026-10-26",
@@ -249,7 +262,7 @@
       "me_gusta": 1,
       "comentarios": 0,
       "segundos_promedio": 5.8,
-      "medido": "2026-11-12T03:08:53.640Z"
+      "medido": "2026-11-19T03:40:56.181Z"
     },
     "17914766631285897": {
       "fecha": "2026-10-28",
@@ -265,7 +278,7 @@
       "comentarios": 0,
       "seguidores": 0,
       "visitas_al_perfil": 0,
-      "medido": "2026-11-12T03:08:53.640Z"
+      "medido": "2026-11-19T03:40:56.181Z"
     },
     "17971078200183787": {
       "fecha": "2026-10-28",
@@ -280,7 +293,7 @@
       "me_gusta": 0,
       "comentarios": 0,
       "segundos_promedio": 4.4,
-      "medido": "2026-11-12T03:08:53.640Z"
+      "medido": "2026-11-19T03:40:56.181Z"
     },
     "18112019378186914": {
       "fecha": "2026-11-02",
@@ -288,14 +301,14 @@
       "pilar": "proceso",
       "tema": "Qué te pido para arrancar tu sitio",
       "link": "https://www.instagram.com/reel/DfQW8BTAZWK/",
-      "alcance": 15,
-      "vistas": 27,
+      "alcance": 16,
+      "vistas": 31,
       "guardados": 0,
       "compartidos": 0,
-      "me_gusta": 0,
+      "me_gusta": 1,
       "comentarios": 0,
-      "segundos_promedio": 6.1,
-      "medido": "2026-11-12T03:08:53.640Z"
+      "segundos_promedio": 7.1,
+      "medido": "2026-11-19T03:40:56.181Z"
     },
     "18129629332869615": {
       "fecha": "2026-11-04",
@@ -303,14 +316,14 @@
       "pilar": "consejos",
       "tema": "Mirá tu sitio desde el celular, como un cliente",
       "link": "https://www.instagram.com/reel/DfVrCj5kiS2/",
-      "alcance": 10,
-      "vistas": 26,
+      "alcance": 12,
+      "vistas": 28,
       "guardados": 0,
       "compartidos": 0,
       "me_gusta": 0,
       "comentarios": 0,
-      "segundos_promedio": 5.2,
-      "medido": "2026-11-12T03:08:53.640Z"
+      "segundos_promedio": 5.4,
+      "medido": "2026-11-19T03:40:56.181Z"
     }
   }
 }
