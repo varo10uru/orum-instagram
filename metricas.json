@@ -29,6 +29,11 @@
       "fecha": "2026-11-19",
       "seguidores": 52,
       "publicaciones": 13
+    },
+    {
+      "fecha": "2026-11-26",
+      "seguidores": 53,
+      "publicaciones": 13
     }
   ],
   "semanas": {
@@ -86,7 +91,15 @@
       "cuentas_que_interactuaron": 1,
       "interacciones": 1,
       "toques_en_contacto": 0,
-      "medido": "2026-11-19T03:40:56.181Z"
+      "medido": "2026-11-26T04:12:28.979Z"
+    },
+    "2026-11-16": {
+      "alcance": 3,
+      "vistas": 9,
+      "cuentas_que_interactuaron": 0,
+      "interacciones": 0,
+      "toques_en_contacto": 0,
+      "medido": "2026-11-26T04:12:28.979Z"
     }
   },
   "publicaciones": {
@@ -308,7 +321,7 @@
       "me_gusta": 1,
       "comentarios": 0,
       "segundos_promedio": 7.1,
-      "medido": "2026-11-19T03:40:56.181Z"
+      "medido": "2026-11-26T04:12:28.979Z"
     },
     "18129629332869615": {
       "fecha": "2026-11-04",
@@ -323,7 +336,7 @@
       "me_gusta": 0,
       "comentarios": 0,
       "segundos_promedio": 5.4,
-      "medido": "2026-11-19T03:40:56.181Z"
+      "medido": "2026-11-26T04:12:28.979Z"
     }
   }
 }
